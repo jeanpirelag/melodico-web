@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rotulado de Motos | Melodico Design</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #0b0f1a; color: #cbd5e1; }
+        .hero-orange { background: radial-gradient(circle at center, rgba(249, 115, 22, 0.05) 0%, transparent 70%); }
+    </style>
+</head>
+<body class="min-h-screen hero-orange">
+    <nav class="p-8 max-w-6xl mx-auto">
+        <a href="../index.html" class="flex items-center text-[10px] font-black tracking-[0.2em] text-slate-500 hover:text-white transition group">
+            <i data-lucide="arrow-left" class="w-4 h-4 mr-2 group-hover:-translate-x-1 transition"></i> VOLVER
+        </a>
+    </nav>
+
+    <main class="max-w-6xl mx-auto px-6 py-12">
+        <header class="mb-20">
+            <h1 class="text-6xl font-black text-white mb-6 tracking-tighter uppercase italic">Vinyl <br><span class="text-orange-500">Customs.</span></h1>
+            <p class="text-lg text-slate-400 max-w-2xl">Personalización extrema. Kits gráficos en vinilo de alta resistencia para calle y competición.</p>
+        </header>
+
+        <div class="grid grid-cols-2 md:grid-cols-3 gap-6 mb-20">
+            <div class="aspect-square bg-white/5 border border-white/10 rounded-[2rem] flex items-center justify-center italic text-slate-700 font-black text-xs">FOTO_MOTO_1</div>
+            <div class="aspect-square bg-white/5 border border-white/10 rounded-[2rem] flex items-center justify-center italic text-slate-700 font-black text-xs">FOTO_MOTO_2</div>
+            <div class="aspect-square bg-white/5 border border-white/10 rounded-[2rem] flex items-center justify-center italic text-slate-700 font-black text-xs">FOTO_MOTO_3</div>
+        </div>
+
+        <div class="bg-orange-600/10 border border-orange-500/20 p-12 rounded-[3rem] text-center">
+            <h2 class="text-white font-black text-3xl mb-6 tracking-tight uppercase">¿Listo para cambiar el look?</h2>
+            <p class="text-slate-400 mb-10 max-w-xl mx-auto italic text-sm">Envíame el modelo de tu moto y una idea de lo que buscas para enviarte un presupuesto personalizado.</p>
+            <a href="https://t.me/jeanpirelag" class="inline-flex items-center bg-orange-500 text-white font-black px-12 py-5 rounded-2xl hover:bg-orange-400 transition-all uppercase text-[10px] tracking-widest">
+                Consultar por Telegram <i data-lucide="bike" class="ml-2 w-4 h-4"></i>
+            </a>
+        </div>
+    </main>
+    <script>lucide.createIcons();</script>
+</body>
+</html>
