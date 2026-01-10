@@ -1,80 +1,134 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rotulado de Motos | Melodico Design</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap"
+        rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
-        body { 
-            font-family: 'Plus Jakarta Sans', sans-serif; 
-            background-color: #ffffff; /* Cambio a blanco total */
-            color: #1f2937; 
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #0b0f1a;
+            color: #cbd5e1;
         }
-        /* Grid de fondo sutil para dar aspecto de mesa de diseño */
+
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .tech-badge {
+            @apply px-3 py-1 bg-white/5 border border-white/10 rounded-lg text-[10px] font-bold uppercase tracking-wider text-slate-400;
+        }
+
         .bg-grid {
-            background-image: radial-gradient(#e5e7eb 1px, transparent 1px);
-            background-size: 30px 30px;
+            background-image: radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+            background-size: 40px 40px;
         }
     </style>
 </head>
+
 <body class="min-h-screen bg-grid">
-    <nav class="p-8 max-w-6xl mx-auto">
-        <a href="/index.html" class="flex items-center text-[10px] font-black tracking-[0.2em] text-slate-400 hover:text-orange-600 transition group">
-            <i data-lucide="arrow-left" class="w-4 h-4 mr-2 group-hover:-translate-x-1 transition"></i> VOLVER
+    <nav class="p-8 max-w-6xl mx-auto flex justify-between items-center">
+        <a href="../../index.html"
+            class="flex items-center text-[10px] font-black tracking-[0.2em] text-slate-500 hover:text-white transition group">
+            <i data-lucide="arrow-left" class="w-4 h-4 mr-2 group-hover:-translate-x-1 transition"></i> VOLVER AL INICIO
         </a>
     </nav>
 
     <main class="max-w-6xl mx-auto px-6 py-12">
-        <header class="mb-20">
-            <div class="flex items-center gap-2 mb-4">
-                <span class="h-[2px] w-8 bg-orange-500"></span>
-                <span class="text-[10px] font-bold tracking-[0.3em] uppercase text-orange-500">Premium Wrapping</span>
-            </div>
-            <h1 class="text-7xl md:text-8xl font-black text-slate-900 mb-6 tracking-tighter uppercase italic leading-[0.85]">
-                Vinyl <br><span class="text-orange-500">Customs.</span>
-            </h1>
-            <p class="text-xl text-slate-500 max-w-2xl leading-relaxed">
-                Personalización de alto rendimiento. Diseñamos y aplicamos kits gráficos en vinilo de alta resistencia para calle y competición.
-            </p>
-        </header>
+        <div class="grid lg:grid-cols-3 gap-16">
+            <div class="lg:col-span-2">
+                <div class="w-16 h-16 bg-orange-500/10 rounded-2xl flex items-center justify-center mb-8">
+                    <i data-lucide="bike" class="w-8 h-8 text-orange-500"></i>
+                </div>
+                <h1
+                    class="text-5xl md:text-7xl font-black text-white mb-6 tracking-tighter leading-[0.85] uppercase italic">
+                    Vinyl <br><span class="text-orange-500">Customs.</span></h1>
+                <p class="text-xl text-slate-400 mb-12 max-w-xl leading-relaxed">Personalización de alto rendimiento.
+                    Diseñamos y aplicamos kits gráficos en vinilo de alta resistencia para calle y competición.</p>
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-20">
-            <div class="group relative overflow-hidden bg-slate-100 rounded-[2.5rem] aspect-[4/5] flex items-center justify-center border border-slate-200 hover:border-orange-500/50 transition-all duration-500">
-                <span class="italic text-slate-300 font-black text-xs group-hover:scale-110 transition">FOTO_PROYECTO_1</span>
-                <div class="absolute bottom-6 left-6 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <span class="bg-white px-4 py-2 rounded-full text-[10px] font-bold shadow-sm">BERA KAVAK / FULL WRAP</span>
+                <div class="flex flex-wrap gap-3 mb-16">
+                    <span class="tech-badge border-orange-500/30 text-orange-400">3M / Avery Dennison</span>
+                    <span class="tech-badge border-orange-500/30 text-orange-400">Kits Gráficos</span>
+                    <span class="tech-badge border-slate-500/30 text-slate-400">Laminado Pro</span>
                 </div>
-            </div>
-            <div class="group relative overflow-hidden bg-slate-100 rounded-[2.5rem] aspect-[4/5] flex items-center justify-center border border-slate-200 hover:border-orange-500/50 transition-all duration-500">
-                <span class="italic text-slate-300 font-black text-xs group-hover:scale-110 transition">FOTO_PROYECTO_2</span>
-                <div class="absolute bottom-6 left-6 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <span class="bg-white px-4 py-2 rounded-full text-[10px] font-bold shadow-sm">KADI POWER / KITS</span>
-                </div>
-            </div>
-            <div class="group relative overflow-hidden bg-slate-100 rounded-[2.5rem] aspect-[4/5] flex items-center justify-center border border-slate-200 hover:border-orange-500/50 transition-all duration-500">
-                <span class="italic text-slate-300 font-black text-xs group-hover:scale-110 transition">FOTO_PROYECTO_3</span>
-                <div class="absolute bottom-6 left-6 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <span class="bg-white px-4 py-2 rounded-full text-[10px] font-bold shadow-sm">EK RK6 / RACING</span>
-                </div>
-            </div>
-        </div>
 
-        <div class="bg-slate-900 p-10 md:p-20 rounded-[4rem] text-center shadow-2xl shadow-slate-200 relative overflow-hidden">
-            <div class="absolute top-0 right-0 w-64 h-64 bg-orange-500/10 blur-[100px] rounded-full"></div>
-            
-            <h2 class="text-white font-black text-4xl mb-6 tracking-tight uppercase italic">¿Listo para cambiar el look?</h2>
-            <p class="text-slate-400 mb-10 max-w-xl mx-auto text-sm leading-relaxed">
-                Envíame el modelo de tu moto y una idea de lo que buscas para enviarte un presupuesto personalizado.
-            </p>
-            <a href="https://t.me/jeanpirelag" class="inline-flex items-center bg-orange-500 text-white font-black px-12 py-6 rounded-2xl hover:bg-white hover:text-orange-500 transition-all duration-300 uppercase text-[11px] tracking-[0.2em] group">
-                Consultar por Telegram 
-                <i data-lucide="send" class="ml-2 w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-1 transition"></i>
-            </a>
+                <div class="grid sm:grid-cols-2 gap-6">
+                    <div
+                        class="group relative overflow-hidden glass-panel rounded-[2.5rem] aspect-square flex items-center justify-center border-white/5 hover:border-orange-500/30 transition-all duration-500">
+                        <span
+                            class="italic text-slate-700 font-black text-[10px] tracking-widest uppercase">Proyecto_01</span>
+                        <div
+                            class="absolute inset-0 bg-gradient-to-t from-orange-500/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
+                        </div>
+                        <div
+                            class="absolute bottom-6 left-6 opacity-0 group-hover:opacity-100 transition-all translate-y-2 group-hover:translate-y-0">
+                            <span
+                                class="text-[10px] font-black text-white bg-orange-600 px-3 py-1 rounded-full uppercase tracking-tighter">Bera
+                                Kavak Full</span>
+                        </div>
+                    </div>
+
+                    <div
+                        class="group relative overflow-hidden glass-panel rounded-[2.5rem] aspect-square flex items-center justify-center border-white/5 hover:border-orange-500/30 transition-all duration-500">
+                        <span
+                            class="italic text-slate-700 font-black text-[10px] tracking-widest uppercase">Proyecto_02</span>
+                        <div
+                            class="absolute inset-0 bg-gradient-to-t from-orange-500/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
+                        </div>
+                        <div
+                            class="absolute bottom-6 left-6 opacity-0 group-hover:opacity-100 transition-all translate-y-2 group-hover:translate-y-0">
+                            <span
+                                class="text-[10px] font-black text-white bg-orange-600 px-3 py-1 rounded-full uppercase tracking-tighter">Kadi
+                                Power Kit</span>
+                        </div>
+                    </div>
+
+                    <div class="glass-panel p-8 rounded-[2.5rem] sm:col-span-2 group border-white/5">
+                        <div class="flex items-center gap-4 mb-4">
+                            <i data-lucide="shield-check" class="text-orange-500 w-6 h-6"></i>
+                            <h3 class="text-white font-black uppercase text-sm tracking-widest">Protección & Estilo</h3>
+                        </div>
+                        <p class="text-sm text-slate-500 leading-relaxed">No es solo estética; nuestros materiales
+                            protegen la pintura original contra rayos UV, rayaduras y agentes químicos, aumentando el
+                            valor de reventa de tu máquina.</p>
+                    </div>
+                </div>
+            </div>
+
+            <aside class="space-y-6">
+                <div class="glass-panel p-8 rounded-[2.5rem] border-orange-500/20 shadow-2xl lg:sticky lg:top-8">
+                    <h3 class="text-white font-black mb-6 uppercase text-sm tracking-widest">¿Cambiamos el look?</h3>
+                    <p class="text-slate-400 text-sm mb-8 leading-relaxed">Envíame el modelo de tu moto y una referencia
+                        de lo que buscas para enviarte un presupuesto personalizado.</p>
+
+                    <div class="space-y-4">
+                        <a href="https://t.me/jeanpirelag" target="_blank"
+                            class="flex items-center justify-center w-full bg-orange-600 text-white font-black py-5 rounded-2xl transition-all hover:bg-orange-500 hover:shadow-[0_10px_30px_-10px_rgba(249,115,22,0.5)] uppercase text-[10px] tracking-widest group">
+                            Consultar Telegram <i data-lucide="send"
+                                class="w-4 h-4 ml-2 group-hover:translate-x-1 group-hover:-translate-y-1 transition"></i>
+                        </a>
+                        <div class="pt-4 border-t border-white/5 text-center">
+                            <p class="text-[9px] text-slate-600 font-bold uppercase tracking-tighter">Diseños exclusivos
+                                bajo pedido</p>
+                        </div>
+                    </div>
+                </div>
+            </aside>
         </div>
     </main>
+
+    <footer class="py-20 text-center">
+        <p class="text-[9px] font-bold text-slate-600 uppercase tracking-[0.4em]">Melodico Design © 2026</p>
+    </footer>
+
     <script>lucide.createIcons();</script>
 </body>
+
 </html>

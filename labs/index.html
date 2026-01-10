@@ -1,79 +1,118 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Melodico Labs | Ingeniería de Software & Automatización</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap"
+        rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #0b0f1a; color: #cbd5e1; }
-        .glass-panel { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.05); }
-        .tech-badge { @apply px-3 py-1 bg-white/5 border border-white/10 rounded-lg text-[10px] font-bold uppercase tracking-wider text-slate-400; }
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #0b0f1a;
+            color: #cbd5e1;
+        }
+
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .tech-badge {
+            @apply px-3 py-1 bg-white/5 border border-white/10 rounded-lg text-[10px] font-bold uppercase tracking-wider text-slate-400;
+        }
     </style>
 </head>
+
 <body class="min-h-screen">
     <nav class="p-8 max-w-6xl mx-auto flex justify-between items-center">
-        <a href="../index.html" class="flex items-center text-[10px] font-black tracking-[0.2em] text-slate-500 hover:text-white transition group">
+        <a href="../index.html"
+            class="flex items-center text-[10px] font-black tracking-[0.2em] text-slate-500 hover:text-white transition group">
             <i data-lucide="arrow-left" class="w-4 h-4 mr-2 group-hover:-translate-x-1 transition"></i> VOLVER AL INICIO
         </a>
     </nav>
 
     <main class="max-w-6xl mx-auto px-6 py-12">
-        <div class="grid md:grid-cols-3 gap-16">
-            <div class="md:col-span-2">
+        <div class="grid lg:grid-cols-3 gap-16">
+            <div class="lg:col-span-2">
                 <div class="w-16 h-16 bg-emerald-500/10 rounded-2xl flex items-center justify-center mb-8">
                     <i data-lucide="binary" class="w-8 h-8 text-emerald-500"></i>
                 </div>
-                <h1 class="text-5xl md:text-6xl font-black text-white mb-6 tracking-tighter leading-tight">Melodico <br><span class="text-emerald-500">Labs.</span></h1>
-                <p class="text-xl text-slate-400 mb-12 max-w-xl leading-relaxed">Laboratorio de desarrollo enfocado en la creación de herramientas de alto rendimiento para automatización y optimización de flujos de trabajo.</p>
-                
+                <h1 class="text-5xl md:text-6xl font-black text-white mb-6 tracking-tighter leading-tight">Melodico
+                    <br><span class="text-emerald-500">Labs.</span></h1>
+                <p class="text-xl text-slate-400 mb-12 max-w-xl leading-relaxed">Laboratorio de desarrollo enfocado en
+                    la creación de herramientas de alto rendimiento para optimización de flujos y desarrollo web
+                    moderno.</p>
+
                 <div class="flex flex-wrap gap-3 mb-16">
+                    <span class="tech-badge border-blue-500/30 text-blue-400">HTML / CSS / JS</span>
                     <span class="tech-badge border-emerald-500/30 text-emerald-400">Python</span>
-                    <span class="tech-badge border-yellow-500/30 text-yellow-400">Node.js</span>
-                    <span class="tech-badge border-blue-500/30 text-blue-400">Selenium</span>
+                    <span class="tech-badge border-green-500/30 text-green-400">Node.js</span>
+                    <span class="tech-badge border-indigo-500/30 text-indigo-400">Selenium</span>
                     <span class="tech-badge border-orange-500/30 text-orange-400">AutoHotkey</span>
-                    <span class="tech-badge">JavaScript</span>
                 </div>
 
-                <div class="grid sm:grid-cols-2 gap-6">
-                    <div class="glass-panel p-8 rounded-3xl group hover:border-emerald-500/30 transition-all">
-                        <i data-lucide="bot" class="w-8 h-8 text-emerald-500 mb-4"></i>
-                        <h3 class="text-white font-black uppercase text-xs tracking-widest mb-3">Telegram Bots</h3>
-                        <p class="text-sm text-slate-500 leading-relaxed">Sistemas inteligentes de notificación, gestión de usuarios y automatización de respuestas en tiempo real.</p>
-                    </div>
-                    
-                    <div class="glass-panel p-8 rounded-3xl group hover:border-emerald-500/30 transition-all">
-                        <i data-lucide="database" class="w-8 h-8 text-emerald-500 mb-4"></i>
-                        <h3 class="text-white font-black uppercase text-xs tracking-widest mb-3">Web Scraping</h3>
-                        <p class="text-sm text-slate-500 leading-relaxed">Extracción masiva de datos y recolección de información estratégica utilizando técnicas avanzadas de procesamiento.</p>
-                    </div>
-
-                    <div class="glass-panel p-8 rounded-3xl group hover:border-emerald-500/30 transition-all">
-                        <i data-lucide="chrome" class="w-8 h-8 text-emerald-500 mb-4"></i>
-                        <h3 class="text-white font-black uppercase text-xs tracking-widest mb-3">Browser Extensions</h3>
-                        <p class="text-sm text-slate-500 leading-relaxed">Inyectamos funcionalidades extra en el navegador para optimizar el trabajo y mejorar la UX del usuario.</p>
+                <div class="grid sm:grid-cols-1 gap-6">
+                    <div class="glass-panel p-8 rounded-[2.5rem] group hover:border-blue-500/30 transition-all">
+                        <div class="flex items-start justify-between mb-4">
+                            <i data-lucide="layout" class="w-8 h-8 text-blue-500"></i>
+                            <span
+                                class="text-[9px] font-black text-blue-400 uppercase tracking-widest bg-blue-500/10 px-3 py-1 rounded-full">Web
+                                UI</span>
+                        </div>
+                        <h3 class="text-white font-black uppercase text-sm tracking-widest mb-3">Modern Interfaces</h3>
+                        <p class="text-sm text-slate-500 leading-relaxed">Construcción de interfaces dinámicas y
+                            responsivas utilizando estándares modernos de <b>HTML5, CSS3 y JavaScript</b> avanzado para
+                            una navegación fluida.</p>
                     </div>
 
-                    <div class="glass-panel p-8 rounded-3xl group hover:border-emerald-500/30 transition-all">
-                        <i data-lucide="mouse-pointer-click" class="w-8 h-8 text-emerald-500 mb-4"></i>
-                        <h3 class="text-white font-black uppercase text-xs tracking-widest mb-3">Desktop Automation</h3>
-                        <p class="text-sm text-slate-500 leading-relaxed">Scripts en AutoHotkey para mapeo de teclas avanzado y automatización de procesos nativos en Windows.</p>
+                    <div class="glass-panel p-8 rounded-[2.5rem] group hover:border-emerald-500/30 transition-all">
+                        <div class="flex items-start justify-between mb-4">
+                            <i data-lucide="chrome" class="w-8 h-8 text-emerald-500"></i>
+                            <span
+                                class="text-[9px] font-black text-emerald-400 uppercase tracking-widest bg-emerald-500/10 px-3 py-1 rounded-full">Automation</span>
+                        </div>
+                        <h3 class="text-white font-black uppercase text-sm tracking-widest mb-3">Software Optimization
+                        </h3>
+                        <p class="text-sm text-slate-500 leading-relaxed">Desarrollo de <b>extensiones para
+                                navegador</b>, scripts en <b>Selenium</b> y automatizaciones nativas con
+                            <b>AutoHotkey</b> diseñadas para mejorar el flujo de trabajo.</p>
+                    </div>
+
+                    <div class="glass-panel p-8 rounded-[2.5rem] group hover:border-green-500/30 transition-all">
+                        <div class="flex items-start justify-between mb-4">
+                            <i data-lucide="bot" class="w-8 h-8 text-green-500"></i>
+                            <span
+                                class="text-[9px] font-black text-green-400 uppercase tracking-widest bg-green-500/10 px-3 py-1 rounded-full">Backend</span>
+                        </div>
+                        <h3 class="text-white font-black uppercase text-sm tracking-widest mb-3">Node & Python Core</h3>
+                        <p class="text-sm text-slate-500 leading-relaxed">Arquitectura de <b>Bots de Telegram</b>
+                            inteligentes y sistemas de recolección masiva de datos (Web Scraping) con alta eficiencia de
+                            procesamiento.</p>
                     </div>
                 </div>
             </div>
 
             <aside class="space-y-6">
-                <div class="glass-panel p-8 rounded-[2.5rem] border-emerald-500/20 shadow-2xl sticky top-8">
-                    <h3 class="text-white font-black mb-6 uppercase text-sm tracking-widest">¿Tienes una idea?</h3>
-                    <p class="text-slate-400 text-sm mb-8 leading-relaxed">Diseñamos soluciones personalizadas bajo demanda. Cuéntame qué proceso necesitas optimizar y lo haremos realidad.</p>
-                    
+                <div class="glass-panel p-8 rounded-[2.5rem] border-emerald-500/20 shadow-2xl lg:sticky lg:top-8">
+                    <h3 class="text-white font-black mb-6 uppercase text-sm tracking-widest">¿Tienes un proyecto?</h3>
+                    <p class="text-slate-400 text-sm mb-8 leading-relaxed">Desde scripts simples hasta arquitecturas web
+                        completas. Analizo tu necesidad y desarrollo la herramienta ideal.</p>
+
                     <div class="space-y-4">
-                        <a href="https://t.me/jeanpirelag" target="_blank" class="flex items-center justify-center w-full bg-[#24A1DE] text-white font-black py-5 rounded-2xl transition-all hover:shadow-[0_10px_30px_-10px_rgba(36,161,222,0.5)] uppercase text-[10px] tracking-widest group">
-                            Solicitar Desarrollo <i data-lucide="send" class="w-4 h-4 ml-2 group-hover:translate-x-1 transition"></i>
+                        <a href="https://t.me/jeanpirelag" target="_blank"
+                            class="flex items-center justify-center w-full bg-[#24A1DE] text-white font-black py-5 rounded-2xl transition-all hover:shadow-[0_10px_30px_-10px_rgba(36,161,222,0.5)] uppercase text-[10px] tracking-widest group">
+                            Consultar Ahora <i data-lucide="send"
+                                class="w-4 h-4 ml-2 group-hover:translate-x-1 transition"></i>
                         </a>
-                        <p class="text-[9px] text-center text-slate-600 font-bold uppercase tracking-tighter">Soporte disponible para proyectos activos</p>
+                        <div class="pt-4 border-t border-white/5">
+                            <p class="text-[9px] text-center text-slate-600 font-bold uppercase tracking-tighter">
+                                Soporte y consultoría disponible</p>
+                        </div>
                     </div>
                 </div>
             </aside>
@@ -86,4 +125,5 @@
 
     <script>lucide.createIcons();</script>
 </body>
+
 </html>

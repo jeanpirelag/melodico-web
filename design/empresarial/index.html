@@ -9,46 +9,85 @@
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
         body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #0b0f1a; color: #cbd5e1; }
-        .glass-panel { background: rgba(59, 130, 246, 0.02); backdrop-filter: blur(12px); border: 1px solid rgba(59, 130, 246, 0.1); }
+        .glass-panel { background: rgba(59, 130, 246, 0.03); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.05); }
+        .tech-badge { @apply px-3 py-1 bg-white/5 border border-white/10 rounded-lg text-[10px] font-bold uppercase tracking-wider text-slate-400; }
     </style>
 </head>
 <body class="min-h-screen">
     <nav class="p-8 max-w-6xl mx-auto flex justify-between items-center">
-        <a href="/index.html" class="flex items-center text-[10px] font-black tracking-[0.2em] text-slate-500 hover:text-white transition group">
-            <i data-lucide="arrow-left" class="w-4 h-4 mr-2 group-hover:-translate-x-1 transition"></i> VOLVER
+        <a href="../../index.html" class="flex items-center text-[10px] font-black tracking-[0.2em] text-slate-500 hover:text-white transition group">
+            <i data-lucide="arrow-left" class="w-4 h-4 mr-2 group-hover:-translate-x-1 transition"></i> VOLVER AL INICIO
         </a>
     </nav>
 
     <main class="max-w-6xl mx-auto px-6 py-12">
-        <div class="max-w-3xl mb-16">
-            <h1 class="text-5xl font-black text-white mb-6 tracking-tighter uppercase">Identidad <br><span class="text-blue-500 italic">Corporativa</span></h1>
-            <p class="text-lg text-slate-400 leading-relaxed">Creamos marcas que no solo se ven bien, sino que comunican valores y generan autoridad en su mercado.</p>
-        </div>
+        <div class="grid lg:grid-cols-3 gap-16">
+            <div class="lg:col-span-2">
+                <div class="w-16 h-16 bg-blue-500/10 rounded-2xl flex items-center justify-center mb-8">
+                    <i data-lucide="palette" class="w-8 h-8 text-blue-500"></i>
+                </div>
+                <h1 class="text-5xl md:text-6xl font-black text-white mb-6 tracking-tighter leading-tight uppercase">Identidad <br><span class="text-blue-500 italic">Corporativa.</span></h1>
+                <p class="text-xl text-slate-400 mb-12 max-w-xl leading-relaxed">Construimos marcas que no solo se ven bien, sino que comunican valores y generan autoridad en su mercado.</p>
+                
+                <div class="flex flex-wrap gap-3 mb-16">
+                    <span class="tech-badge border-blue-500/30 text-blue-400">Adobe Illustrator</span>
+                    <span class="tech-badge border-orange-500/30 text-orange-400">CorelDraw</span>
+                    <span class="tech-badge border-pink-500/30 text-pink-400">Adobe Photoshop</span>
+                    <span class="tech-badge">Vector Design</span>
+                </div>
 
-        <div class="grid md:grid-cols-2 gap-10">
-            <div class="glass-panel p-10 rounded-[2.5rem] flex flex-col justify-between">
-                <div>
-                    <i data-lucide="palette" class="w-8 h-8 text-blue-500 mb-6"></i>
-                    <h3 class="text-2xl font-bold text-white mb-4 italic uppercase">Logotipos</h3>
-                    <p class="text-slate-400 text-sm">Desde el boceto hasta la entrega final en todos los formatos profesionales.</p>
+                <div class="grid sm:grid-cols-1 gap-6">
+                    <div class="glass-panel p-8 rounded-[2.5rem] group hover:border-blue-500/30 transition-all">
+                        <div class="flex items-start justify-between mb-4">
+                            <i data-lucide="pen-tool" class="w-8 h-8 text-blue-500"></i>
+                            <span class="text-[9px] font-black text-blue-400 uppercase tracking-widest bg-blue-500/10 px-3 py-1 rounded-full">Branding</span>
+                        </div>
+                        <h3 class="text-white font-black uppercase text-sm tracking-widest mb-3">Diseño de Logotipos</h3>
+                        <p class="text-sm text-slate-500 leading-relaxed">Conceptualización y creación de logos vectoriales escalables. Entregamos un manual básico de uso y todos los formatos profesionales necesarios.</p>
+                    </div>
+
+                    <div class="glass-panel p-8 rounded-[2.5rem] group hover:border-blue-500/30 transition-all">
+                        <div class="flex items-start justify-between mb-4">
+                            <i data-lucide="file-text" class="w-8 h-8 text-blue-500"></i>
+                            <span class="text-[9px] font-black text-blue-400 uppercase tracking-widest bg-blue-500/10 px-3 py-1 rounded-full">Stationery</span>
+                        </div>
+                        <h3 class="text-white font-black uppercase text-sm tracking-widest mb-3">Papelería Corporativa</h3>
+                        <p class="text-sm text-slate-500 leading-relaxed">Diseño de tarjetas de presentación, hojas membretadas, carpetas y facturas que mantienen la coherencia visual de tu negocio.</p>
+                    </div>
+
+                    <div class="glass-panel p-8 rounded-[2.5rem] group hover:border-blue-500/30 transition-all">
+                        <div class="flex items-start justify-between mb-4">
+                            <i data-lucide="layout" class="w-8 h-8 text-blue-500"></i>
+                            <span class="text-[9px] font-black text-blue-400 uppercase tracking-widest bg-blue-500/10 px-3 py-1 rounded-full">Social Ads</span>
+                        </div>
+                        <h3 class="text-white font-black uppercase text-sm tracking-widest mb-3">Branding Digital</h3>
+                        <p class="text-sm text-slate-500 leading-relaxed">Adaptación de marca para plataformas digitales. Kits de perfiles, banners para redes sociales y plantillas editables para posts.</p>
+                    </div>
                 </div>
             </div>
-            <div class="glass-panel p-10 rounded-[2.5rem] flex flex-col justify-between">
-                <div>
-                    <i data-lucide="layout" class="w-8 h-8 text-blue-500 mb-6"></i>
-                    <h3 class="text-2xl font-bold text-white mb-4 italic uppercase">Branding Social</h3>
-                    <p class="text-slate-400 text-sm">Kit de perfiles, banners y plantillas para mantener coherencia en redes.</p>
-                </div>
-            </div>
-        </div>
 
-        <div class="mt-20 text-center">
-            <p class="text-xs font-black tracking-[0.3em] text-slate-600 mb-8 uppercase">Hablemos de tu marca</p>
-            <a href="https://t.me/jeanpirelag" class="inline-block bg-white text-black font-black px-12 py-5 rounded-2xl hover:bg-blue-500 hover:text-white transition-all uppercase text-[10px] tracking-widest shadow-2xl">
-                Iniciar Proyecto
-            </a>
+            <aside class="space-y-6">
+                <div class="glass-panel p-8 rounded-[2.5rem] border-blue-500/20 shadow-2xl lg:sticky lg:top-8">
+                    <h3 class="text-white font-black mb-6 uppercase text-sm tracking-widest">Hablemos de tu marca</h3>
+                    <p class="text-slate-400 text-sm mb-8 leading-relaxed">¿Listo para elevar la imagen de tu empresa? Cuéntame tu idea y diseñaremos algo que destaque de la competencia.</p>
+                    
+                    <div class="space-y-4">
+                        <a href="https://t.me/jeanpirelag" target="_blank" class="flex items-center justify-center w-full bg-white text-black font-black py-5 rounded-2xl transition-all hover:bg-blue-500 hover:text-white hover:shadow-[0_10px_30px_-10px_rgba(59,130,246,0.5)] uppercase text-[10px] tracking-widest group">
+                            Iniciar Proyecto <i data-lucide="send" class="w-4 h-4 ml-2 group-hover:translate-x-1 transition"></i>
+                        </a>
+                        <div class="pt-4 border-t border-white/5 text-center">
+                            <p class="text-[9px] text-slate-600 font-bold uppercase tracking-tighter">Asesoría de branding incluida</p>
+                        </div>
+                    </div>
+                </div>
+            </aside>
         </div>
     </main>
+
+    <footer class="py-20 text-center">
+        <p class="text-[9px] font-bold text-slate-600 uppercase tracking-[0.4em]">Melodico Design © 2026</p>
+    </footer>
+
     <script>lucide.createIcons();</script>
 </body>
 </html>
