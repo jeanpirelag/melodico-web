@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>Carta Romántica</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            user-select: none;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(145deg, #f5ebe0 0%, #e8d5c4 40%, #dcc4b0 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Georgia', 'Times New Roman', serif;
+            padding: 16px;
+            margin: 0;
+            touch-action: manipulation;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        body::before {
+            content: '🌷 ✿ 🌸 ✿ 🌷';
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 1.2rem;
+            letter-spacing: 15px;
+            color: rgba(180, 140, 120, 0.12);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        body::after {
+            content: '🌸 ✿ 🌷 ✿ 🌸';
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 1.2rem;
+            letter-spacing: 15px;
+            color: rgba(180, 140, 120, 0.12);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .carta-container {
+            background: rgba(255, 248, 240, 0.85);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 40px 40px 30px 30px;
+            box-shadow: 0 20px 60px rgba(100, 70, 50, 0.3),
+                inset 0 0 60px rgba(255, 220, 200, 0.3);
+            padding: 30px 24px 35px;
+            max-width: 560px;
+            width: 100%;
+            border: 1px solid rgba(200, 170, 150, 0.3);
+            position: relative;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .carta-container::before {
+            content: '💕';
+            position: absolute;
+            top: -12px;
+            right: 30px;
+            font-size: 1.8rem;
+            opacity: 0.2;
+            transform: rotate(15deg);
+        }
+
+        .titulo-carta {
+            text-align: center;
+            color: #6b3f4a;
+            font-weight: 300;
+            letter-spacing: 6px;
+            font-size: clamp(0.8rem, 3vw, 1rem);
+            text-transform: uppercase;
+            margin-bottom: 15px;
+            opacity: 0.7;
+            font-family: 'Georgia', serif;
+            width: 100%;
+        }
+
+        .titulo-carta span {
+            display: inline-block;
+            animation: suaveBrillo 4s ease-in-out infinite;
+        }
+
+        @keyframes suaveBrillo {
+
+            0%,
+            100% {
+                opacity: 0.6;
+            }
+
+            50% {
+                opacity: 1;
+            }
+        }
+
+        .heart-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin: 5px auto 10px;
+            position: relative;
+            width: 100%;
+        }
+
+        .heart-btn {
+            background: transparent !important;
+            border: none !important;
+            outline: none !important;
+            cursor: pointer;
+            padding: 0;
+            margin: 0 auto;
+            width: min(170px, 48vw, 210px);
+            height: min(170px, 48vw, 210px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            z-index: 10;
+            box-shadow: none !important;
+            border-radius: 0 !important;
+            -webkit-tap-highlight-color: transparent !important;
+            font-size: 0;
+            line-height: 0;
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .heart-btn .heart {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            filter: drop-shadow(0 0 25px rgba(200, 80, 100, 0.3));
+            transition: filter 0.3s;
+        }
+
+        .heart-btn .heart::before,
+        .heart-btn .heart::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            width: 52%;
+            height: 80%;
+            background: linear-gradient(145deg, #e8748a, #d44a66, #b83a52);
+            border-radius: 50% 50% 0 0;
+            transition: all 0.3s;
+        }
+
+        .heart-btn .heart::before {
+            left: 50%;
+            transform: rotate(-45deg);
+            transform-origin: 0 100%;
+        }
+
+        .heart-btn .heart::after {
+            left: 0;
+            transform: rotate(45deg);
+            transform-origin: 100% 100%;
+        }
+
+        .heart-btn .heart .shine {
+            position: absolute;
+            top: 18%;
+            left: 28%;
+            width: 25%;
+            height: 18%;
+            background: radial-gradient(ellipse, rgba(255, 255, 255, 0.35), transparent);
+            border-radius: 50%;
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        .heart-btn:active {
+            transform: scale(0.88);
+        }
+
+        .heart-btn:hover .heart {
+            filter: drop-shadow(0 0 40px #d44a66) drop-shadow(0 0 70px #b83a52);
+        }
+
+        .heart-text {
+            text-align: center;
+            color: #8b5a68;
+            font-size: clamp(0.8rem, 2vw, 0.95rem);
+            letter-spacing: 2px;
+            margin-top: 5px;
+            opacity: 0.6;
+            font-style: italic;
+            width: 100%;
+        }
+
+        .carta-mensaje {
+            background: linear-gradient(145deg, #fffbf7 0%, #fdf3ec 100%);
+            border-radius: 28px;
+            box-shadow: 0 15px 40px rgba(100, 70, 50, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.8);
+            padding: 35px 28px 30px;
+            margin-top: -30px;
+            width: 100%;
+            max-width: 440px;
+            transition: all 0.6s cubic-bezier(0.34, 1.2, 0.64, 1);
+            border: 1px solid rgba(210, 180, 165, 0.3);
+            position: relative;
+            opacity: 0;
+            transform: translateY(-20px) scale(0.92);
+            pointer-events: none;
+            visibility: hidden;
+            color: #3d2a2e;
+            line-height: 1.9;
+            font-size: clamp(1rem, 2.5vw, 1.15rem);
+            text-align: center;
+            margin-left: auto;
+            margin-right: auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .carta-mensaje.open {
+            opacity: 1;
+            transform: translateY(0px) scale(1);
+            pointer-events: auto;
+            visibility: visible;
+            margin-top: -8px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .carta-mensaje::before {
+            content: '💌';
+            position: absolute;
+            top: -16px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: clamp(2rem, 5vw, 2.6rem);
+            background: #fdf3ec;
+            padding: 0 12px;
+            border-radius: 50%;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            line-height: 1;
+            filter: drop-shadow(0 2px 8px rgba(180, 80, 100, 0.15));
+        }
+
+        .carta-mensaje .saludo {
+            font-size: clamp(1.2rem, 3.5vw, 1.6rem);
+            color: #6b3f4a;
+            font-weight: 400;
+            letter-spacing: 2px;
+            margin-bottom: 8px;
+            text-align: center;
+            width: 100%;
+        }
+
+        .carta-mensaje .linea-decorativa {
+            width: 50px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #d4b0a0, transparent);
+            margin: 10px auto 16px;
+            border-radius: 2px;
+        }
+
+        .carta-mensaje .mensaje-texto {
+            margin: 10px 0;
+            color: #4d353b;
+            font-size: clamp(0.95rem, 2.4vw, 1.1rem);
+            text-align: center;
+            width: 100%;
+        }
+
+        .carta-mensaje .mensaje-texto strong {
+            color: #8b5a68;
+            font-weight: 400;
+        }
+
+        .carta-mensaje .cita {
+            font-style: italic;
+            color: #7a5a62;
+            font-size: clamp(0.9rem, 2.2vw, 1.05rem);
+            padding: 6px 16px;
+            display: inline-block;
+            text-align: center;
+            margin: 0 auto;
+            border-left: 2px solid rgba(180, 140, 120, 0.2);
+            border-right: 2px solid rgba(180, 140, 120, 0.2);
+            padding: 6px 20px;
+        }
+
+        .carta-mensaje .despedida {
+            margin-top: 18px;
+            color: #6b3f4a;
+            font-size: clamp(0.95rem, 2.3vw, 1.1rem);
+            border-top: 1px dashed #d4b0a0;
+            padding-top: 18px;
+            letter-spacing: 1px;
+            text-align: center;
+            width: 100%;
+        }
+
+        .carta-mensaje .corazoncito {
+            color: #b08890;
+            font-size: clamp(1rem, 2.5vw, 1.4rem);
+            display: inline-block;
+            animation: latido 2s ease-in-out infinite;
+        }
+
+        @keyframes latido {
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            15% {
+                transform: scale(1.15);
+            }
+
+            30% {
+                transform: scale(1);
+            }
+
+            45% {
+                transform: scale(1.15);
+            }
+
+            70% {
+                transform: scale(1);
+            }
+        }
+
+        .carta-mensaje .firma {
+            margin-top: 10px;
+            font-size: clamp(0.95rem, 2.3vw, 1.1rem);
+            color: #8b5a68;
+            font-style: italic;
+            text-align: center;
+            width: 100%;
+        }
+
+        .carta-mensaje .detalles {
+            margin-top: 6px;
+            font-size: clamp(0.7rem, 1.6vw, 0.8rem);
+            color: #b08890;
+            letter-spacing: 3px;
+            text-align: center;
+            width: 100%;
+            opacity: 0.6;
+        }
+
+        .footer-nota {
+            color: #b08890;
+            text-align: center;
+            margin-top: 18px;
+            font-size: clamp(0.65rem, 1.8vw, 0.8rem);
+            opacity: 0.4;
+            letter-spacing: 4px;
+            width: 100%;
+        }
+
+        @media (max-width: 480px) {
+            .carta-container {
+                padding: 20px 14px 24px;
+                border-radius: 30px;
+            }
+
+            .heart-btn {
+                width: min(140px, 45vw);
+                height: min(140px, 45vw);
+            }
+
+            .carta-mensaje {
+                padding: 28px 16px 22px;
+                border-radius: 22px;
+            }
+
+            .carta-mensaje::before {
+                top: -14px;
+            }
+        }
+
+        @media (max-width: 380px) {
+            .heart-btn {
+                width: min(115px, 40vw);
+                height: min(115px, 40vw);
+            }
+
+            .carta-mensaje {
+                padding: 22px 12px 18px;
+            }
+        }
+
+        @media (min-width: 600px) {
+            .heart-btn {
+                width: 190px;
+                height: 190px;
+            }
+
+            .carta-mensaje {
+                padding: 40px 34px 32px;
+            }
+        }
+
+        .heart-btn:focus-visible {
+            outline: none;
+        }
+
+        .heart-btn::-moz-focus-inner {
+            border: 0;
+            padding: 0;
+        }
+
+        .heart-btn {
+            -webkit-tap-highlight-color: transparent;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="carta-container">
+        <div class="titulo-carta"><span>💌 una carta 💌</span></div>
+
+        <div class="heart-container">
+            <div class="heart-btn" id="heartBtn" role="button" tabindex="0" aria-label="Abrir carta">
+                <div class="heart">
+                    <div class="shine"></div>
+                </div>
+            </div>
+            <div class="heart-text">— toca el corazón —</div>
+        </div>
+
+        <div id="cartaMensaje" class="carta-mensaje">
+            <div class="saludo">🌷 Crispauli,</div>
+            <div class="linea-decorativa"></div>
+
+            <p class="mensaje-texto">
+                Hay cosas que nunca se dicen<br>
+                pero que siempre están ahí. 🌸
+            </p>
+            <p class="mensaje-texto">
+                Quizás esta carta no tenga todas las respuestas,<br>
+                pero tal vez tenga las preguntas correctas. ✨
+            </p>
+
+            <!-- ROSA MANTENIDA (solo una vez) -->
+            <div style="margin: 10px auto; font-size: clamp(1.8rem, 5vw, 2.4rem); text-align: center; width: 100%;">🌹
+            </div>
+
+            <p class="cita">
+                “A veces, lo que no se dice es lo que más se escucha.” 💫
+            </p>
+
+            <div class="despedida">
+                <span class="corazoncito">💗</span> con todo lo que soy <span class="corazoncito">💗</span>
+            </div>
+
+            <div class="firma">Siempre,</div>
+            <div class="firma" style="font-weight: 400; letter-spacing: 3px; color: #6b3f4a;">Jean❤️</div>
+            <div class="detalles">💕 sin más, sin menos 💕</div>
+        </div>
+
+        <div class="footer-nota">💫 abre cuando quieras 💫</div>
+    </div>
+
+    <script>
+        (function () {
+            "use strict";
+
+            const heartBtn = document.getElementById('heartBtn');
+            const cartaMensaje = document.getElementById('cartaMensaje');
+            const heart = heartBtn.querySelector('.heart');
+            let isOpen = false;
+
+            function toggleCarta(e) {
+                if (e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                }
+
+                isOpen = !isOpen;
+
+                if (isOpen) {
+                    cartaMensaje.classList.add('open');
+                    heartBtn.style.transform = 'scale(0.92)';
+                    setTimeout(() => {
+                        heartBtn.style.transform = 'scale(1)';
+                    }, 200);
+                    heart.style.filter = 'drop-shadow(0 0 45px #d44a66) drop-shadow(0 0 80px #b83a52)';
+                } else {
+                    cartaMensaje.classList.remove('open');
+                    heart.style.filter = 'drop-shadow(0 0 25px rgba(200, 80, 100, 0.3))';
+                    heartBtn.style.transform = 'scale(1)';
+                }
+            }
+
+            heartBtn.addEventListener('click', toggleCarta);
+
+            heartBtn.addEventListener('keydown', function (e) {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    toggleCarta(e);
+                }
+            });
+
+            heartBtn.addEventListener('mouseenter', function () {
+                if (!isOpen) {
+                    this.style.transform = 'scale(1.04)';
+                }
+            });
+
+            heartBtn.addEventListener('mouseleave', function () {
+                if (!isOpen) {
+                    this.style.transform = 'scale(1)';
+                }
+            });
+
+            cartaMensaje.classList.remove('open');
+
+            console.log('💌 Carta con emojis variados');
+        })();
+    </script>
+
+</body>
+
+</html>

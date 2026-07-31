@@ -1,0 +1,870 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>Feliz Cumpleaños · Aunque tarde</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            user-select: none;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(145deg, #f5ebe0 0%, #e8d5c4 40%, #dcc4b0 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Georgia', 'Times New Roman', serif;
+            padding: 16px;
+            margin: 0;
+            touch-action: manipulation;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        body::before {
+            content: '🎈 ✨ 🎈 ✨ 🎈';
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 1.2rem;
+            letter-spacing: 15px;
+            color: rgba(180, 140, 120, 0.12);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        body::after {
+            content: '✨ 🎈 ✨ 🎈 ✨';
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 1.2rem;
+            letter-spacing: 15px;
+            color: rgba(180, 140, 120, 0.12);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .carta-container {
+            background: rgba(255, 248, 240, 0.88);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 40px 40px 30px 30px;
+            box-shadow: 0 20px 60px rgba(100, 70, 50, 0.3),
+                inset 0 0 60px rgba(255, 220, 200, 0.3);
+            padding: 30px 24px 35px;
+            max-width: 560px;
+            width: 100%;
+            border: 1px solid rgba(200, 170, 150, 0.3);
+            position: relative;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            animation: containerAppear 1s ease-out;
+        }
+
+        @keyframes containerAppear {
+            0% {
+                opacity: 0;
+                transform: scale(0.95) translateY(20px);
+            }
+
+            100% {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        .carta-container::before {
+            content: '🎂';
+            position: absolute;
+            top: -16px;
+            right: 30px;
+            font-size: 2rem;
+            opacity: 0.2;
+            transform: rotate(15deg);
+            animation: cakeFloat 4s ease-in-out infinite;
+        }
+
+        @keyframes cakeFloat {
+
+            0%,
+            100% {
+                transform: rotate(15deg) translateY(0);
+                opacity: 0.2;
+            }
+
+            50% {
+                transform: rotate(15deg) translateY(-8px);
+                opacity: 0.4;
+            }
+        }
+
+        .titulo-carta {
+            text-align: center;
+            color: #6b3f4a;
+            font-weight: 300;
+            letter-spacing: 6px;
+            font-size: clamp(0.8rem, 3vw, 1rem);
+            text-transform: uppercase;
+            margin-bottom: 15px;
+            opacity: 0.7;
+            font-family: 'Georgia', serif;
+            width: 100%;
+            animation: tituloBrillo 4s ease-in-out infinite;
+        }
+
+        @keyframes tituloBrillo {
+
+            0%,
+            100% {
+                opacity: 0.6;
+            }
+
+            50% {
+                opacity: 1;
+                letter-spacing: 8px;
+            }
+        }
+
+        .titulo-carta span {
+            display: inline-block;
+        }
+
+        /* ============================================
+           REGALO - En lugar del corazón
+           ============================================ */
+        .gift-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin: 5px auto 10px;
+            position: relative;
+            width: 100%;
+        }
+
+        .gift-btn {
+            background: transparent !important;
+            border: none !important;
+            outline: none !important;
+            cursor: pointer;
+            padding: 0;
+            margin: 0 auto;
+            width: min(170px, 48vw, 210px);
+            height: min(170px, 48vw, 210px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            z-index: 10;
+            box-shadow: none !important;
+            border-radius: 0 !important;
+            -webkit-tap-highlight-color: transparent !important;
+            font-size: 0;
+            line-height: 0;
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            animation: giftPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes giftPulse {
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.03);
+            }
+        }
+
+        .gift-btn:active {
+            animation: none;
+            transform: scale(0.88) !important;
+        }
+
+        .gift-btn .gift {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            filter: drop-shadow(0 0 25px rgba(200, 120, 80, 0.3));
+            transition: filter 0.3s;
+        }
+
+        /* Caja del regalo */
+        .gift-btn .gift .box {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 75%;
+            height: 65%;
+            background: linear-gradient(145deg, #e8845a, #d46a42, #c45a34);
+            border-radius: 6px 6px 12px 12px;
+            box-shadow: inset 0 -4px 0 rgba(0, 0, 0, 0.15);
+            transition: all 0.3s;
+        }
+
+        /* Tapa del regalo */
+        .gift-btn .gift .lid {
+            position: absolute;
+            top: 18%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80%;
+            height: 22%;
+            background: linear-gradient(145deg, #f5a882, #e8845a);
+            border-radius: 6px 6px 0 0;
+            box-shadow: inset 0 2px 0 rgba(255, 255, 255, 0.2);
+            transition: all 0.3s;
+        }
+
+        /* Cinta horizontal */
+        .gift-btn .gift .ribbon-h {
+            position: absolute;
+            top: 40%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 82%;
+            height: 12%;
+            background: linear-gradient(180deg, #f5c842, #e8b830);
+            border-radius: 2px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            z-index: 3;
+        }
+
+        /* Cinta vertical */
+        .gift-btn .gift .ribbon-v {
+            position: absolute;
+            top: 18%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 12%;
+            height: 65%;
+            background: linear-gradient(90deg, #f5c842, #e8b830);
+            border-radius: 2px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            z-index: 3;
+        }
+
+        /* Moño */
+        .gift-btn .gift .bow {
+            position: absolute;
+            top: 8%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 40%;
+            height: 25%;
+            z-index: 4;
+        }
+
+        .gift-btn .gift .bow::before,
+        .gift-btn .gift .bow::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            width: 45%;
+            height: 100%;
+            background: radial-gradient(ellipse at center, #f5c842, #e8b830);
+            border-radius: 50% 50% 0 50%;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+        }
+
+        .gift-btn .gift .bow::before {
+            left: 0;
+            transform: rotate(-15deg);
+        }
+
+        .gift-btn .gift .bow::after {
+            right: 0;
+            transform: rotate(15deg) scaleX(-1);
+        }
+
+        /* Centro del moño */
+        .gift-btn .gift .bow-center {
+            position: absolute;
+            top: 10%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 16%;
+            height: 55%;
+            background: radial-gradient(ellipse, #f5d84a, #d4a820);
+            border-radius: 50%;
+            z-index: 5;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Brillo del regalo */
+        .gift-btn .gift .shine-gift {
+            position: absolute;
+            top: 22%;
+            left: 28%;
+            width: 20%;
+            height: 15%;
+            background: radial-gradient(ellipse, rgba(255, 255, 255, 0.3), transparent);
+            border-radius: 50%;
+            z-index: 6;
+            pointer-events: none;
+            opacity: 0.6;
+        }
+
+        .gift-btn:hover .gift {
+            filter: drop-shadow(0 0 40px #e8845a) drop-shadow(0 0 70px #d46a42);
+        }
+
+        .gift-text {
+            text-align: center;
+            color: #8b5a68;
+            font-size: clamp(0.8rem, 2vw, 0.95rem);
+            letter-spacing: 2px;
+            margin-top: 5px;
+            opacity: 0.6;
+            font-style: italic;
+            width: 100%;
+            animation: textFade 3s ease-in-out infinite;
+        }
+
+        @keyframes textFade {
+
+            0%,
+            100% {
+                opacity: 0.5;
+            }
+
+            50% {
+                opacity: 0.9;
+            }
+        }
+
+        .carta-mensaje {
+            background: linear-gradient(145deg, #fffbf7 0%, #fdf3ec 100%);
+            border-radius: 28px;
+            box-shadow: 0 15px 40px rgba(100, 70, 50, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.8);
+            padding: 35px 28px 30px;
+            margin-top: -30px;
+            width: 100%;
+            max-width: 440px;
+            transition: all 0.6s cubic-bezier(0.34, 1.2, 0.64, 1);
+            border: 1px solid rgba(210, 180, 165, 0.3);
+            position: relative;
+            opacity: 0;
+            transform: translateY(-20px) scale(0.92);
+            pointer-events: none;
+            visibility: hidden;
+            color: #3d2a2e;
+            line-height: 1.9;
+            font-size: clamp(1rem, 2.5vw, 1.15rem);
+            text-align: center;
+            margin-left: auto;
+            margin-right: auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .carta-mensaje.open {
+            opacity: 1;
+            transform: translateY(0px) scale(1);
+            pointer-events: auto;
+            visibility: visible;
+            margin-top: -8px;
+            margin-left: auto;
+            margin-right: auto;
+            animation: cartaAbrir 0.6s cubic-bezier(0.34, 1.2, 0.64, 1);
+        }
+
+        @keyframes cartaAbrir {
+            0% {
+                opacity: 0;
+                transform: scale(0.8) rotate(-2deg);
+            }
+
+            100% {
+                opacity: 1;
+                transform: scale(1) rotate(0deg);
+            }
+        }
+
+        .carta-mensaje::before {
+            content: '🎈';
+            position: absolute;
+            top: -16px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: clamp(2rem, 5vw, 2.6rem);
+            background: #fdf3ec;
+            padding: 0 12px;
+            border-radius: 50%;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            line-height: 1;
+            filter: drop-shadow(0 2px 8px rgba(180, 80, 100, 0.15));
+            animation: globoFlota 3s ease-in-out infinite;
+        }
+
+        @keyframes globoFlota {
+
+            0%,
+            100% {
+                transform: translateX(-50%) translateY(0) rotate(-3deg);
+            }
+
+            50% {
+                transform: translateX(-50%) translateY(-8px) rotate(3deg);
+            }
+        }
+
+        .carta-mensaje .saludo {
+            font-size: clamp(1.4rem, 4vw, 1.8rem);
+            color: #6b3f4a;
+            font-weight: 400;
+            letter-spacing: 2px;
+            margin-bottom: 8px;
+            text-align: center;
+            width: 100%;
+            animation: saludoBrillo 3s ease-in-out infinite;
+        }
+
+        @keyframes saludoBrillo {
+
+            0%,
+            100% {
+                color: #6b3f4a;
+            }
+
+            50% {
+                color: #b83a52;
+            }
+        }
+
+        .carta-mensaje .linea-decorativa {
+            width: 50px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #d4b0a0, transparent);
+            margin: 10px auto 16px;
+            border-radius: 2px;
+            animation: lineaAnima 2s ease-in-out infinite;
+        }
+
+        @keyframes lineaAnima {
+
+            0%,
+            100% {
+                width: 50px;
+                opacity: 0.5;
+            }
+
+            50% {
+                width: 80px;
+                opacity: 1;
+            }
+        }
+
+        .carta-mensaje .mensaje-texto {
+            margin: 10px 0;
+            color: #4d353b;
+            font-size: clamp(0.95rem, 2.4vw, 1.1rem);
+            text-align: center;
+            width: 100%;
+        }
+
+        .carta-mensaje .mensaje-texto strong {
+            color: #b83a52;
+            font-weight: 600;
+            animation: strongPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes strongPulse {
+
+            0%,
+            100% {
+                color: #b83a52;
+            }
+
+            50% {
+                color: #d44a66;
+            }
+        }
+
+        .carta-mensaje .cita {
+            font-style: italic;
+            color: #7a5a62;
+            font-size: clamp(0.9rem, 2.2vw, 1.05rem);
+            padding: 6px 16px;
+            display: inline-block;
+            text-align: center;
+            margin: 0 auto;
+            border-left: 2px solid rgba(180, 140, 120, 0.2);
+            border-right: 2px solid rgba(180, 140, 120, 0.2);
+            padding: 6px 20px;
+            animation: citaParpadeo 4s ease-in-out infinite;
+        }
+
+        @keyframes citaParpadeo {
+
+            0%,
+            100% {
+                opacity: 0.8;
+            }
+
+            50% {
+                opacity: 1;
+                border-color: rgba(180, 140, 120, 0.4);
+            }
+        }
+
+        .carta-mensaje .despedida {
+            margin-top: 18px;
+            color: #6b3f4a;
+            font-size: clamp(0.95rem, 2.3vw, 1.1rem);
+            border-top: 1px dashed #d4b0a0;
+            padding-top: 18px;
+            letter-spacing: 1px;
+            text-align: center;
+            width: 100%;
+        }
+
+        .carta-mensaje .corazoncito {
+            color: #b08890;
+            font-size: clamp(1rem, 2.5vw, 1.4rem);
+            display: inline-block;
+            animation: latido 2s ease-in-out infinite;
+        }
+
+        @keyframes latido {
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            15% {
+                transform: scale(1.15);
+            }
+
+            30% {
+                transform: scale(1);
+            }
+
+            45% {
+                transform: scale(1.15);
+            }
+
+            70% {
+                transform: scale(1);
+            }
+        }
+
+        .carta-mensaje .firma {
+            margin-top: 10px;
+            font-size: clamp(0.95rem, 2.3vw, 1.1rem);
+            color: #8b5a68;
+            font-style: italic;
+            text-align: center;
+            width: 100%;
+        }
+
+        .carta-mensaje .detalles {
+            margin-top: 6px;
+            font-size: clamp(0.7rem, 1.6vw, 0.8rem);
+            color: #b08890;
+            letter-spacing: 3px;
+            text-align: center;
+            width: 100%;
+            opacity: 0.6;
+            animation: detallesBrillo 3s ease-in-out infinite;
+        }
+
+        @keyframes detallesBrillo {
+
+            0%,
+            100% {
+                opacity: 0.5;
+            }
+
+            50% {
+                opacity: 0.8;
+            }
+        }
+
+        .footer-nota {
+            color: #b08890;
+            text-align: center;
+            margin-top: 18px;
+            font-size: clamp(0.65rem, 1.8vw, 0.8rem);
+            opacity: 0.4;
+            letter-spacing: 4px;
+            width: 100%;
+            animation: footerPulse 4s ease-in-out infinite;
+        }
+
+        @keyframes footerPulse {
+
+            0%,
+            100% {
+                opacity: 0.3;
+                letter-spacing: 4px;
+            }
+
+            50% {
+                opacity: 0.6;
+                letter-spacing: 6px;
+            }
+        }
+
+        /* Confeti animado */
+        .confeti-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            pointer-events: none;
+            overflow: hidden;
+            border-radius: 28px;
+            z-index: 0;
+        }
+
+        .confeti {
+            position: absolute;
+            font-size: 1.2rem;
+            animation: confetiCae 3s ease-in forwards;
+            opacity: 0;
+        }
+
+        @keyframes confetiCae {
+            0% {
+                opacity: 0;
+                transform: translateY(-20px) rotate(0deg) scale(0.5);
+            }
+
+            20% {
+                opacity: 1;
+            }
+
+            100% {
+                opacity: 0;
+                transform: translateY(400px) rotate(720deg) scale(1);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .carta-container {
+                padding: 20px 14px 24px;
+                border-radius: 30px;
+            }
+
+            .gift-btn {
+                width: min(140px, 45vw);
+                height: min(140px, 45vw);
+            }
+
+            .carta-mensaje {
+                padding: 28px 16px 22px;
+                border-radius: 22px;
+            }
+
+            .carta-mensaje::before {
+                top: -14px;
+            }
+        }
+
+        @media (max-width: 380px) {
+            .gift-btn {
+                width: min(115px, 40vw);
+                height: min(115px, 40vw);
+            }
+
+            .carta-mensaje {
+                padding: 22px 12px 18px;
+            }
+        }
+
+        @media (min-width: 600px) {
+            .gift-btn {
+                width: 190px;
+                height: 190px;
+            }
+
+            .carta-mensaje {
+                padding: 40px 34px 32px;
+            }
+        }
+
+        .gift-btn:focus-visible {
+            outline: none;
+        }
+
+        .gift-btn::-moz-focus-inner {
+            border: 0;
+            padding: 0;
+        }
+
+        .gift-btn {
+            -webkit-tap-highlight-color: transparent;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="carta-container">
+        <div class="titulo-carta"><span>🎈 feliz cumpleaños 🎈</span></div>
+
+        <div class="gift-container">
+            <div class="gift-btn" id="giftBtn" role="button" tabindex="0" aria-label="Abrir regalo">
+                <div class="gift">
+                    <div class="lid"></div>
+                    <div class="box"></div>
+                    <div class="ribbon-h"></div>
+                    <div class="ribbon-v"></div>
+                    <div class="bow">
+                        <div class="bow-center"></div>
+                    </div>
+                    <div class="shine-gift"></div>
+                </div>
+            </div>
+            <div class="gift-text">— abre el regalo —</div>
+        </div>
+
+        <div id="cartaMensaje" class="carta-mensaje">
+            <div class="confeti-container" id="confetiContainer"></div>
+
+            <div class="saludo">🌷 Crispauli,</div>
+            <div class="linea-decorativa"></div>
+
+            <p class="mensaje-texto">
+                Sé que este mensaje llega <strong>tarde</strong>,<br>
+                que el día ya pasó y las velas se apagaron.
+            </p>
+            <p class="mensaje-texto">
+                Pero quería que supieras que<br>
+                no olvidé tu día, solo <strong>me tomó tiempo</strong><br>
+                encontrar las palabras adecuadas. 🌸
+            </p>
+
+            <div style="margin: 8px auto; font-size: clamp(1.6rem, 4.5vw, 2.2rem); text-align: center; width: 100%;">🎂
+            </div>
+
+            <p class="cita">
+                “Más vale tarde que nunca,<br>
+                y más vale un deseo sincero que un regalo vacío.” 💫
+            </p>
+
+            <div class="despedida">
+                <span class="corazoncito">💗</span> con todo lo que soy <span class="corazoncito">💗</span>
+            </div>
+
+            <div class="firma">Siempre,</div>
+            <div class="firma" style="font-weight: 400; letter-spacing: 3px; color: #6b3f4a;">Jean❤️</div>
+            <div class="detalles">🎈 aunque sea tarde, siempre es momento 🎈</div>
+        </div>
+
+        <div class="footer-nota">💫 abre cuando quieras 💫</div>
+    </div>
+
+    <script>
+        (function () {
+            "use strict";
+
+            const giftBtn = document.getElementById('giftBtn');
+            const cartaMensaje = document.getElementById('cartaMensaje');
+            const confetiContainer = document.getElementById('confetiContainer');
+            const gift = giftBtn.querySelector('.gift');
+            let isOpen = false;
+            let confetiInterval = null;
+
+            function crearConfeti() {
+                const emojis = ['🎈', '✨', '🎂', '💫', '⭐', '🌸', '🌷', '💗'];
+                const confeti = document.createElement('div');
+                confeti.className = 'confeti';
+                confeti.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+                confeti.style.left = Math.random() * 100 + '%';
+                confeti.style.top = '-10px';
+                confeti.style.fontSize = (0.8 + Math.random() * 1.2) + 'rem';
+                confeti.style.animationDuration = (2 + Math.random() * 2) + 's';
+                confeti.style.transform = 'rotate(' + (Math.random() * 360) + 'deg)';
+                confetiContainer.appendChild(confeti);
+
+                setTimeout(() => {
+                    if (confeti.parentNode) {
+                        confeti.remove();
+                    }
+                }, 4000);
+            }
+
+            function toggleCarta(e) {
+                if (e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                }
+
+                isOpen = !isOpen;
+
+                if (isOpen) {
+                    cartaMensaje.classList.add('open');
+                    giftBtn.style.transform = 'scale(0.92)';
+                    setTimeout(() => {
+                        giftBtn.style.transform = 'scale(1)';
+                    }, 200);
+                    gift.style.filter = 'drop-shadow(0 0 45px #e8845a) drop-shadow(0 0 80px #d46a42)';
+
+                    if (confetiInterval) clearInterval(confetiInterval);
+                    for (let i = 0; i < 8; i++) {
+                        setTimeout(() => crearConfeti(), i * 150);
+                    }
+                    confetiInterval = setInterval(crearConfeti, 1200);
+
+                } else {
+                    cartaMensaje.classList.remove('open');
+                    gift.style.filter = 'drop-shadow(0 0 25px rgba(200, 120, 80, 0.3))';
+                    giftBtn.style.transform = 'scale(1)';
+
+                    if (confetiInterval) {
+                        clearInterval(confetiInterval);
+                        confetiInterval = null;
+                    }
+                    confetiContainer.innerHTML = '';
+                }
+            }
+
+            giftBtn.addEventListener('click', toggleCarta);
+
+            giftBtn.addEventListener('keydown', function (e) {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    toggleCarta(e);
+                }
+            });
+
+            giftBtn.addEventListener('mouseenter', function () {
+                if (!isOpen) {
+                    this.style.transform = 'scale(1.04)';
+                }
+            });
+
+            giftBtn.addEventListener('mouseleave', function () {
+                if (!isOpen) {
+                    this.style.transform = 'scale(1)';
+                }
+            });
+
+            cartaMensaje.classList.remove('open');
+
+            console.log('🎁 Regalo de cumpleaños tardío');
+        })();
+    </script>
+
+</body>
+
+</html>
