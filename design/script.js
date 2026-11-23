@@ -498,6 +498,7 @@ function renderProduct(code, category = null) {
                 <div class="flex flex-wrap items-center gap-2">
                     <span class="inline-flex w-fit items-center gap-1.5 rounded-full border-2 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider" style="border-color:${color}; color:${color}; background:${tint(color, 0.1)}">${categoryIcons[product.category] || ''}<span>${categories[product.category]}</span></span>
                     ${product.digital ? '<span class="inline-flex items-center gap-1 rounded-full border-2 border-neutral-900 bg-[#6699FF] px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-neutral-900">Digital</span>' : ''}
+                    <span class="inline-flex items-center gap-1 whitespace-nowrap rounded-full border-2 border-neutral-900 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider ${product.digital ? 'bg-white text-neutral-800' : 'bg-[#25D366] text-neutral-900'}">${product.digital ? 'Entrega digital · sin envío' : 'Envío nacional · COD'}</span>
                 </div>
 
                 ${(product.brand || product.color || product.subcategory || product.minWidth || product.minHeight) ? `<div class="mt-2 flex flex-wrap gap-2 text-[11px] font-bold text-neutral-700">
@@ -559,7 +560,9 @@ function renderProduct(code, category = null) {
                 <ul class="mt-5 space-y-2 text-xs text-neutral-600">
                     <li class="flex items-start gap-2"><span class="mt-0.5 text-[#25D366]">✔</span> Asesoría de instalación incluida por WhatsApp.</li>
                     <li class="flex items-start gap-2"><span class="mt-0.5 text-[#25D366]">✔</span> ${product.digital ? 'Archivos vectoriales para plotter, con líneas de corte.' : 'Vinil de corte profesional listo para aplicar.'}</li>
-                    <li class="flex items-start gap-2"><span class="mt-0.5 text-[#25D366]">✔</span> Coordinamos pago y entrega al confirmar el pedido.</li>
+                    <li class="flex items-start gap-2"><span class="mt-0.5 text-[#25D366]">✔</span> ${product.digital
+                        ? 'Entrega digital, sin costo ni tiempo de envío.'
+                        : 'Envío a nivel nacional con <strong>pago contra entrega (COD)</strong>.'}</li>
                 </ul>
             </div>
         </div>`;

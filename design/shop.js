@@ -197,6 +197,24 @@
             rateNote.classList.toggle('text-neutral-500', !belowMinimum);
         }
 
+        const shippingNote = el('cart-shipping-note');
+        if (shippingNote) {
+            const catalog = window.MELODICO_PRODUCTS || [];
+            const hasPhysical = items.some((item) => {
+                const product = catalog.find((entry) => entry.slug === item.slug);
+                return product ? !product.digital : true;
+            });
+            const hasDigital = items.some((item) => {
+                const product = catalog.find((entry) => entry.slug === item.slug);
+                return product ? Boolean(product.digital) : false;
+            });
+
+            shippingNote.textContent = hasPhysical
+                ? 'Envío nacional con pago contra entrega (COD).'
+                : (hasDigital ? 'Producto digital: entrega inmediata, sin envío.' : '');
+            shippingNote.classList.toggle('hidden', !shippingNote.textContent);
+        }
+
         items.forEach((item) => {
             const row = document.createElement('div');
             row.className = 'flex items-center gap-3 py-3';
@@ -383,11 +401,17 @@
         el('order-reference').textContent = order.reference;
 
         const lines = order.items.map((item) => `• ${item.quantity} × ${item.name} (${formatPrice(item.unitPrice)})`);
+        const catalog = window.MELODICO_PRODUCTS || [];
+        const hasPhysical = order.items.some((item) => {
+            const product = catalog.find((entry) => entry.slug === item.slug);
+            return product ? !product.digital : true;
+        });
         const message = [
             `¡Hola Melódico Design! Soy ${state.customer.name}.`,
             `Pedido ${order.reference}:`,
             ...lines,
-            order.total !== null ? `Total: $${Number(order.total).toFixed(2)}` : 'Total: por cotizar',
+            order.total !== null ? `Total: ${Number(order.total).toFixed(2)} REF` : 'Total: por cotizar',
+            hasPhysical ? 'Envío: nacional, pago contra entrega (COD).' : 'Entrega digital: sin envío.',
         ].join('\n');
 
         el('order-whatsapp').href = `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(message)}`;
