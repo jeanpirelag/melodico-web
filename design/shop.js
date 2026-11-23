@@ -357,7 +357,7 @@
 
     async function loadMyOrders() {
         const container = el('my-orders');
-        container.classList.toggle('hidden', false);
+        container.classList.remove('hidden');
         container.innerHTML = '<p class="text-xs text-neutral-500">Cargando…</p>';
 
         try {
@@ -367,20 +367,87 @@
                 container.innerHTML = '<p class="text-xs text-neutral-500">Todavía no tienes pedidos.</p>';
                 return;
             }
+
             const list = document.createElement('ul');
-            list.className = 'space-y-1 text-xs';
+            list.className = 'space-y-2';
+
+            const statusLabels = {
+                pending: 'Pendiente',
+                confirmed: 'Confirmado',
+                paid: 'Pagado',
+                shipped: 'Enviado',
+                delivered: 'Entregado',
+                cancelled: 'Cancelado',
+            };
+
             orders.forEach((order) => {
                 const item = document.createElement('li');
-                item.className = 'flex items-center justify-between gap-3 border-b border-neutral-200 pb-1';
-                const ref = document.createElement('span');
-                ref.className = 'font-bold';
-                ref.textContent = order.reference;
+                item.className = 'rounded-lg border-2 border-neutral-900 bg-white';
+
+                const head = document.createElement('button');
+                head.type = 'button';
+                head.className = 'flex w-full items-center justify-between gap-2 px-3 py-2 text-left';
+                head.setAttribute('aria-expanded', 'false');
+
+                const info = document.createElement('span');
+                info.className = 'min-w-0';
+                const reference = document.createElement('span');
+                reference.className = 'block text-xs font-bold text-neutral-900';
+                reference.textContent = order.reference;
+                const date = document.createElement('span');
+                date.className = 'block text-[10px] text-neutral-500';
+                date.textContent = new Date(order.createdAt.replace(' ', 'T') + 'Z').toLocaleDateString('es-VE');
+                info.append(reference, date);
+
                 const meta = document.createElement('span');
-                meta.className = 'text-neutral-500';
-                meta.textContent = `${formatPrice(order.total)} · ${order.status}`;
-                item.append(ref, meta);
+                meta.className = 'shrink-0 text-right';
+                const total = document.createElement('span');
+                total.className = 'block text-xs font-bold text-neutral-900';
+                total.textContent = formatPrice(order.total);
+                const status = document.createElement('span');
+                status.className = 'block text-[10px] font-semibold text-neutral-500';
+                status.textContent = statusLabels[order.status] || order.status;
+                meta.append(total, status);
+
+                head.append(info, meta);
+
+                const detail = document.createElement('div');
+                detail.className = 'hidden border-t-2 border-neutral-900 px-3 py-2 text-[11px] text-neutral-600';
+
+                head.addEventListener('click', async () => {
+                    const open = !detail.classList.contains('hidden');
+                    head.setAttribute('aria-expanded', String(!open));
+                    if (open) {
+                        detail.classList.add('hidden');
+                        return;
+                    }
+                    detail.classList.remove('hidden');
+                    if (detail.dataset.loaded) return;
+
+                    detail.textContent = 'Cargando…';
+                    try {
+                        const { order: full } = await api(`/shop/orders/${encodeURIComponent(order.reference)}`);
+                        detail.innerHTML = '';
+                        full.items.forEach((line) => {
+                            const row = document.createElement('p');
+                            row.className = 'flex justify-between gap-3';
+                            const name = document.createElement('span');
+                            name.textContent = `${line.quantity} × ${line.name}`;
+                            const price = document.createElement('span');
+                            price.textContent = formatPrice(line.unitPrice);
+                            row.append(name, price);
+                            detail.appendChild(row);
+                        });
+                        detail.dataset.loaded = '1';
+                    } catch (error) {
+                        detail.textContent = error.message;
+                    }
+                });
+
+                item.append(head, detail);
                 list.appendChild(item);
             });
+
             container.appendChild(list);
         } catch (error) {
             container.innerHTML = '';
@@ -404,6 +471,7 @@
     function openAuth() {
         setAuthTab(state.customer ? 'login' : state.authTab);
         renderAccount();
+        if (state.customer) loadMyOrders();
         setModal('auth-modal', true);
     }
 
