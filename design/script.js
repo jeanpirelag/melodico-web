@@ -170,7 +170,7 @@ function renderCatalog(filter = activeFilter) {
         card.innerHTML = `
             <div class="relative mb-4 aspect-[4/3] w-full overflow-hidden rounded-xl border-2 border-neutral-900" style="background:${tint(color, 0.12)}">
                 ${product.image
-                    ? `<img src="${product.image}" alt="${product.name}" loading="lazy" class="h-full w-full object-cover transition duration-300 group-hover:scale-105">`
+                    ? `<img src="${product.image}" alt="${product.name}" loading="lazy" data-preview="${product.image}" class="h-full w-full object-contain transition duration-300 group-hover:scale-105">`
                     : `<span class="flex h-full w-full items-center justify-center opacity-70 [&_svg]:h-16 [&_svg]:w-16">${categoryIcons[product.category] || ''}</span>`}
                 <span class="absolute left-2 top-2 inline-flex items-center gap-1 rounded-full border-2 bg-white/95 px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider backdrop-blur" style="border-color:${color}; color:${color}">${categoryIcons[product.category] || ''}<span>${categories[product.category]}</span></span>
                 ${product.digital ? '<span class="absolute right-2 top-2 rounded-full border-2 border-neutral-900 bg-[#6699FF] px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider text-neutral-900">Digital</span>' : ''}
@@ -260,7 +260,7 @@ function renderProduct(code, category = null) {
             <div class="panel flex flex-col gap-3 rounded-2xl p-4">
                 <div class="aspect-square w-full overflow-hidden rounded-xl border-2 border-neutral-900" style="background:${tint(color, 0.12)}">
                     ${product.image
-                        ? `<img id="product-main-image" src="${product.image}" alt="${product.name}" class="h-full w-full object-contain transition duration-300">`
+                        ? `<img id="product-main-image" src="${product.image}" alt="${product.name}" class="h-full w-full cursor-zoom-in object-contain transition duration-300">`
                         : `<div class="flex h-full w-full items-center justify-center opacity-70 [&_svg]:h-24 [&_svg]:w-24">${categoryIcons[product.category] || ''}</div>`}
                 </div>
                 ${(product.images?.length || 0) > 1
@@ -328,8 +328,27 @@ function renderProduct(code, category = null) {
 
     const mainImage = document.getElementById('product-main-image');
     if (mainImage) {
+        mainImage.addEventListener('mouseenter', () => {
+            mainImage.style.transition = 'transform 120ms ease-out';
+        });
+
+        mainImage.addEventListener('mousemove', (event) => {
+            const rect = mainImage.getBoundingClientRect();
+            const x = Math.max(0, Math.min(100, ((event.clientX - rect.left) / rect.width) * 100));
+            const y = Math.max(0, Math.min(100, ((event.clientY - rect.top) / rect.height) * 100));
+            mainImage.style.transformOrigin = `${x}% ${y}%`;
+            mainImage.style.transform = 'scale(2.2)';
+        });
+
+        mainImage.addEventListener('mouseleave', () => {
+            mainImage.style.transform = 'scale(1)';
+        });
+
+        mainImage.addEventListener('click', () => openLightbox(mainImage.src));
+
         productDetail.querySelectorAll('[data-gallery-src]').forEach((thumb) => {
             thumb.addEventListener('click', () => {
+                mainImage.style.transform = 'scale(1)';
                 mainImage.src = thumb.dataset.gallerySrc;
                 productDetail.querySelectorAll('[data-gallery-src]').forEach((other) => {
                     other.classList.toggle('ring-2', other === thumb);
@@ -390,6 +409,63 @@ document.addEventListener('error', (event) => {
         target.style.display = 'none';
     }
 }, true);
+
+/* ---------- Image previews ---------- */
+const previewBox = document.getElementById('hover-preview');
+const previewImage = previewBox?.querySelector('img');
+const lightbox = document.getElementById('image-lightbox');
+const lightboxImage = document.getElementById('lightbox-image');
+
+function placePreview(x, y) {
+    const size = 264;
+    const left = Math.min(x + 22, window.innerWidth - size - 12);
+    const top = Math.min(y + 18, window.innerHeight - size - 12);
+    previewBox.style.left = `${Math.max(12, left)}px`;
+    previewBox.style.top = `${Math.max(12, top)}px`;
+}
+
+function hidePreview() {
+    previewBox?.classList.add('hidden');
+}
+
+document.addEventListener('mousemove', (event) => {
+    if (!previewBox) return;
+    const target = event.target.closest('[data-preview]');
+    if (!target) {
+        hidePreview();
+        return;
+    }
+    if (previewImage.getAttribute('src') !== target.dataset.preview) {
+        previewImage.src = target.dataset.preview;
+        previewBox.classList.remove('hidden');
+    }
+    placePreview(event.clientX, event.clientY);
+});
+
+document.addEventListener('scroll', hidePreview, true);
+
+function openLightbox(src) {
+    if (!lightbox || !src) return;
+    lightboxImage.src = src;
+    lightbox.classList.remove('hidden');
+    lightbox.classList.add('flex');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeLightbox() {
+    if (!lightbox) return;
+    lightbox.classList.add('hidden');
+    lightbox.classList.remove('flex');
+    document.body.style.overflow = '';
+}
+
+document.getElementById('lightbox-close')?.addEventListener('click', closeLightbox);
+lightbox?.addEventListener('click', (event) => {
+    if (event.target === lightbox || event.target === lightboxImage) closeLightbox();
+});
+document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') closeLightbox();
+});
 
 document.getElementById('product-back').addEventListener('click', () => {
     location.hash = '#products';

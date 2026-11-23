@@ -470,6 +470,16 @@
         </div>
     </div>
 
+    <div id="hover-preview" class="pointer-events-none fixed z-[80] hidden overflow-hidden rounded-xl border-2 border-neutral-900 bg-white shadow-[6px_6px_0_#111]">
+        <img alt="" class="h-64 w-64 object-contain">
+    </div>
+
+    <div id="image-lightbox" class="fixed inset-0 z-[90] hidden items-center justify-center bg-neutral-900/85 p-4">
+        <button id="lightbox-close" type="button" aria-label="Cerrar"
+            class="absolute right-4 top-4 h-10 w-10 rounded-full border-2 border-neutral-900 bg-white text-lg font-bold text-neutral-900">✕</button>
+        <img id="lightbox-image" alt="" class="max-h-[90vh] max-w-[95vw] rounded-xl border-2 border-white bg-white object-contain">
+    </div>
+
     <script src="script.js"></script>
     <script src="shop.js"></script>
 </body>
