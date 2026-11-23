@@ -5,9 +5,14 @@
     const WHATSAPP = '584246441382';
 
     const isFile = location.protocol === 'file:';
-    const isForeignDevPort = /^(localhost|127\.0\.0\.1)$/.test(location.hostname) && location.port && location.port !== '3000';
     const apiOverride = document.querySelector('meta[name="melodico-api"]')?.content?.trim();
-    const API_BASE = apiOverride || (isFile || isForeignDevPort ? 'http://localhost:3000/api' : '/api');
+    const isLocal = /^(localhost|127\.0\.0\.1)$/.test(location.hostname);
+    // Local development always talks to the local server, even if the page carries a production API override.
+    const API_BASE = isFile
+        ? 'http://localhost:3000/api'
+        : isLocal
+            ? `${location.protocol}//${location.hostname}:3000/api`
+            : (apiOverride || '/api');
 
     const el = (id) => document.getElementById(id);
 
@@ -17,6 +22,7 @@
         cart: [],
         lastOrder: null,
         authTab: 'login',
+        challenge: null,
     };
 
     /* ---------------- API ---------------- */
@@ -25,11 +31,16 @@
         const headers = { 'Content-Type': 'application/json' };
         if (auth && state.token) headers.Authorization = `Bearer ${state.token}`;
 
-        const response = await fetch(`${API_BASE}${path}`, {
-            method,
-            headers,
-            body: body === undefined ? undefined : JSON.stringify(body),
-        });
+        let response;
+        try {
+            response = await fetch(`${API_BASE}${path}`, {
+                method,
+                headers,
+                body: body === undefined ? undefined : JSON.stringify(body),
+            });
+        } catch {
+            throw new Error(`No se pudo conectar con el servidor (${API_BASE}). Revisa que esté encendido y que el origen esté permitido.`);
+        }
 
         const data = await response.json().catch(() => ({}));
         if (response.status === 401 && auth && state.token) {
@@ -41,6 +52,35 @@
             throw error;
         }
         return data;
+    }
+
+    /* ---------------- Bot protection (proof of work) ---------------- */
+
+    async function loadChallenge() {
+        try {
+            state.challenge = await api('/shop/auth/challenge', { auth: false });
+        } catch {
+            state.challenge = null;
+        }
+    }
+
+    function decodePayload(token) {
+        const part = token.split('.')[1] || '';
+        const base64 = part.replace(/-/g, '+').replace(/_/g, '/');
+        return JSON.parse(atob(base64));
+    }
+
+    async function solveProof(challenge) {
+        const { c } = decodePayload(challenge.token);
+        const prefix = '0'.repeat(challenge.difficulty);
+        const encoder = new TextEncoder();
+
+        for (let nonce = 0; nonce < 5_000_000; nonce++) {
+            const digest = await crypto.subtle.digest('SHA-256', encoder.encode(`${c}:${nonce}`));
+            const hex = Array.from(new Uint8Array(digest), (byte) => byte.toString(16).padStart(2, '0')).join('');
+            if (hex.startsWith(prefix)) return String(nonce);
+        }
+        throw new Error('No se pudo completar la verificación anti-bots');
     }
 
     /* ---------------- Session ---------------- */
@@ -82,6 +122,7 @@
             button.classList.toggle('bg-[#6699FF]', active);
             button.classList.toggle('bg-white', !active);
         });
+        if (tab === 'register') loadChallenge();
     }
 
     /* ---------------- Cart ---------------- */
@@ -432,7 +473,20 @@
     el('register-form').addEventListener('submit', async (event) => {
         event.preventDefault();
         el('auth-error').textContent = '';
+
+        const button = event.submitter || el('register-form').querySelector('button[type="submit"]');
+        const originalLabel = button?.textContent;
+
         try {
+            if (!state.challenge) await loadChallenge();
+            if (!state.challenge) throw new Error('No se pudo verificar que seas una persona. Revisa tu conexión.');
+
+            if (button) {
+                button.disabled = true;
+                button.textContent = 'Verificando…';
+            }
+            const proofNonce = await solveProof(state.challenge);
+
             const { token, customer } = await api('/shop/auth/register', {
                 method: 'POST',
                 auth: false,
@@ -441,14 +495,24 @@
                     email: el('register-email').value.trim(),
                     phone: el('register-phone').value.trim(),
                     password: el('register-password').value,
+                    website: el('register-website').value,
+                    proofToken: state.challenge.token,
+                    proofNonce,
                 },
             });
+
             saveSession(token, customer);
             el('register-password').value = '';
             setModal('auth-modal', false);
             refreshCart();
         } catch (error) {
             el('auth-error').textContent = error.message;
+            state.challenge = null;
+        } finally {
+            if (button) {
+                button.disabled = false;
+                button.textContent = originalLabel || 'Crear cuenta';
+            }
         }
     });
 
