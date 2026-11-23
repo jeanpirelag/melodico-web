@@ -276,9 +276,9 @@ function renderCatalog(filter = activeFilter) {
             </div>
             <h3 class="text-lg font-extrabold leading-snug tracking-tight text-neutral-900">${product.name}</h3>
             ${(product.brand || product.color || product.subcategory) ? `<p class="mt-1 text-[11px] font-bold uppercase tracking-wider text-neutral-500">${[product.subcategory, product.brand, product.color].filter(Boolean).join(' · ')}</p>` : ''}
-            ${(product.minWidth || product.minHeight) ? `<div class="mt-1.5 flex flex-wrap gap-1.5 text-[10px] font-bold uppercase tracking-wide text-neutral-600">
-                ${product.minWidth ? `<span class="rounded border border-neutral-300 bg-white px-1.5 py-0.5">Ancho mín.: ${product.minWidth} cm</span>` : ''}
-                ${product.minHeight ? `<span class="rounded border border-neutral-300 bg-white px-1.5 py-0.5">Alto mín.: ${product.minHeight} cm</span>` : ''}
+            ${(product.minWidth || product.minHeight) ? `<div class="mt-1.5 flex flex-wrap gap-1.5 text-[10px] font-bold uppercase tracking-wide text-neutral-900">
+                ${product.minWidth ? `<span class="inline-flex items-center gap-1 rounded-full border-2 border-neutral-900 bg-[#6699FF] px-2 py-0.5"><svg class="h-3 w-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="M3 12h18M7 8l-4 4 4 4M17 8l4 4-4 4"/></svg>Ancho mín.: ${product.minWidth} cm</span>` : ''}
+                ${product.minHeight ? `<span class="inline-flex items-center gap-1 rounded-full border-2 border-neutral-900 bg-[#6699FF] px-2 py-0.5"><svg class="h-3 w-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="M12 3v18M8 7l4-4 4 4M8 17l4 4 4-4"/></svg>Alto mín.: ${product.minHeight} cm</span>` : ''}
             </div>` : ''}
             <p class="mt-1.5 line-clamp-2 text-sm text-neutral-600">${product.description}</p>
             <div class="mt-4 flex items-end justify-between gap-3">
@@ -405,8 +405,8 @@ function renderProduct(code, category = null) {
                     ${product.subcategory ? `<span class="rounded-full border-2 border-neutral-900 bg-[#E6E6E6] px-2.5 py-0.5">${product.subcategory}</span>` : ''}
                     ${product.brand ? `<span class="rounded-full border-2 border-neutral-900 bg-white px-2.5 py-0.5">Marca: ${product.brand}</span>` : ''}
                     ${product.color ? `<span class="rounded-full border-2 border-neutral-900 bg-white px-2.5 py-0.5">Color: ${product.color}</span>` : ''}
-                    ${product.minWidth ? `<span class="rounded-full border-2 border-neutral-900 bg-white px-2.5 py-0.5">Ancho mín.: ${product.minWidth} cm</span>` : ''}
-                    ${product.minHeight ? `<span class="rounded-full border-2 border-neutral-900 bg-white px-2.5 py-0.5">Alto mín.: ${product.minHeight} cm</span>` : ''}
+                    ${product.minWidth ? `<span class="rounded-full border-2 border-neutral-900 bg-[#6699FF] px-2.5 py-0.5">Ancho mín.: ${product.minWidth} cm</span>` : ''}
+                    ${product.minHeight ? `<span class="rounded-full border-2 border-neutral-900 bg-[#6699FF] px-2.5 py-0.5">Alto mín.: ${product.minHeight} cm</span>` : ''}
                 </div>` : ''}
 
                 <div class="mt-6 rounded-xl border-2 border-neutral-900 bg-[#F7F7F7] p-4">
