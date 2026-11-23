@@ -73,6 +73,10 @@
             background-color: #E6E6E6;
         }
 
+        .nav-link {
+            white-space: nowrap;
+        }
+
         .panel {
             background: #FFFFFF;
             border: 2px solid #111111;
@@ -176,7 +180,7 @@
                 <span class="text-[10px] font-semibold text-neutral-600">@melodicodesign</span>
             </a>
 
-            <div class="hidden md:flex items-center gap-1">
+            <div class="hidden min-w-0 items-center gap-1 lg:flex">
                 <a href="#products" data-category="all" class="nav-link rounded-full px-3 py-1.5 text-sm font-semibold text-neutral-700 hover:bg-white/70">Todo</a>
                 <a href="#products" data-category="decalKits" class="nav-link rounded-full px-3 py-1.5 text-sm font-semibold text-neutral-700 hover:bg-white/70">Kits de calcas</a>
                 <a href="#products" data-category="stickers" class="nav-link rounded-full px-3 py-1.5 text-sm font-semibold text-neutral-700 hover:bg-white/70">Calcomanías</a>
@@ -192,18 +196,18 @@
                     <span id="cart-count" class="hidden absolute -right-1.5 -top-1.5 min-w-[18px] rounded-full border-2 border-neutral-900 bg-[#6699FF] px-1 text-[10px] font-bold leading-4 text-neutral-900">0</span>
                 </button>
                 <button id="btn-account" type="button" aria-haspopup="dialog" aria-controls="auth-modal"
-                    class="hidden sm:inline-flex h-10 items-center gap-1.5 rounded-lg border-2 border-neutral-900 bg-white px-3 text-sm font-bold text-neutral-900 hover:bg-neutral-100">
+                    class="hidden lg:inline-flex h-10 items-center gap-1.5 rounded-lg border-2 border-neutral-900 bg-white px-3 text-sm font-bold text-neutral-900 hover:bg-neutral-100">
                     <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>
                     <span id="account-label">Ingresar</span>
                 </button>
                 <button id="btn-menu" type="button" aria-expanded="false" aria-controls="mobile-menu" aria-label="Abrir menú"
-                    class="md:hidden h-10 w-10 rounded-lg border-2 border-neutral-900 bg-white flex items-center justify-center">
+                    class="lg:hidden h-10 w-10 rounded-lg border-2 border-neutral-900 bg-white flex items-center justify-center">
                     <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
                 </button>
             </div>
         </nav>
 
-        <div id="mobile-menu" class="hidden md:hidden border-t-2 border-neutral-900 bg-[#E6E6E6]">
+        <div id="mobile-menu" class="hidden lg:hidden border-t-2 border-neutral-900 bg-[#E6E6E6]">
             <div class="max-w-6xl mx-auto px-4 py-3 flex flex-col gap-1">
                 <a href="#products" data-category="all" class="nav-link flex items-center justify-between rounded-lg px-3 py-2 text-sm font-semibold text-neutral-700 hover:bg-white/70">Todo <span class="text-neutral-400">→</span></a>
                 <a href="#products" data-category="decalKits" class="nav-link flex items-center justify-between rounded-lg px-3 py-2 text-sm font-semibold text-neutral-700 hover:bg-white/70">Kits de calcas <span class="text-neutral-400">→</span></a>
@@ -211,7 +215,7 @@
                 <a href="#products" data-category="designs" class="nav-link flex items-center justify-between rounded-lg px-3 py-2 text-sm font-semibold text-neutral-700 hover:bg-white/70">Diseños digitales <span class="text-neutral-400">→</span></a>
                 <a href="#products" data-category="tools" class="nav-link flex items-center justify-between rounded-lg px-3 py-2 text-sm font-semibold text-neutral-700 hover:bg-white/70">Herramientas <span class="text-neutral-400">→</span></a>
                 <button type="button" data-open-whatsapp class="mt-2 rounded-lg border-2 border-neutral-900 bg-[#6699FF] px-3 py-2 text-sm font-bold text-neutral-900">Contacto por WhatsApp</button>
-                <button id="btn-account-mobile" type="button" class="sm:hidden rounded-lg border-2 border-neutral-900 bg-white px-3 py-2 text-sm font-bold text-neutral-900">Ingresar</button>
+                <button id="btn-account-mobile" type="button" class="lg:hidden rounded-lg border-2 border-neutral-900 bg-white px-3 py-2 text-sm font-bold text-neutral-900">Ingresar</button>
             </div>
         </div>
     </header>

@@ -168,39 +168,43 @@ function renderCatalog(filter = activeFilter) {
         });
         const color = categoryColors[product.category] || categoryColors.all;
         card.innerHTML = `
-            <span class="pointer-events-none absolute right-0 top-0 h-16 w-16 rounded-bl-[2rem] transition group-hover:scale-110" style="background:${tint(color, 0.14)}"></span>
-            ${product.image ? `<img src="${product.image}" alt="${product.name}" class="relative mb-3 h-40 w-full rounded-xl border-2 border-neutral-900 object-cover">` : ''}
-            <span class="relative inline-flex w-fit items-center gap-1.5 rounded-full border-2 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider" style="border-color:${color}; color:${color}; background:${tint(color, 0.1)}">${categoryIcons[product.category] || ''}<span>${categories[product.category]}</span></span>
-            <h3 class="relative mt-3 text-xl font-extrabold leading-snug tracking-tight text-neutral-900">${product.name}</h3>
-            <p class="relative mt-2 text-sm text-neutral-600 flex-1">${product.description}</p>
-            ${product.digital ? '<span class="relative mt-3 inline-flex w-fit items-center gap-1 rounded-full border-2 border-neutral-900 bg-white px-2 py-0.5 text-[11px] font-semibold"><span class="h-1.5 w-1.5 rounded-full bg-[#6699FF]"></span>Descarga digital</span>' : ''}
-            <div class="relative mt-6 flex items-center justify-between gap-3">
-                <span class="text-base font-extrabold text-neutral-900">${product.price === null ? 'Consultar precio' : `$${product.price}`}</span>
-                ${product.price === null
-                    ? `<button type="button" data-quote="${product.slug}"
-                        class="inline-flex items-center gap-1.5 rounded-lg border-2 border-neutral-900 bg-[#25D366] px-4 py-2 text-sm font-bold text-neutral-900 shadow-[3px_3px_0_#111] transition hover:-translate-y-0.5 hover:brightness-105 active:translate-y-0 active:shadow-none">
-                        <svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.04 2c-5.5 0-9.96 4.46-9.96 9.96 0 1.76.46 3.42 1.26 4.86L2 22l5.3-1.39a9.9 9.9 0 0 0 4.74 1.2h.01c5.5 0 9.96-4.46 9.96-9.96S17.54 2 12.04 2zm5.8 14.08c-.24.68-1.4 1.3-1.93 1.35-.5.05-.96.23-3.24-.68-2.73-1.08-4.45-3.9-4.59-4.08-.13-.18-1.09-1.45-1.09-2.77 0-1.32.7-1.97.94-2.24.25-.27.54-.34.72-.34l.52.01c.17 0 .39-.06.61.47l.83 2.02c.07.14.11.31 0 .5-.1.18-.16.3-.32.46l-.48.5c-.16.16-.32.34-.14.66.18.32.8 1.32 1.72 2.14 1.18 1.05 1.74 1.24 2.06 1.4.32.15.5.13.68-.08l.98-1.14c.23-.27.42-.2.7-.1l1.99.94c.29.14.48.2.55.32.07.11.07.68-.17 1.36z"/></svg>
-                        Cotizar
-                    </button>`
-                    : `<button type="button" data-buy="${product.slug}"
-                        class="inline-flex items-center gap-1.5 rounded-lg border-2 border-neutral-900 bg-[#6699FF] px-4 py-2 text-sm font-bold text-neutral-900 shadow-[3px_3px_0_#111] transition hover:-translate-y-0.5 hover:bg-[#4d85ff] active:translate-y-0 active:shadow-none">
-                        <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="20" r="1.5"/><circle cx="18" cy="20" r="1.5"/><path d="M2 3h3l2.6 12.4a2 2 0 0 0 2 1.6h8.8a2 2 0 0 0 2-1.6L22 7H6"/></svg>
-                        Comprar
-                    </button>`}
+            <div class="relative mb-4 aspect-[4/3] w-full overflow-hidden rounded-xl border-2 border-neutral-900" style="background:${tint(color, 0.12)}">
+                ${product.image
+                    ? `<img src="${product.image}" alt="${product.name}" loading="lazy" class="h-full w-full object-cover transition duration-300 group-hover:scale-105">`
+                    : `<span class="flex h-full w-full items-center justify-center opacity-70 [&_svg]:h-16 [&_svg]:w-16">${categoryIcons[product.category] || ''}</span>`}
+                <span class="absolute left-2 top-2 inline-flex items-center gap-1 rounded-full border-2 bg-white/95 px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider backdrop-blur" style="border-color:${color}; color:${color}">${categoryIcons[product.category] || ''}<span>${categories[product.category]}</span></span>
+                ${product.digital ? '<span class="absolute right-2 top-2 rounded-full border-2 border-neutral-900 bg-[#6699FF] px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider text-neutral-900">Digital</span>' : ''}
+                ${(product.images?.length || 0) > 1 ? `<span class="absolute bottom-2 right-2 rounded-full bg-neutral-900/80 px-2 py-0.5 text-[9px] font-bold text-white">${product.images.length} fotos</span>` : ''}
             </div>
-            <div class="relative mt-3 flex gap-2">
-                ${product.price !== null
+            <h3 class="text-lg font-extrabold leading-snug tracking-tight text-neutral-900">${product.name}</h3>
+            <p class="mt-1.5 line-clamp-2 text-sm text-neutral-600">${product.description}</p>
+            <div class="mt-4 flex items-end justify-between gap-3">
+                <div>
+                    <span class="block text-[10px] font-bold uppercase tracking-wider text-neutral-400">${product.code || ''}</span>
+                    <span class="text-xl font-extrabold text-neutral-900">${product.price === null ? 'A cotizar' : `$${product.price}`}</span>
+                </div>
+                <span class="inline-flex items-center gap-1 text-[11px] font-bold text-neutral-500 transition group-hover:text-neutral-900">
+                    Ver detalle
+                    <svg class="h-3.5 w-3.5 transition group-hover:translate-x-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+                </span>
+            </div>
+            <div class="mt-4 flex gap-2">
+                ${product.price === null
                     ? `<button type="button" data-quote="${product.slug}"
                         class="inline-flex flex-1 items-center justify-center gap-1.5 rounded-lg border-2 border-neutral-900 bg-[#25D366] px-3 py-2 text-xs font-bold text-neutral-900 transition hover:-translate-y-0.5 hover:brightness-105">
                         <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.04 2c-5.5 0-9.96 4.46-9.96 9.96 0 1.76.46 3.42 1.26 4.86L2 22l5.3-1.39a9.9 9.9 0 0 0 4.74 1.2h.01c5.5 0 9.96-4.46 9.96-9.96S17.54 2 12.04 2zm5.8 14.08c-.24.68-1.4 1.3-1.93 1.35-.5.05-.96.23-3.24-.68-2.73-1.08-4.45-3.9-4.59-4.08-.13-.18-1.09-1.45-1.09-2.77 0-1.32.7-1.97.94-2.24.25-.27.54-.34.72-.34l.52.01c.17 0 .39-.06.61.47l.83 2.02c.07.14.11.31 0 .5-.1.18-.16.3-.32.46l-.48.5c-.16.16-.32.34-.14.66.18.32.8 1.32 1.72 2.14 1.18 1.05 1.74 1.24 2.06 1.4.32.15.5.13.68-.08l.98-1.14c.23-.27.42-.2.7-.1l1.99.94c.29.14.48.2.55.32.07.11.07.68-.17 1.36z"/></svg>
                         Cotizar
                     </button>`
-                    : ''}
-                <button type="button" data-add-cart="${product.slug}"
-                    class="inline-flex flex-1 items-center justify-center gap-1.5 rounded-lg border-2 border-neutral-900 bg-white px-3 py-2 text-xs font-bold text-neutral-900 transition hover:-translate-y-0.5 hover:bg-[#E6E6E6] active:translate-y-0">
-                    <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
-                    Agregar
-                </button>
+                    : `<button type="button" data-buy="${product.slug}"
+                        class="inline-flex flex-1 items-center justify-center gap-1.5 rounded-lg border-2 border-neutral-900 bg-[#6699FF] px-3 py-2 text-xs font-bold text-neutral-900 shadow-[2px_2px_0_#111] transition hover:-translate-y-0.5 hover:bg-[#4d85ff]">
+                        <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="20" r="1.5"/><circle cx="18" cy="20" r="1.5"/><path d="M2 3h3l2.6 12.4a2 2 0 0 0 2 1.6h8.8a2 2 0 0 0 2-1.6L22 7H6"/></svg>
+                        Comprar
+                    </button>
+                    <button type="button" data-quote="${product.slug}"
+                        class="inline-flex flex-1 items-center justify-center gap-1.5 rounded-lg border-2 border-neutral-900 bg-[#25D366] px-3 py-2 text-xs font-bold text-neutral-900 transition hover:-translate-y-0.5 hover:brightness-105">
+                        <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.04 2c-5.5 0-9.96 4.46-9.96 9.96 0 1.76.46 3.42 1.26 4.86L2 22l5.3-1.39a9.9 9.9 0 0 0 4.74 1.2h.01c5.5 0 9.96-4.46 9.96-9.96S17.54 2 12.04 2zm5.8 14.08c-.24.68-1.4 1.3-1.93 1.35-.5.05-.96.23-3.24-.68-2.73-1.08-4.45-3.9-4.59-4.08-.13-.18-1.09-1.45-1.09-2.77 0-1.32.7-1.97.94-2.24.25-.27.54-.34.72-.34l.52.01c.17 0 .39-.06.61.47l.83 2.02c.07.14.11.31 0 .5-.1.18-.16.3-.32.46l-.48.5c-.16.16-.32.34-.14.66.18.32.8 1.32 1.72 2.14 1.18 1.05 1.74 1.24 2.06 1.4.32.15.5.13.68-.08l.98-1.14c.23-.27.42-.2.7-.1l1.99.94c.29.14.48.2.55.32.07.11.07.68-.17 1.36z"/></svg>
+                        Cotizar
+                    </button>`}
             </div>`;
         catalogElement.appendChild(card);
     });
@@ -252,49 +256,66 @@ function renderProduct(code, category = null) {
     const priceLabel = product.price === null ? 'Consultar precio' : `$${product.price}`;
 
     productDetail.innerHTML = `
-        <div class="grid gap-6 md:grid-cols-[minmax(0,1fr)_2fr]">
-            <div class="panel flex flex-col gap-2 rounded-2xl p-4" style="background:${tint(color, 0.12)}">
-                ${product.image
-                    ? `<img id="product-main-image" src="${product.image}" alt="${product.name}" class="w-full rounded-xl border-2 border-neutral-900 object-cover">
-                       ${(product.images?.length || 0) > 1
-                            ? `<div class="flex gap-2 overflow-x-auto pb-1">${product.images.map((image) => `
-                                <button type="button" data-gallery-src="${image.image}" aria-label="Ver imagen"
-                                    class="shrink-0 overflow-hidden rounded-lg border-2 border-neutral-900 ${image.image === product.image ? 'ring-2 ring-[#6699FF]' : ''}">
-                                    <img src="${image.image}" alt="" class="h-14 w-14 object-cover">
-                                </button>`).join('')}</div>`
-                            : ''}`
-                    : `<div class="flex items-center justify-center py-8"><span class="[&_svg]:h-24 [&_svg]:w-24">${categoryIcons[product.category] || ''}</span></div>`}
+        <div class="grid gap-6 md:grid-cols-[minmax(0,1.1fr)_1fr]">
+            <div class="panel flex flex-col gap-3 rounded-2xl p-4">
+                <div class="aspect-square w-full overflow-hidden rounded-xl border-2 border-neutral-900" style="background:${tint(color, 0.12)}">
+                    ${product.image
+                        ? `<img id="product-main-image" src="${product.image}" alt="${product.name}" class="h-full w-full object-contain transition duration-300">`
+                        : `<div class="flex h-full w-full items-center justify-center opacity-70 [&_svg]:h-24 [&_svg]:w-24">${categoryIcons[product.category] || ''}</div>`}
+                </div>
+                ${(product.images?.length || 0) > 1
+                    ? `<div class="flex gap-2 overflow-x-auto pb-1">${product.images.map((image) => `
+                        <button type="button" data-gallery-src="${image.image}" aria-label="Ver imagen"
+                            class="shrink-0 overflow-hidden rounded-lg border-2 border-neutral-900 ${image.image === product.image ? 'ring-2 ring-[#6699FF]' : ''}">
+                            <img src="${image.image}" alt="" class="h-16 w-16 object-cover">
+                        </button>`).join('')}</div>`
+                    : ''}
             </div>
+
             <div class="panel flex flex-col rounded-2xl p-6 md:p-8">
-                <span class="inline-flex w-fit items-center gap-1.5 rounded-full border-2 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider" style="border-color:${color}; color:${color}; background:${tint(color, 0.1)}">${categoryIcons[product.category] || ''}<span>${categories[product.category]}</span></span>
+                <div class="flex flex-wrap items-center gap-2">
+                    <span class="inline-flex w-fit items-center gap-1.5 rounded-full border-2 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider" style="border-color:${color}; color:${color}; background:${tint(color, 0.1)}">${categoryIcons[product.category] || ''}<span>${categories[product.category]}</span></span>
+                    ${product.digital ? '<span class="inline-flex items-center gap-1 rounded-full border-2 border-neutral-900 bg-[#6699FF] px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-neutral-900">Digital</span>' : ''}
+                </div>
+
                 <h2 class="mt-3 text-2xl font-extrabold leading-tight tracking-tight text-neutral-900 md:text-3xl">${product.name}</h2>
                 <p class="mt-1 flex items-center gap-1.5 text-[11px] font-semibold text-neutral-500">
                     <button type="button" data-category-link class="hover:text-neutral-900 hover:underline">${categories[product.category]}</button>
                     <span aria-hidden="true">/</span>
                     <span class="font-mono uppercase tracking-wider">${product.code || product.slug}</span>
                 </p>
-                <p class="mt-3 text-neutral-600">${product.description}</p>
-                ${product.digital ? '<span class="mt-3 inline-flex w-fit items-center gap-1 rounded-full border-2 border-neutral-900 bg-white px-2 py-0.5 text-[11px] font-semibold"><span class="h-1.5 w-1.5 rounded-full bg-[#6699FF]"></span>Descarga digital</span>' : ''}
-                <p class="mt-6 text-2xl font-extrabold text-neutral-900">${priceLabel}</p>
-                <div class="mt-6 flex flex-wrap gap-3">
-                    ${product.price !== null
-                        ? `<button type="button" data-buy="${product.slug}"
-                            class="inline-flex items-center gap-1.5 rounded-lg border-2 border-neutral-900 bg-[#6699FF] px-5 py-2.5 text-sm font-bold text-neutral-900 shadow-[3px_3px_0_#111] transition hover:-translate-y-0.5 hover:bg-[#4d85ff]">
-                            <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="20" r="1.5"/><circle cx="18" cy="20" r="1.5"/><path d="M2 3h3l2.6 12.4a2 2 0 0 0 2 1.6h8.8a2 2 0 0 0 2-1.6L22 7H6"/></svg>
-                            Comprar
-                        </button>`
-                        : ''}
-                    <button type="button" data-quote="${product.slug}"
-                        class="inline-flex items-center gap-1.5 rounded-lg border-2 border-neutral-900 bg-[#25D366] px-5 py-2.5 text-sm font-bold text-neutral-900 shadow-[3px_3px_0_#111] transition hover:-translate-y-0.5 hover:brightness-105">
-                        <svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.04 2c-5.5 0-9.96 4.46-9.96 9.96 0 1.76.46 3.42 1.26 4.86L2 22l5.3-1.39a9.9 9.9 0 0 0 4.74 1.2h.01c5.5 0 9.96-4.46 9.96-9.96S17.54 2 12.04 2zm5.8 14.08c-.24.68-1.4 1.3-1.93 1.35-.5.05-.96.23-3.24-.68-2.73-1.08-4.45-3.9-4.59-4.08-.13-.18-1.09-1.45-1.09-2.77 0-1.32.7-1.97.94-2.24.25-.27.54-.34.72-.34l.52.01c.17 0 .39-.06.61.47l.83 2.02c.07.14.11.31 0 .5-.1.18-.16.3-.32.46l-.48.5c-.16.16-.32.34-.14.66.18.32.8 1.32 1.72 2.14 1.18 1.05 1.74 1.24 2.06 1.4.32.15.5.13.68-.08l.98-1.14c.23-.27.42-.2.7-.1l1.99.94c.29.14.48.2.55.32.07.11.07.68-.17 1.36z"/></svg>
-                        Cotizar
-                    </button>
-                    <button type="button" data-add-cart="${product.slug}"
-                        class="inline-flex items-center gap-1.5 rounded-lg border-2 border-neutral-900 bg-white px-5 py-2.5 text-sm font-bold text-neutral-900 transition hover:-translate-y-0.5 hover:bg-[#E6E6E6]">
-                        <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
-                        Agregar al carrito
-                    </button>
+
+                <p class="mt-4 text-neutral-600">${product.description}</p>
+
+                <div class="mt-6 rounded-xl border-2 border-neutral-900 bg-[#F7F7F7] p-4">
+                    <span class="block text-[10px] font-bold uppercase tracking-wider text-neutral-500">${product.price === null ? 'Precio' : 'Precio unitario'}</span>
+                    <span class="text-3xl font-extrabold text-neutral-900">${priceLabel}</span>
+                    <div class="mt-4 flex flex-wrap gap-3">
+                        ${product.price !== null
+                            ? `<button type="button" data-buy="${product.slug}"
+                                class="inline-flex flex-1 items-center justify-center gap-1.5 rounded-lg border-2 border-neutral-900 bg-[#6699FF] px-5 py-2.5 text-sm font-bold text-neutral-900 shadow-[3px_3px_0_#111] transition hover:-translate-y-0.5 hover:bg-[#4d85ff]">
+                                <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="20" r="1.5"/><circle cx="18" cy="20" r="1.5"/><path d="M2 3h3l2.6 12.4a2 2 0 0 0 2 1.6h8.8a2 2 0 0 0 2-1.6L22 7H6"/></svg>
+                                Comprar
+                            </button>`
+                            : ''}
+                        <button type="button" data-quote="${product.slug}"
+                            class="inline-flex flex-1 items-center justify-center gap-1.5 rounded-lg border-2 border-neutral-900 bg-[#25D366] px-5 py-2.5 text-sm font-bold text-neutral-900 shadow-[3px_3px_0_#111] transition hover:-translate-y-0.5 hover:brightness-105">
+                            <svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.04 2c-5.5 0-9.96 4.46-9.96 9.96 0 1.76.46 3.42 1.26 4.86L2 22l5.3-1.39a9.9 9.9 0 0 0 4.74 1.2h.01c5.5 0 9.96-4.46 9.96-9.96S17.54 2 12.04 2zm5.8 14.08c-.24.68-1.4 1.3-1.93 1.35-.5.05-.96.23-3.24-.68-2.73-1.08-4.45-3.9-4.59-4.08-.13-.18-1.09-1.45-1.09-2.77 0-1.32.7-1.97.94-2.24.25-.27.54-.34.72-.34l.52.01c.17 0 .39-.06.61.47l.83 2.02c.07.14.11.31 0 .5-.1.18-.16.3-.32.46l-.48.5c-.16.16-.32.34-.14.66.18.32.8 1.32 1.72 2.14 1.18 1.05 1.74 1.24 2.06 1.4.32.15.5.13.68-.08l.98-1.14c.23-.27.42-.2.7-.1l1.99.94c.29.14.48.2.55.32.07.11.07.68-.17 1.36z"/></svg>
+                            Cotizar por WhatsApp
+                        </button>
+                        <button type="button" data-add-cart="${product.slug}"
+                            class="inline-flex w-full items-center justify-center gap-1.5 rounded-lg border-2 border-neutral-900 bg-white px-5 py-2.5 text-sm font-bold text-neutral-900 transition hover:-translate-y-0.5 hover:bg-[#E6E6E6]">
+                            <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+                            Agregar al carrito
+                        </button>
+                    </div>
                 </div>
+
+                <ul class="mt-5 space-y-2 text-xs text-neutral-600">
+                    <li class="flex items-start gap-2"><span class="mt-0.5 text-[#25D366]">✔</span> Asesoría de instalación incluida por WhatsApp.</li>
+                    <li class="flex items-start gap-2"><span class="mt-0.5 text-[#25D366]">✔</span> ${product.digital ? 'Archivos vectoriales para plotter, con líneas de corte.' : 'Vinil de corte profesional listo para aplicar.'}</li>
+                    <li class="flex items-start gap-2"><span class="mt-0.5 text-[#25D366]">✔</span> Coordinamos pago y entrega al confirmar el pedido.</li>
+                </ul>
             </div>
         </div>`;
 
