@@ -196,6 +196,11 @@ function closeProduct() {
     productsMain.classList.remove('hidden');
     document.title = baseTitle;
     if (descriptionTag) descriptionTag.content = baseDescription;
+
+    // Leave the product URL behind: otherwise clicking the same product again would not fire hashchange
+    if (location.hash.startsWith('#/')) {
+        history.replaceState(null, '', `${location.pathname}${location.search}#products`);
+    }
 }
 
 function renderProduct(code, category = null) {
