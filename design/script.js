@@ -209,7 +209,7 @@ function renderCatalog(filter = activeFilter) {
         });
         const color = categoryColors[product.category] || categoryColors.all;
         card.innerHTML = `
-            <div class="relative mb-4 aspect-[4/3] w-full overflow-hidden rounded-xl border-2 border-neutral-900" style="background:${tint(color, 0.12)}">
+            <div class="relative mb-4 aspect-[4/3] w-full overflow-hidden rounded-xl border-2 border-neutral-900" style="background:#E6E6E6">
                 ${product.image
                     ? `<img src="${product.image}" alt="${product.name}" loading="lazy" data-preview="${product.image}" class="h-full w-full object-contain transition duration-300 group-hover:scale-105">`
                     : `<span class="flex h-full w-full items-center justify-center opacity-70 [&_svg]:h-16 [&_svg]:w-16">${categoryIcons[product.category] || ''}</span>`}
@@ -310,7 +310,7 @@ function renderProduct(code, category = null) {
     productDetail.innerHTML = `
         <div class="grid gap-6 md:grid-cols-[minmax(0,1.1fr)_1fr]">
             <div class="panel flex flex-col gap-3 rounded-2xl p-4">
-                <div class="aspect-square w-full overflow-hidden rounded-xl border-2 border-neutral-900" style="background:${tint(color, 0.12)}">
+                <div class="aspect-square w-full overflow-hidden rounded-xl border-2 border-neutral-900" style="background:#E6E6E6">
                     ${product.image
                         ? `<img id="product-main-image" src="${product.image}" alt="${product.name}" class="h-full w-full cursor-zoom-in object-contain transition duration-300">`
                         : `<div class="flex h-full w-full items-center justify-center opacity-70 [&_svg]:h-24 [&_svg]:w-24">${categoryIcons[product.category] || ''}</div>`}
