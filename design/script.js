@@ -363,6 +363,13 @@ document.addEventListener('click', (event) => {
     document.getElementById('btn-whatsapp').click();
 });
 
+document.addEventListener('error', (event) => {
+    const target = event.target;
+    if (target?.tagName === 'IMG' && target.closest('#catalog, #product-view')) {
+        target.style.display = 'none';
+    }
+}, true);
+
 document.getElementById('product-back').addEventListener('click', () => {
     location.hash = '#products';
     if (location.hash === '#products') closeProduct();
