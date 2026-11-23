@@ -3,7 +3,7 @@
 Sitio web estático (HTML/CSS/JS), sin build, sin gestor de paquetes, sin tests ni linter.
 
 ## Convenciones
-- Código (variables, funciones, ids, clases de datos, comentarios) en inglés; textos visibles para el usuario en español.
+- Código (variables, funciones, ids, clases de datos, comentarios) y mensajes de commit en inglés; textos visibles para el usuario en español.
 
 ## Estructura
 - `index.html`: página principal ("En Construcción"). Estilos inline en `<style>`, Tailwind y Lucide por CDN.
