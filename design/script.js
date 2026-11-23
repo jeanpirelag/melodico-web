@@ -505,6 +505,21 @@ function renderProduct(code, category = null) {
 
                 <p class="mt-4 text-neutral-600">${product.description}</p>
 
+                <div class="mt-4 rounded-xl border-2 border-dashed border-neutral-900 bg-[#6699FF]/15 p-4">
+                    <p class="flex items-center gap-2 text-sm font-extrabold text-neutral-900">
+                        <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a9 9 0 1 0 9 9c0-1.5-1-2-2-2h-2a2 2 0 0 0-2 2v1a5 5 0 0 1-5-5h1a2 2 0 0 0 2-2V4c0-1-.5-1-1-1z"/></svg>
+                        Colores y materiales personalizables
+                    </p>
+                    <p class="mt-1 text-xs text-neutral-700">
+                        Todos nuestros diseños se pueden ajustar al color de vinil y al material que necesites,
+                        aunque no aparezca en la foto.
+                    </p>
+                    <button type="button" data-quote="${product.slug}"
+                        class="mt-3 inline-flex items-center gap-1.5 rounded-lg border-2 border-neutral-900 bg-white px-3 py-2 text-xs font-bold text-neutral-900 transition hover:-translate-y-0.5 hover:bg-[#E6E6E6]">
+                        Pedir personalización
+                    </button>
+                </div>
+
                 ${(product.brand || product.color || product.subcategory || product.minWidth || product.minHeight) ? `<div class="mt-4 flex flex-wrap gap-2 text-[11px] font-bold text-neutral-700">
                     ${product.subcategory ? `<span class="rounded-full border-2 border-neutral-900 bg-[#E6E6E6] px-2.5 py-0.5">${product.subcategory}</span>` : ''}
                     ${product.brand ? `<span class="rounded-full border-2 border-neutral-900 bg-white px-2.5 py-0.5">Marca: ${product.brand}</span>` : ''}
@@ -544,21 +559,6 @@ function renderProduct(code, category = null) {
                     <li class="flex items-start gap-2"><span class="mt-0.5 text-[#25D366]">✔</span> ${product.digital ? 'Archivos vectoriales para plotter, con líneas de corte.' : 'Vinil de corte profesional listo para aplicar.'}</li>
                     <li class="flex items-start gap-2"><span class="mt-0.5 text-[#25D366]">✔</span> Coordinamos pago y entrega al confirmar el pedido.</li>
                 </ul>
-
-                <div class="mt-5 rounded-xl border-2 border-dashed border-neutral-900 bg-[#6699FF]/15 p-4">
-                    <p class="flex items-center gap-2 text-sm font-extrabold text-neutral-900">
-                        <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a9 9 0 1 0 9 9c0-1.5-1-2-2-2h-2a2 2 0 0 0-2 2v1a5 5 0 0 1-5-5h1a2 2 0 0 0 2-2V4c0-1-.5-1-1-1z"/></svg>
-                        Colores y materiales personalizables
-                    </p>
-                    <p class="mt-1 text-xs text-neutral-700">
-                        Todos nuestros diseños se pueden ajustar al color de vinil y al material que necesites,
-                        aunque no aparezca en la foto.
-                    </p>
-                    <button type="button" data-quote="${product.slug}"
-                        class="mt-3 inline-flex items-center gap-1.5 rounded-lg border-2 border-neutral-900 bg-white px-3 py-2 text-xs font-bold text-neutral-900 transition hover:-translate-y-0.5 hover:bg-[#E6E6E6]">
-                        Pedir personalización
-                    </button>
-                </div>
             </div>
         </div>`;
 
