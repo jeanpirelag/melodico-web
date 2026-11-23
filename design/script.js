@@ -10,15 +10,15 @@ const categories = {
 // Fallback catalog used when the API is unreachable. The real catalog lives in the database
 // and is managed from /design/panel.
 const fallbackProducts = [
-    { id: 1, slug: 'kit-calcas-casco', category: 'decalKits', name: 'Kit de calcas para casco', description: 'Set de piezas recortadas listas para aplicar.', price: null },
-    { id: 2, slug: 'kit-calcas-vehiculo', category: 'decalKits', name: 'Kit de calcas para vehículo', description: 'Franjas y detalles recortados para carrocería.', price: null },
-    { id: 3, slug: 'calcomania-personalizada', category: 'stickers', name: 'Calcomanía de diseño personalizado', description: 'Vinil de corte para autos, paredes y vitrinas.', price: null },
-    { id: 4, slug: 'pack-plantillas-calcas', category: 'designs', digital: true, name: 'Pack de plantillas para calcas', description: 'Archivos vectoriales listos para plotter, con líneas de corte y sangrado.', price: null },
-    { id: 5, slug: 'mockups-vehiculo', category: 'designs', digital: true, name: 'Mockups de vehículo para portafolio', description: 'Presenta tus proyectos de vinil en carrocerías reales.', price: null },
-    { id: 6, slug: 'tramas-texturas-vinil', category: 'designs', digital: true, name: 'Tramas y texturas para vinil', description: 'Patrones editables para fondos, letreros y detalles.', price: null },
-    { id: 7, slug: 'raspador-aplicacion', category: 'tools', name: 'Raspador de aplicación', description: 'Raspador flexible para eliminar burbujas sin rayar el vinil.', price: null },
-    { id: 8, slug: 'cutter-precision', category: 'tools', name: 'Cutter de precisión', description: 'Cuchilla de punta fina para retirar excedentes.', price: null },
-    { id: 9, slug: 'pistola-calor', category: 'tools', name: 'Pistola de calor', description: 'Control de temperatura para moldear vinil en curvas.', price: null }
+    { id: 1, code: 'MD-0001', slug: 'kit-calcas-casco', category: 'decalKits', name: 'Kit de calcas para casco', description: 'Set de piezas recortadas listas para aplicar.', price: null },
+    { id: 2, code: 'MD-0002', slug: 'kit-calcas-vehiculo', category: 'decalKits', name: 'Kit de calcas para vehículo', description: 'Franjas y detalles recortados para carrocería.', price: null },
+    { id: 3, code: 'MD-0003', slug: 'calcomania-personalizada', category: 'stickers', name: 'Calcomanía de diseño personalizado', description: 'Vinil de corte para autos, paredes y vitrinas.', price: null },
+    { id: 4, code: 'MD-0004', slug: 'pack-plantillas-calcas', category: 'designs', digital: true, name: 'Pack de plantillas para calcas', description: 'Archivos vectoriales listos para plotter, con líneas de corte y sangrado.', price: null },
+    { id: 5, code: 'MD-0005', slug: 'mockups-vehiculo', category: 'designs', digital: true, name: 'Mockups de vehículo para portafolio', description: 'Presenta tus proyectos de vinil en carrocerías reales.', price: null },
+    { id: 6, code: 'MD-0006', slug: 'tramas-texturas-vinil', category: 'designs', digital: true, name: 'Tramas y texturas para vinil', description: 'Patrones editables para fondos, letreros y detalles.', price: null },
+    { id: 7, code: 'MD-0007', slug: 'raspador-aplicacion', category: 'tools', name: 'Raspador de aplicación', description: 'Raspador flexible para eliminar burbujas sin rayar el vinil.', price: null },
+    { id: 8, code: 'MD-0008', slug: 'cutter-precision', category: 'tools', name: 'Cutter de precisión', description: 'Cuchilla de punta fina para retirar excedentes.', price: null },
+    { id: 9, code: 'MD-0009', slug: 'pistola-calor', category: 'tools', name: 'Pistola de calor', description: 'Control de temperatura para moldear vinil en curvas.', price: null }
 ];
 
 let products = fallbackProducts;
@@ -139,12 +139,12 @@ function renderCatalog(filter = activeFilter) {
         card.setAttribute('aria-label', `Ver ${product.name}`);
         card.addEventListener('click', (event) => {
             if (event.target.closest('button')) return;
-            location.hash = `#/producto/${product.slug}`;
+            location.hash = `#/producto/${product.code || product.slug}`;
         });
         card.addEventListener('keydown', (event) => {
             if (event.key === 'Enter' || event.key === ' ') {
                 event.preventDefault();
-                location.hash = `#/producto/${product.slug}`;
+                location.hash = `#/producto/${product.code || product.slug}`;
             }
         });
         const color = categoryColors[product.category] || categoryColors.all;
@@ -186,8 +186,10 @@ function closeProduct() {
     if (descriptionTag) descriptionTag.content = baseDescription;
 }
 
-function renderProduct(slug) {
-    const product = products.find((item) => item.slug === slug);
+function renderProduct(code) {
+    const key = String(code).toUpperCase();
+    const product = products.find((item) => (item.code || '').toUpperCase() === key)
+        || products.find((item) => item.slug === code);
     if (!product) return closeProduct();
 
     const color = categoryColors[product.category] || categoryColors.all;
@@ -203,6 +205,7 @@ function renderProduct(slug) {
                 <h2 class="mt-3 text-2xl font-extrabold leading-tight tracking-tight text-neutral-900 md:text-3xl">
                     <span style="background:linear-gradient(transparent 60%, ${tint(color, 0.38)} 60%)">${product.name}</span>
                 </h2>
+                <p class="mt-1 font-mono text-xs font-semibold uppercase tracking-wider text-neutral-500">${product.code || product.slug}</p>
                 <p class="mt-3 text-neutral-600">${product.description}</p>
                 ${product.digital ? '<span class="mt-3 inline-flex w-fit items-center gap-1 rounded-full border-2 border-neutral-900 bg-white px-2 py-0.5 text-[11px] font-semibold"><span class="h-1.5 w-1.5 rounded-full bg-[#6699FF]"></span>Descarga digital</span>' : ''}
                 <p class="mt-6 text-2xl font-extrabold text-neutral-900">${priceLabel}</p>
