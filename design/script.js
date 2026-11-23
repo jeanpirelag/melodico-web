@@ -327,8 +327,7 @@ function renderCatalog(filter = activeFilter) {
             </div>
             <h3 class="text-lg font-extrabold leading-snug tracking-tight text-neutral-900">${product.name}</h3>
             ${(product.brand || product.color || product.subcategory) ? `<p class="mt-1 text-[11px] font-bold uppercase tracking-wider text-neutral-500">${[product.subcategory, product.brand, product.color].filter(Boolean).join(' · ')}</p>` : ''}
-            ${(product.showSizes && (product.minWidth || product.minHeight)) ? `<div class="mt-1.5 flex flex-wrap gap-1.5 text-[10px] font-bold uppercase tracking-wide text-neutral-900">
-                ${product.minWidth ? `<span class="inline-flex items-center gap-1 whitespace-nowrap rounded-full border-2 border-neutral-900 bg-[#6699FF] px-2 py-0.5"><svg class="h-3 w-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="M3 12h18M7 8l-4 4 4 4M17 8l4 4-4 4"/></svg>Ancho mínimo: ${product.minWidth} cm</span>` : ''}
+            ${(product.showSizes && (product.minWidth || product.minHeight)) ? `<div class="mt-1.5 flex flex-wrap gap-1.5 text-[10px] font-bold uppercase tracking-wide text-neutral-900">                ${product.minWidth ? `<span class="inline-flex items-center gap-1 whitespace-nowrap rounded-full border-2 border-neutral-900 bg-[#6699FF] px-2 py-0.5"><svg class="h-3 w-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="M3 12h18M7 8l-4 4 4 4M17 8l4 4-4 4"/></svg>Ancho mínimo: ${product.minWidth} cm</span>` : ''}
                 ${product.minHeight ? `<span class="inline-flex items-center gap-1 whitespace-nowrap rounded-full border-2 border-neutral-900 bg-[#6699FF] px-2 py-0.5"><svg class="h-3 w-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="M12 3v18M8 7l4-4 4 4M8 17l4 4 4-4"/></svg>Alto mínimo: ${product.minHeight} cm</span>` : ''}
             </div>` : ''}
             <p class="mt-1.5 line-clamp-2 text-sm text-neutral-600">${product.description}</p>
@@ -337,6 +336,7 @@ function renderCatalog(filter = activeFilter) {
                     <span class="block text-[10px] font-bold uppercase tracking-wider text-neutral-400">${product.code || ''}</span>
                     <span class="text-xl font-extrabold text-neutral-900">${product.price === null ? 'A cotizar' : refPrice(product.price)}</span>
                     ${bsPrice(product.price) ? `<span class="block text-[10px] font-semibold text-neutral-500">${bsPrice(product.price)}</span>` : ''}
+                    ${product.minPurchase ? `<span class="block text-[10px] font-bold text-[#b3002d]">Compra mínima: ${product.minPurchase} REF</span>` : ''}
                 </div>
                 <span class="inline-flex items-center gap-1 text-[11px] font-bold text-neutral-500 transition group-hover:text-neutral-900">
                     Ver detalle
@@ -502,6 +502,7 @@ function renderProduct(code, category = null) {
                     ${product.color ? `<span class="rounded-full border-2 border-neutral-900 bg-white px-2.5 py-0.5">Color: ${product.color}</span>` : ''}
                     ${product.showSizes && product.minWidth ? `<span class="whitespace-nowrap rounded-full border-2 border-neutral-900 bg-[#6699FF] px-2.5 py-0.5">Ancho mínimo: ${product.minWidth} cm</span>` : ''}
                     ${product.showSizes && product.minHeight ? `<span class="whitespace-nowrap rounded-full border-2 border-neutral-900 bg-[#6699FF] px-2.5 py-0.5">Alto mínimo: ${product.minHeight} cm</span>` : ''}
+                    ${product.minPurchase ? `<span class="whitespace-nowrap rounded-full border-2 border-neutral-900 bg-[#FF4D6D] px-2.5 py-0.5 text-white">Compra mínima: ${product.minPurchase} REF</span>` : ''}
                 </div>` : ''}
 
                 <h2 class="mt-3 text-2xl font-extrabold leading-tight tracking-tight text-neutral-900 md:text-3xl">${product.name}</h2>
