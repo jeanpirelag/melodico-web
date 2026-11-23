@@ -103,7 +103,7 @@ const PISTAS = [
     { titulo: 'Bailar Contigo (Remix)', artista: 'Monsieur Periné & LEEB', archivo: '../assets/audio/bailar-contigo-remix.mp3' },
     { titulo: 'Enséñame a Soñar', artista: 'DJ Goozo x Massianello x Susan Díaz', archivo: '../assets/audio/ensename-a-sonar.mp3' },
     { titulo: 'Me Provocas', artista: 'Fumaratto', archivo: '../assets/audio/me-provocas.mp3' },
-    { titulo: 'Devuélvete (Guaracha)', artista: '—', archivo: '../assets/audio/devuelvete-guaracha.mp3' },
+    { titulo: 'Devuélvete (Natz Remix)', artista: 'Carla Morrison', archivo: '../assets/audio/devuelvete-natz-remix.mp3' },
 ];
 
 const musica = (() => {
