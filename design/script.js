@@ -1,68 +1,132 @@
 const categories = {
-    stickers: 'Calcomanías',
     decalKits: 'Kits de calcas',
-    tools: 'Herramientas',
-    designs: 'Diseños digitales'
+    stickers: 'Calcomanías',
+    designs: 'Diseños digitales',
+    tools: 'Herramientas'
 };
 
 // Sample catalog: replace with real products. price: null renders "Consultar precio".
 // digital: true marks downloadable files (SVG, AI, PDF) for other designers.
 const products = [
-    { id: 1, category: 'stickers', name: 'Calcomanía de diseño personalizado', description: 'Vinil de corte para autos, paredes y vitrinas.', price: null },
-    { id: 2, category: 'decalKits', name: 'Kit de calcas para casco', description: 'Set de piezas recortadas listas para aplicar.', price: null },
-    { id: 3, category: 'tools', name: 'Raspador de aplicación', description: 'Raspador flexible para eliminar burbujas sin rayar el vinil.', price: null },
-    { id: 4, category: 'tools', name: 'Cutter de precisión', description: 'Cuchilla de punta fina para retirar excedentes.', price: null },
-    { id: 5, category: 'tools', name: 'Pistola de calor', description: 'Control de temperatura para moldear vinil en curvas.', price: null },
-    { id: 6, category: 'decalKits', name: 'Kit de calcas para vehículo', description: 'Franjas y detalles recortados para carrocería.', price: null },
-    { id: 7, category: 'designs', digital: true, name: 'Pack de plantillas para calcas', description: 'Archivos vectoriales listos para plotter, con líneas de corte y sangrado.', price: null },
-    { id: 8, category: 'designs', digital: true, name: 'Mockups de vehículo para portafolio', description: 'Presenta tus proyectos de vinil en carrocerías reales.', price: null },
-    { id: 9, category: 'designs', digital: true, name: 'Tramas y texturas para vinil', description: 'Patrones editables para fondos, letreros y detalles.', price: null }
+    { id: 1, slug: 'kit-calcas-casco', category: 'decalKits', name: 'Kit de calcas para casco', description: 'Set de piezas recortadas listas para aplicar.', price: null },
+    { id: 2, slug: 'kit-calcas-vehiculo', category: 'decalKits', name: 'Kit de calcas para vehículo', description: 'Franjas y detalles recortados para carrocería.', price: null },
+    { id: 3, slug: 'calcomania-personalizada', category: 'stickers', name: 'Calcomanía de diseño personalizado', description: 'Vinil de corte para autos, paredes y vitrinas.', price: null },
+    { id: 4, slug: 'pack-plantillas-calcas', category: 'designs', digital: true, name: 'Pack de plantillas para calcas', description: 'Archivos vectoriales listos para plotter, con líneas de corte y sangrado.', price: null },
+    { id: 5, slug: 'mockups-vehiculo', category: 'designs', digital: true, name: 'Mockups de vehículo para portafolio', description: 'Presenta tus proyectos de vinil en carrocerías reales.', price: null },
+    { id: 6, slug: 'tramas-texturas-vinil', category: 'designs', digital: true, name: 'Tramas y texturas para vinil', description: 'Patrones editables para fondos, letreros y detalles.', price: null },
+    { id: 7, slug: 'raspador-aplicacion', category: 'tools', name: 'Raspador de aplicación', description: 'Raspador flexible para eliminar burbujas sin rayar el vinil.', price: null },
+    { id: 8, slug: 'cutter-precision', category: 'tools', name: 'Cutter de precisión', description: 'Cuchilla de punta fina para retirar excedentes.', price: null },
+    { id: 9, slug: 'pistola-calor', category: 'tools', name: 'Pistola de calor', description: 'Control de temperatura para moldear vinil en curvas.', price: null }
 ];
+
+// The shop module (shop.js) needs the catalog to build cart items.
+window.MELODICO_PRODUCTS = products;
+
+const categoryColors = {
+    all: '#111111',
+    decalKits: '#3b82f6',
+    stickers: '#ec4899',
+    designs: '#8b5cf6',
+    tools: '#f59e0b'
+};
+
+const buildIcon = (path, color) => `<svg class="h-4 w-4 shrink-0" style="color:${color}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${path}</svg>`;
+
+const tint = (hex, alpha = 0.12) => {
+    const value = hex.replace('#', '');
+    const r = parseInt(value.slice(0, 2), 16);
+    const g = parseInt(value.slice(2, 4), 16);
+    const b = parseInt(value.slice(4, 6), 16);
+    return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+};
+
+const categoryIcons = {
+    all: buildIcon('<rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/>', categoryColors.all),
+    decalKits: buildIcon('<path d="m7.5 4.27 9 5.15"/><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/>', categoryColors.decalKits),
+    stickers: buildIcon('<path d="M15.5 3H5a2 2 0 0 0-2 2v14c0 1.1.9 2 2 2h14a2 2 0 0 0 2-2V8.5L15.5 3Z"/><path d="M15 3v6h6"/>', categoryColors.stickers),
+    designs: buildIcon('<path d="m12 19 7-7 3 3-7 7-3-3z"/><path d="m18 13-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/><circle cx="11" cy="11" r="2"/>', categoryColors.designs),
+    tools: buildIcon('<path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>', categoryColors.tools)
+};
 
 const filtersElement = document.getElementById('filters');
 const catalogElement = document.getElementById('catalog');
+const searchInput = document.getElementById('search');
+const noResultsElement = document.getElementById('no-results');
 
-function renderFilters(activeFilter) {
+let activeFilter = 'all';
+
+const normalize = (text) => text
+    .toString()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase()
+    .trim();
+
+function renderFilters(active) {
     filtersElement.innerHTML = '';
     const options = { all: 'Todas', ...categories };
     Object.entries(options).forEach(([key, label]) => {
         const button = document.createElement('button');
-        button.textContent = label;
-        button.className = `px-4 py-2 rounded-full text-sm font-semibold border-2 border-neutral-900 transition ${key === activeFilter
-            ? 'bg-[#6699FF] text-neutral-900'
-            : 'bg-white text-neutral-700 hover:bg-neutral-100'}`;
+        const color = categoryColors[key] || categoryColors.all;
+        const isActive = key === activeFilter;
+        button.innerHTML = `${categoryIcons[key] || ''}<span>${label}</span>`;
+        button.className = `inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-bold border-2 transition duration-200 ${isActive
+            ? '-translate-y-0.5 shadow-[3px_3px_0_#111]'
+            : 'hover:-translate-y-0.5 hover:shadow-[3px_3px_0_#111]'}`;
+        button.style.borderColor = color;
+        button.style.color = isActive ? '#ffffff' : color;
+        button.style.backgroundColor = isActive ? color : tint(color, 0.1);
+        const icon = button.querySelector('svg');
+        if (icon) icon.style.color = isActive ? '#ffffff' : color;
         button.addEventListener('click', () => renderCatalog(key));
         filtersElement.appendChild(button);
     });
 }
 
-function renderCatalog(filter = 'all') {
-    renderFilters(filter);
+function renderCatalog(filter = activeFilter) {
+    activeFilter = filter;
+    renderFilters(activeFilter);
     document.querySelectorAll('.nav-link').forEach(link => {
-        const isActive = link.dataset.category === filter;
+        const isActive = link.dataset.category === activeFilter;
         link.classList.toggle('bg-white', isActive);
         link.classList.toggle('text-neutral-900', isActive);
         if (isActive) link.setAttribute('aria-current', 'true');
         else link.removeAttribute('aria-current');
     });
+
+    const query = normalize(searchInput.value || '');
+    const matches = products.filter(product => {
+        const inCategory = activeFilter === 'all' || product.category === activeFilter;
+        const haystack = normalize(`${product.name} ${product.description} ${categories[product.category]}`);
+        return inCategory && (!query || haystack.includes(query));
+    });
+
     catalogElement.innerHTML = '';
-    products
-        .filter(product => filter === 'all' || product.category === filter)
-        .forEach(product => {
-            const card = document.createElement('article');
-            card.className = 'panel rounded-2xl p-6 flex flex-col';
-            card.innerHTML = `
-                <span class="text-xs font-semibold uppercase tracking-wider text-[#3366FF]">${categories[product.category]}</span>
-                <h3 class="mt-2 text-lg font-bold text-neutral-900">${product.name}</h3>
-                <p class="mt-2 text-sm text-neutral-600 flex-1">${product.description}</p>
-                ${product.digital ? '<span class="mt-3 inline-flex w-fit items-center gap-1 rounded-full border-2 border-neutral-900 bg-[#E6E6E6] px-2 py-0.5 text-[11px] font-semibold">Descarga digital</span>' : ''}
-                <div class="mt-6 flex items-center justify-between">
-                    <span class="font-semibold text-neutral-800">${product.price === null ? 'Consultar precio' : `$${product.price}`}</span>
-                    <button class="px-4 py-2 rounded-lg text-sm font-semibold border-2 border-neutral-900 bg-[#6699FF] hover:bg-[#4d85ff] text-neutral-900">${product.digital ? 'Comprar' : 'Cotizar'}</button>
-                </div>`;
-            catalogElement.appendChild(card);
-        });
+    noResultsElement.classList.toggle('hidden', matches.length > 0);
+
+    matches.forEach(product => {
+        const card = document.createElement('article');
+        card.className = 'panel group relative rounded-2xl p-6 flex flex-col overflow-hidden transition duration-200 hover:-translate-y-1 hover:shadow-[6px_6px_0_#111]';
+        const color = categoryColors[product.category] || categoryColors.all;
+        card.innerHTML = `
+            <span class="pointer-events-none absolute right-0 top-0 h-16 w-16 rounded-bl-[2rem] transition group-hover:scale-110" style="background:${tint(color, 0.14)}"></span>
+            <span class="relative inline-flex w-fit items-center gap-1.5 rounded-full border-2 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider" style="border-color:${color}; color:${color}; background:${tint(color, 0.1)}">${categoryIcons[product.category] || ''}<span>${categories[product.category]}</span></span>
+            <h3 class="relative mt-3 text-lg font-bold text-neutral-900">${product.name}</h3>
+            <p class="relative mt-2 text-sm text-neutral-600 flex-1">${product.description}</p>
+            ${product.digital ? '<span class="relative mt-3 inline-flex w-fit items-center gap-1 rounded-full border-2 border-neutral-900 bg-white px-2 py-0.5 text-[11px] font-semibold"><span class="h-1.5 w-1.5 rounded-full bg-[#6699FF]"></span>Descarga digital</span>' : ''}
+            <div class="relative mt-6 flex items-center justify-between gap-3">
+                <span class="text-base font-extrabold text-neutral-900">${product.price === null ? 'Consultar precio' : `$${product.price}`}</span>
+                <button class="px-4 py-2 rounded-lg text-sm font-bold border-2 border-neutral-900 bg-[#6699FF] text-neutral-900 shadow-[3px_3px_0_#111] transition hover:-translate-y-0.5 hover:bg-[#4d85ff] active:translate-y-0 active:shadow-none">${product.digital ? 'Comprar' : 'Cotizar'}</button>
+            </div>
+            <button type="button" data-add-cart="${product.slug}"
+                class="relative mt-3 w-full rounded-lg border-2 border-neutral-900 bg-white px-4 py-2 text-sm font-bold text-neutral-900 transition hover:-translate-y-0.5 hover:bg-[#E6E6E6] active:translate-y-0">
+                Agregar al carrito
+            </button>`;
+        catalogElement.appendChild(card);
+    });
 }
+
+searchInput.addEventListener('input', () => renderCatalog(activeFilter));
 
 /* ---------- Navigation ---------- */
 const menuButton = document.getElementById('btn-menu');
@@ -91,6 +155,17 @@ document.querySelectorAll('[data-open-whatsapp]').forEach(button => {
         document.getElementById('btn-whatsapp').click();
         if (!mobileMenu.classList.contains('hidden')) toggleMenu();
     });
+});
+
+document.querySelectorAll('.nav-link').forEach(link => {
+    const icon = categoryIcons[link.dataset.category] || '';
+    const label = link.textContent.trim();
+    if (link.classList.contains('justify-between')) {
+        link.innerHTML = `<span class="flex items-center gap-2">${icon}<span>${label}</span></span><span class="text-neutral-400">→</span>`;
+    } else {
+        link.classList.add('inline-flex', 'items-center', 'gap-1.5');
+        link.innerHTML = `${icon}<span>${label}</span>`;
+    }
 });
 
 renderCatalog();
@@ -131,6 +206,8 @@ const music = (() => {
     let isOpen = false;
     let lastSaved = 0;
     let savedState = readState();
+    let pendingTime = savedState.time || 0;
+    let positionRestored = false;
 
     function readState() {
         const defaults = { index: 0, time: 0, volume: 0.8, playing: false, open: false };
@@ -142,15 +219,27 @@ const music = (() => {
     }
 
     function saveState(extra = {}) {
+        // Never overwrite the saved position before it has been restored.
+        const time = positionRestored ? (audio.currentTime || 0) : pendingTime;
         savedState = {
             index: currentIndex,
-            time: audio.currentTime || 0,
+            time,
             volume: audio.volume,
             playing: !audio.paused,
             open: isOpen,
             ...extra,
         };
         localStorage.setItem(STORAGE_KEY, JSON.stringify(savedState));
+    }
+
+    function restorePosition() {
+        if (positionRestored) return;
+        if (pendingTime) {
+            if (!audio.duration) return; // wait until duration is known
+            audio.currentTime = Math.min(pendingTime, Math.max(audio.duration - 1, 0));
+            ui.seek.value = audio.currentTime;
+        }
+        positionRestored = true;
     }
 
     function paintList() {
@@ -200,9 +289,20 @@ const music = (() => {
         }
     }
 
+    function randomIndex() {
+        if (tracks.length < 2) return 0;
+        let index;
+        do {
+            index = Math.floor(Math.random() * tracks.length);
+        } while (index === currentIndex);
+        return index;
+    }
+
     function loadTrack(index, { startPlaying = false } = {}) {
         if (!tracks.length) return paint();
         currentIndex = (index + tracks.length) % tracks.length;
+        pendingTime = 0;
+        positionRestored = true;
         audio.src = tracks[currentIndex].file;
         audio.load();
         if (startPlaying) play();
@@ -212,6 +312,7 @@ const music = (() => {
     }
 
     function play() {
+        restorePosition();
         audio.play().catch(() => paint());
     }
 
@@ -243,12 +344,19 @@ const music = (() => {
         currentIndex = Math.min(savedState.index || 0, tracks.length - 1);
         audio.src = tracks[currentIndex].file;
         audio.addEventListener('loadedmetadata', () => {
-            if (savedState.time && savedState.time < audio.duration) {
-                audio.currentTime = savedState.time;
-            }
+            restorePosition();
             paint();
         }, { once: true });
+        audio.addEventListener('canplay', () => {
+            restorePosition();
+        }, { once: true });
     }
+
+    // Persist the exact position when leaving or hiding the page.
+    window.addEventListener('beforeunload', () => saveState());
+    document.addEventListener('visibilitychange', () => {
+        if (document.visibilityState === 'hidden') saveState();
+    });
 
     // Browsers only allow audio after a user gesture: resume on the first one.
     if (savedState.playing && tracks.length) {
@@ -280,7 +388,7 @@ const music = (() => {
     });
 
     ui.play.addEventListener('click', togglePlayback);
-    ui.next.addEventListener('click', () => loadTrack(currentIndex + 1, { startPlaying: true }));
+    ui.next.addEventListener('click', () => loadTrack(randomIndex(), { startPlaying: true }));
     ui.listButton.addEventListener('click', () => toggleList());
     ui.seek.addEventListener('input', () => {
         audio.currentTime = Number(ui.seek.value);
@@ -288,7 +396,7 @@ const music = (() => {
 
     audio.addEventListener('play', () => { paint(); saveState(); });
     audio.addEventListener('pause', () => { paint(); saveState(); });
-    audio.addEventListener('ended', () => loadTrack(currentIndex + 1, { startPlaying: true }));
+    audio.addEventListener('ended', () => loadTrack(randomIndex(), { startPlaying: true }));
     audio.addEventListener('error', () => {
         ui.artist.textContent = 'No se pudo cargar el audio';
     });
