@@ -217,7 +217,7 @@ function renderCatalog(filter = activeFilter) {
         });
         const color = categoryColors[product.category] || categoryColors.all;
         card.innerHTML = `
-            <div class="relative mb-4 aspect-[4/3] w-full overflow-hidden rounded-xl border-2 border-neutral-900" style="background:#E6E6E6">
+            <div class="watermark relative mb-4 aspect-[4/3] w-full overflow-hidden rounded-xl border-2 border-neutral-900" style="background:#E6E6E6">
                 ${product.image
                     ? `<img src="${product.image}" alt="${product.name}" loading="lazy" data-preview="${product.image}" class="h-full w-full object-contain transition duration-300 group-hover:scale-105">`
                     : `<span class="flex h-full w-full items-center justify-center opacity-70 [&_svg]:h-16 [&_svg]:w-16">${categoryIcons[product.category] || ''}</span>`}
@@ -318,7 +318,7 @@ function renderProduct(code, category = null) {
     productDetail.innerHTML = `
         <div class="grid gap-6 md:grid-cols-[minmax(0,1.1fr)_1fr]">
             <div class="panel flex flex-col gap-3 rounded-2xl p-4">
-                <div class="aspect-square w-full overflow-hidden rounded-xl border-2 border-neutral-900" style="background:#E6E6E6">
+                <div class="watermark aspect-square w-full overflow-hidden rounded-xl border-2 border-neutral-900" style="background:#E6E6E6">
                     ${product.image
                         ? `<img id="product-main-image" src="${product.image}" alt="${product.name}" class="h-full w-full cursor-zoom-in object-contain transition duration-300">`
                         : `<div class="flex h-full w-full items-center justify-center opacity-70 [&_svg]:h-24 [&_svg]:w-24">${categoryIcons[product.category] || ''}</div>`}
@@ -474,6 +474,15 @@ document.addEventListener('error', (event) => {
         target.style.display = 'none';
     }
 }, true);
+
+/* ---------- Image copy protection (client-side deterrent only) ---------- */
+['contextmenu', 'dragstart'].forEach((type) => {
+    document.addEventListener(type, (event) => {
+        if (event.target.closest('#catalog img, #product-view img, #hover-preview img, #image-lightbox img')) {
+            event.preventDefault();
+        }
+    });
+});
 
 /* ---------- Music button: compact while scrolling ---------- */
 const musicTrigger = document.getElementById('btn-music');

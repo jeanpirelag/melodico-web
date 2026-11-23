@@ -78,6 +78,28 @@
             display: none;
         }
 
+        /* Watermark over product images (visual deterrent, not DRM) */
+        .watermark {
+            position: relative;
+        }
+
+        .watermark::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='110'%3E%3Ctext x='6' y='62' transform='rotate(-22 110 55)' font-family='sans-serif' font-size='17' font-weight='700' fill='%23111111' fill-opacity='0.5'%3EMELODICO DESIGN%3C/text%3E%3C/svg%3E");
+            background-repeat: repeat;
+            background-size: 200px 100px;
+            opacity: .55;
+            mix-blend-mode: multiply;
+        }
+
+        img {
+            -webkit-user-drag: none;
+            -webkit-touch-callout: none;
+            user-select: none;
+        }
         .nav-link {
             white-space: nowrap;
         }
@@ -499,14 +521,14 @@
         </div>
     </div>
 
-    <div id="hover-preview" class="pointer-events-none fixed z-[80] hidden overflow-hidden rounded-xl border-2 border-neutral-900 bg-[#E6E6E6] shadow-[6px_6px_0_#111]">
+    <div id="hover-preview" class="watermark pointer-events-none fixed z-[80] hidden overflow-hidden rounded-xl border-2 border-neutral-900 bg-[#E6E6E6] shadow-[6px_6px_0_#111]">
         <img alt="" class="block h-[min(80vh,560px)] w-[min(80vw,560px)] object-contain">
     </div>
 
     <div id="image-lightbox" class="fixed inset-0 z-[90] hidden items-center justify-center bg-neutral-900/85 p-4">
         <button id="lightbox-close" type="button" aria-label="Cerrar"
             class="absolute right-4 top-4 h-10 w-10 rounded-full border-2 border-neutral-900 bg-white text-lg font-bold text-neutral-900">✕</button>
-        <img id="lightbox-image" alt="" class="max-h-[90vh] max-w-[95vw] rounded-xl border-2 border-white bg-white object-contain">
+        <div class="watermark max-h-[90vh] max-w-[95vw] overflow-hidden rounded-xl border-2 border-white bg-white"><img id="lightbox-image" alt="" class="block max-h-[88vh] max-w-[94vw] object-contain"></div>
     </div>
 
     <script src="script.js"></script>
