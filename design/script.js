@@ -111,7 +111,9 @@ function renderCatalog(filter = activeFilter) {
         card.innerHTML = `
             <span class="pointer-events-none absolute right-0 top-0 h-16 w-16 rounded-bl-[2rem] transition group-hover:scale-110" style="background:${tint(color, 0.14)}"></span>
             <span class="relative inline-flex w-fit items-center gap-1.5 rounded-full border-2 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider" style="border-color:${color}; color:${color}; background:${tint(color, 0.1)}">${categoryIcons[product.category] || ''}<span>${categories[product.category]}</span></span>
-            <h3 class="relative mt-3 text-lg font-bold text-neutral-900">${product.name}</h3>
+            <h3 class="relative mt-3 text-xl font-extrabold leading-snug tracking-tight text-neutral-900">
+                <span style="background:linear-gradient(transparent 60%, ${tint(color, 0.38)} 60%)">${product.name}</span>
+            </h3>
             <p class="relative mt-2 text-sm text-neutral-600 flex-1">${product.description}</p>
             ${product.digital ? '<span class="relative mt-3 inline-flex w-fit items-center gap-1 rounded-full border-2 border-neutral-900 bg-white px-2 py-0.5 text-[11px] font-semibold"><span class="h-1.5 w-1.5 rounded-full bg-[#6699FF]"></span>Descarga digital</span>' : ''}
             <div class="relative mt-6 flex items-center justify-between gap-3">
