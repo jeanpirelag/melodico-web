@@ -16,7 +16,7 @@ const fallbackProducts = [
     { id: 4, code: 'MD-0004', slug: 'pack-plantillas-calcas', category: 'designs', digital: true, name: 'Pack de plantillas para calcas', description: 'Archivos vectoriales listos para plotter, con líneas de corte y sangrado.', price: null },
     { id: 5, code: 'MD-0005', slug: 'mockups-vehiculo', category: 'designs', digital: true, name: 'Mockups de vehículo para portafolio', description: 'Presenta tus proyectos de vinil en carrocerías reales.', price: null },
     { id: 6, code: 'MD-0006', slug: 'tramas-texturas-vinil', category: 'designs', digital: true, name: 'Tramas y texturas para vinil', description: 'Patrones editables para fondos, letreros y detalles.', price: null },
-    { id: 7, code: 'MD-0007', slug: 'raspador-aplicacion', category: 'tools', name: 'Raspador de aplicación', description: 'Raspador flexible para eliminar burbujas sin rayar el vinil.', price: null },
+    { id: 7, code: 'MD-0007', slug: 'raspador-aplicacion', category: 'tools', name: 'Espátula de aplicación', description: 'Espátula flexible para eliminar burbujas sin rayar el vinil.', price: null },
     { id: 8, code: 'MD-0008', slug: 'cutter-precision', category: 'tools', name: 'Cutter de precisión', description: 'Cuchilla de punta fina para retirar excedentes.', price: null },
     { id: 9, code: 'MD-0009', slug: 'pistola-calor', category: 'tools', name: 'Pistola de calor', description: 'Control de temperatura para moldear vinil en curvas.', price: null }
 ];
