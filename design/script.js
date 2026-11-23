@@ -188,6 +188,14 @@ function renderCatalog(filter = activeFilter) {
         return inCategory && matchesQuery && matchesBrand && matchesColor && matchesPrice(product.price, priceRange);
     });
 
+    // "Todo" shows the newest products first; a category keeps the order set in the panel
+    if (activeFilter === 'all') {
+        matches.sort((a, b) => {
+            const byDate = new Date(b.createdAt || 0) - new Date(a.createdAt || 0);
+            return byDate !== 0 ? byDate : (b.id || 0) - (a.id || 0);
+        });
+    }
+
     catalogElement.innerHTML = '';
     noResultsElement.classList.toggle('hidden', matches.length > 0);
 
