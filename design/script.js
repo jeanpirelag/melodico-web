@@ -374,9 +374,20 @@ function renderProduct(code, category = null) {
     productDetail.innerHTML = `
         <div class="grid gap-6 md:grid-cols-[minmax(0,1.1fr)_1fr]">
             <div class="panel flex flex-col gap-3 rounded-2xl p-4">
-                <div class="aspect-square w-full overflow-hidden rounded-xl border-2 border-neutral-900" style="background:#E6E6E6">
+                <div class="relative aspect-square w-full overflow-hidden rounded-xl border-2 border-neutral-900" style="background:#E6E6E6" id="product-gallery">
                     ${product.image
-                        ? `<img id="product-main-image" src="${imageSrc(product, product.image)}" alt="${product.name}" class="h-full w-full cursor-zoom-in object-contain transition duration-300">`
+                        ? `<img id="product-main-image" src="${imageSrc(product, product.image)}" alt="${product.name}" class="h-full w-full cursor-zoom-in object-contain transition duration-300">
+                           ${(product.images?.length || 0) > 1
+                                ? `<button type="button" id="gallery-prev" aria-label="Imagen anterior"
+                                       class="absolute left-2 top-1/2 -translate-y-1/2 flex h-9 w-9 items-center justify-center rounded-full border-2 border-neutral-900 bg-white/95 text-neutral-900 shadow-[2px_2px_0_#111] hover:bg-white">
+                                       <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>
+                                   </button>
+                                   <button type="button" id="gallery-next" aria-label="Imagen siguiente"
+                                       class="absolute right-2 top-1/2 -translate-y-1/2 flex h-9 w-9 items-center justify-center rounded-full border-2 border-neutral-900 bg-white/95 text-neutral-900 shadow-[2px_2px_0_#111] hover:bg-white">
+                                       <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>
+                                   </button>
+                                   <span id="gallery-counter" class="absolute bottom-2 left-1/2 -translate-x-1/2 rounded-full bg-neutral-900/80 px-2 py-0.5 text-[10px] font-bold text-white">1 / ${product.images.length}</span>`
+                                : ''}`
                         : `<div class="flex h-full w-full items-center justify-center opacity-70 [&_svg]:h-24 [&_svg]:w-24">${categoryIcons[product.category] || ''}</div>`}
                 </div>
                 ${(product.images?.length || 0) > 1
@@ -452,6 +463,23 @@ function renderProduct(code, category = null) {
 
     const mainImage = document.getElementById('product-main-image');
     if (mainImage) {
+        const gallery = product.images?.length ? product.images : [{ image: product.image }];
+        let galleryIndex = Math.max(0, gallery.findIndex((item) => item.image === product.image));
+
+        const showGalleryImage = (index) => {
+            galleryIndex = (index + gallery.length) % gallery.length;
+            mainImage.style.transform = 'scale(1)';
+            mainImage.src = imageSrc(product, gallery[galleryIndex].image);
+
+            const counter = document.getElementById('gallery-counter');
+            if (counter) counter.textContent = `${galleryIndex + 1} / ${gallery.length}`;
+
+            productDetail.querySelectorAll('[data-gallery-src]').forEach((other, thumbIndex) => {
+                other.classList.toggle('ring-2', thumbIndex === galleryIndex);
+                other.classList.toggle('ring-[#6699FF]', thumbIndex === galleryIndex);
+            });
+        };
+
         mainImage.addEventListener('mouseenter', () => {
             mainImage.style.transition = 'transform 120ms ease-out';
         });
@@ -470,15 +498,31 @@ function renderProduct(code, category = null) {
 
         mainImage.addEventListener('click', () => openLightbox(mainImage.src));
 
-        productDetail.querySelectorAll('[data-gallery-src]').forEach((thumb) => {
-            thumb.addEventListener('click', () => {
-                mainImage.style.transform = 'scale(1)';
-                mainImage.src = thumb.dataset.gallerySrc;
-                productDetail.querySelectorAll('[data-gallery-src]').forEach((other) => {
-                    other.classList.toggle('ring-2', other === thumb);
-                    other.classList.toggle('ring-[#6699FF]', other === thumb);
-                });
-            });
+        document.getElementById('gallery-prev')?.addEventListener('click', (event) => {
+            event.stopPropagation();
+            showGalleryImage(galleryIndex - 1);
+        });
+        document.getElementById('gallery-next')?.addEventListener('click', (event) => {
+            event.stopPropagation();
+            showGalleryImage(galleryIndex + 1);
+        });
+
+        // Swipe on touch devices
+        const galleryBox = document.getElementById('product-gallery');
+        let touchStartX = null;
+        galleryBox?.addEventListener('touchstart', (event) => {
+            touchStartX = event.changedTouches[0].clientX;
+        }, { passive: true });
+        galleryBox?.addEventListener('touchend', (event) => {
+            if (touchStartX === null) return;
+            const delta = event.changedTouches[0].clientX - touchStartX;
+            touchStartX = null;
+            if (Math.abs(delta) < 40 || gallery.length < 2) return;
+            showGalleryImage(galleryIndex + (delta < 0 ? 1 : -1));
+        }, { passive: true });
+
+        productDetail.querySelectorAll('[data-gallery-src]').forEach((thumb, thumbIndex) => {
+            thumb.addEventListener('click', () => showGalleryImage(thumbIndex));
         });
     }
 
