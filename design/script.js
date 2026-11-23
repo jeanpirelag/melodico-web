@@ -496,6 +496,14 @@ function renderProduct(code, category = null) {
                     ${product.digital ? '<span class="inline-flex items-center gap-1 rounded-full border-2 border-neutral-900 bg-[#6699FF] px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-neutral-900">Digital</span>' : ''}
                 </div>
 
+                ${(product.brand || product.color || product.subcategory || product.minWidth || product.minHeight) ? `<div class="mt-2 flex flex-wrap gap-2 text-[11px] font-bold text-neutral-700">
+                    ${product.subcategory ? `<span class="rounded-full border-2 border-neutral-900 bg-[#E6E6E6] px-2.5 py-0.5">${product.subcategory}</span>` : ''}
+                    ${product.brand ? `<span class="rounded-full border-2 border-neutral-900 bg-white px-2.5 py-0.5">Marca: ${product.brand}</span>` : ''}
+                    ${product.color ? `<span class="rounded-full border-2 border-neutral-900 bg-white px-2.5 py-0.5">Color: ${product.color}</span>` : ''}
+                    ${product.showSizes && product.minWidth ? `<span class="whitespace-nowrap rounded-full border-2 border-neutral-900 bg-[#6699FF] px-2.5 py-0.5">Ancho mínimo: ${product.minWidth} cm</span>` : ''}
+                    ${product.showSizes && product.minHeight ? `<span class="whitespace-nowrap rounded-full border-2 border-neutral-900 bg-[#6699FF] px-2.5 py-0.5">Alto mínimo: ${product.minHeight} cm</span>` : ''}
+                </div>` : ''}
+
                 <h2 class="mt-3 text-2xl font-extrabold leading-tight tracking-tight text-neutral-900 md:text-3xl">${product.name}</h2>
                 <p class="mt-1 flex items-center gap-1.5 text-[11px] font-semibold text-neutral-500">
                     <button type="button" data-category-link class="hover:text-neutral-900 hover:underline">${categories[product.category]}</button>
@@ -505,22 +513,14 @@ function renderProduct(code, category = null) {
 
                 <p class="mt-4 text-neutral-600">${product.description}</p>
 
-                <div class="mt-3 flex flex-wrap items-center gap-x-2 gap-y-1 rounded-md border-2 border-dashed border-neutral-900 bg-[#FFE066] px-2.5 py-1.5">
-                    <span class="text-[10px] font-extrabold uppercase tracking-wide text-neutral-900">Colores y materiales personalizables</span>
-                    <span class="text-[10px] text-neutral-700">Ajustamos el vinil al color y material que necesites.</span>
+                <div class="mt-3 flex flex-wrap items-center gap-x-2 gap-y-1 rounded-md border-2 border-dashed border-neutral-900 bg-[#FF4D6D] px-2.5 py-1.5">
+                    <span class="text-[10px] font-extrabold uppercase tracking-wide text-white">Colores y materiales personalizables</span>
+                    <span class="text-[10px] text-white/90">Ajustamos el vinil al color y material que necesites.</span>
                     <button type="button" data-quote="${product.slug}"
                         class="ml-auto rounded border-2 border-neutral-900 bg-white px-2 py-0.5 text-[10px] font-bold text-neutral-900 hover:bg-[#E6E6E6]">
                         Pedir
                     </button>
                 </div>
-
-                ${(product.brand || product.color || product.subcategory || product.minWidth || product.minHeight) ? `<div class="mt-4 flex flex-wrap gap-2 text-[11px] font-bold text-neutral-700">
-                    ${product.subcategory ? `<span class="rounded-full border-2 border-neutral-900 bg-[#E6E6E6] px-2.5 py-0.5">${product.subcategory}</span>` : ''}
-                    ${product.brand ? `<span class="rounded-full border-2 border-neutral-900 bg-white px-2.5 py-0.5">Marca: ${product.brand}</span>` : ''}
-                    ${product.color ? `<span class="rounded-full border-2 border-neutral-900 bg-white px-2.5 py-0.5">Color: ${product.color}</span>` : ''}
-                    ${product.showSizes && product.minWidth ? `<span class="whitespace-nowrap rounded-full border-2 border-neutral-900 bg-[#6699FF] px-2.5 py-0.5">Ancho mínimo: ${product.minWidth} cm</span>` : ''}
-                    ${product.showSizes && product.minHeight ? `<span class="whitespace-nowrap rounded-full border-2 border-neutral-900 bg-[#6699FF] px-2.5 py-0.5">Alto mínimo: ${product.minHeight} cm</span>` : ''}
-                </div>` : ''}
 
                 <div class="mt-6 rounded-xl border-2 border-neutral-900 bg-[#F7F7F7] p-4">
                     <span class="block text-[10px] font-bold uppercase tracking-wider text-neutral-500">${product.price === null ? 'Precio' : 'Precio unitario'}</span>
