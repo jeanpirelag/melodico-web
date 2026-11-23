@@ -215,9 +215,7 @@ function renderProduct(code, category = null) {
             </div>
             <div class="panel flex flex-col rounded-2xl p-6 md:p-8">
                 <span class="inline-flex w-fit items-center gap-1.5 rounded-full border-2 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider" style="border-color:${color}; color:${color}; background:${tint(color, 0.1)}">${categoryIcons[product.category] || ''}<span>${categories[product.category]}</span></span>
-                <h2 class="mt-3 text-2xl font-extrabold leading-tight tracking-tight text-neutral-900 md:text-3xl">
-                    <span style="background:linear-gradient(transparent 60%, ${tint(color, 0.38)} 60%)">${product.name}</span>
-                </h2>
+                <h2 class="mt-3 text-2xl font-extrabold leading-tight tracking-tight text-neutral-900 md:text-3xl">${product.name}</h2>
                 <p class="mt-1 flex items-center gap-1.5 text-[11px] font-semibold text-neutral-500">
                     <button type="button" data-category-link class="hover:text-neutral-900 hover:underline">${categories[product.category]}</button>
                     <span aria-hidden="true">/</span>
