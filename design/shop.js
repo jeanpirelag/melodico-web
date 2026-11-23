@@ -186,9 +186,16 @@
 
             const info = document.createElement('div');
             info.className = 'min-w-0 flex-1';
-            const name = document.createElement('p');
-            name.className = 'truncate text-sm font-bold text-neutral-900';
+            const name = document.createElement('button');
+            name.type = 'button';
+            name.className = 'block max-w-full truncate text-left text-sm font-bold text-neutral-900 underline decoration-transparent underline-offset-2 transition hover:decoration-neutral-900';
             name.textContent = item.name;
+            name.title = 'Ver el producto';
+            name.setAttribute('aria-label', `Ver ${item.name}`);
+            name.addEventListener('click', () => {
+                setModal('cart-modal', false);
+                window.openProductBySlug?.(item.slug);
+            });
             const price = document.createElement('p');
             price.className = 'text-xs text-neutral-500';
             price.textContent = `${formatPrice(item.unitPrice)} · ${item.quantity} u.`;

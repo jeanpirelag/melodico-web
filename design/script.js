@@ -808,6 +808,13 @@ document.querySelectorAll('.nav-link').forEach(link => {
     handleRoute();
 })();
 
+// Used by the cart to open a product page
+window.openProductBySlug = (slug) => {
+    const product = products.find((item) => item.slug === slug);
+    if (!product) return;
+    location.hash = `#/${productPath(product)}`;
+};
+
 /* ---------- Music player ---------- */
 // Add your MP3 files to assets/audio/ and declare each track here.
 // Only use audio you have the right to publish (your own tracks or licensed music).
