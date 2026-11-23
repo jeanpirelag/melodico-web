@@ -210,7 +210,7 @@
             });
 
             shippingNote.textContent = hasPhysical
-                ? 'Envío solo dentro de Venezuela, con pago contra entrega (COD).'
+                ? 'Envío nacional en Venezuela. Pagas el producto por adelantado y el flete al recibir en la agencia.'
                 : (hasDigital ? 'Producto digital: entrega inmediata, sin envío.' : '');
             shippingNote.classList.toggle('hidden', !shippingNote.textContent);
         }
@@ -411,7 +411,7 @@
             `Pedido ${order.reference}:`,
             ...lines,
             order.total !== null ? `Total: ${Number(order.total).toFixed(2)} REF` : 'Total: por cotizar',
-            hasPhysical ? 'Envío: solo dentro de Venezuela, pago contra entrega (COD).' : 'Entrega digital: sin envío.',
+            hasPhysical ? 'Envío: nacional en Venezuela. Producto pagado por adelantado; flete al recibir en la agencia.' : 'Entrega digital: sin envío.',
         ].join('\n');
 
         el('order-whatsapp').href = `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(message)}`;
