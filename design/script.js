@@ -176,6 +176,13 @@ function matchesPrice(price, range) {    if (!range) return true;
     return true;
 }
 
+function imageSrc(product, src) {
+    if (!src) return src;
+    const version = product?.updatedAt ? encodeURIComponent(String(product.updatedAt)) : '';
+    if (!version) return src;
+    return `${src}${src.includes('?') ? '&' : '?'}v=${version}`;
+}
+
 function renderFilters(active) {
     filtersElement.innerHTML = '';
     const options = { all: 'Todas', ...categories };
@@ -261,7 +268,7 @@ function renderCatalog(filter = activeFilter) {
         card.innerHTML = `
             <div class="relative mb-4 aspect-[4/3] w-full overflow-hidden rounded-xl border-2 border-neutral-900" style="background:#E6E6E6">
                 ${product.image
-                    ? `<img src="${product.image}" alt="${product.name}" loading="lazy" data-preview="${product.image}" class="h-full w-full object-contain transition duration-300 group-hover:scale-105">`
+                    ? `<img src="${imageSrc(product, product.image)}" alt="${product.name}" loading="lazy" data-preview="${imageSrc(product, product.image)}" class="h-full w-full object-contain transition duration-300 group-hover:scale-105">`
                     : `<span class="flex h-full w-full items-center justify-center opacity-70 [&_svg]:h-16 [&_svg]:w-16">${categoryIcons[product.category] || ''}</span>`}
                 <span class="absolute left-2 top-2 inline-flex items-center gap-1 rounded-full border-2 bg-white/95 px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider backdrop-blur" style="border-color:${color}; color:${color}">${categoryIcons[product.category] || ''}<span>${categories[product.category]}</span></span>
                 ${product.digital ? '<span class="absolute right-2 top-2 rounded-full border-2 border-neutral-900 bg-[#6699FF] px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider text-neutral-900">Digital</span>' : ''}
@@ -363,14 +370,14 @@ function renderProduct(code, category = null) {
             <div class="panel flex flex-col gap-3 rounded-2xl p-4">
                 <div class="aspect-square w-full overflow-hidden rounded-xl border-2 border-neutral-900" style="background:#E6E6E6">
                     ${product.image
-                        ? `<img id="product-main-image" src="${product.image}" alt="${product.name}" class="h-full w-full cursor-zoom-in object-contain transition duration-300">`
+                        ? `<img id="product-main-image" src="${imageSrc(product, product.image)}" alt="${product.name}" class="h-full w-full cursor-zoom-in object-contain transition duration-300">`
                         : `<div class="flex h-full w-full items-center justify-center opacity-70 [&_svg]:h-24 [&_svg]:w-24">${categoryIcons[product.category] || ''}</div>`}
                 </div>
                 ${(product.images?.length || 0) > 1
                     ? `<div class="flex gap-2 overflow-x-auto pb-1">${product.images.map((image) => `
-                        <button type="button" data-gallery-src="${image.image}" aria-label="Ver imagen"
+                        <button type="button" data-gallery-src="${imageSrc(product, image.image)}" aria-label="Ver imagen"
                             class="shrink-0 overflow-hidden rounded-lg border-2 border-neutral-900 ${image.image === product.image ? 'ring-2 ring-[#6699FF]' : ''}">
-                            <img src="${image.image}" alt="" class="h-16 w-16 object-cover">
+                            <img src="${imageSrc(product, image.image)}" alt="" class="h-16 w-16 object-cover">
                         </button>`).join('')}</div>`
                     : ''}
             </div>
