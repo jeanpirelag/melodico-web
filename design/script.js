@@ -65,6 +65,28 @@ async function loadProducts() {
     }
 }
 
+let bsPerRef = null;
+
+async function loadRates() {
+    try {
+        const response = await fetch(`${API_BASE}/shop/rates`);
+        if (!response.ok) return;
+        const data = await response.json();
+        if (Number.isFinite(data.bsPerRef) && data.bsPerRef > 0) {
+            bsPerRef = data.bsPerRef;
+            window.MELODICO_BS_PER_REF = bsPerRef;
+        }
+    } catch {
+        /* keep REF only */
+    }
+}
+
+const refPrice = (price) => `${price} REF`;
+const bsPrice = (price) => {
+    if (bsPerRef === null || price === null || price === undefined) return '';
+    return `${(Number(price) * bsPerRef).toLocaleString('es-VE', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} Bs`;
+};
+
 // The shop module (shop.js) needs the catalog to build cart items.
 window.MELODICO_PRODUCTS = products;
 
@@ -245,6 +267,7 @@ function renderCatalog(filter = activeFilter) {
         });
     }
 
+    stopCardRotators();
     catalogElement.innerHTML = '';
     noResultsElement.classList.toggle('hidden', matches.length > 0);
 
@@ -284,7 +307,8 @@ function renderCatalog(filter = activeFilter) {
             <div class="mt-4 flex items-end justify-between gap-3">
                 <div>
                     <span class="block text-[10px] font-bold uppercase tracking-wider text-neutral-400">${product.code || ''}</span>
-                    <span class="text-xl font-extrabold text-neutral-900">${product.price === null ? 'A cotizar' : `$${product.price}`}</span>
+                    <span class="text-xl font-extrabold text-neutral-900">${product.price === null ? 'A cotizar' : refPrice(product.price)}</span>
+                    ${bsPrice(product.price) ? `<span class="block text-[10px] font-semibold text-neutral-500">${bsPrice(product.price)}</span>` : ''}
                 </div>
                 <span class="inline-flex items-center gap-1 text-[11px] font-bold text-neutral-500 transition group-hover:text-neutral-900">
                     Ver detalle
@@ -310,7 +334,46 @@ function renderCatalog(filter = activeFilter) {
                     </button>`}
             </div>`;
         catalogElement.appendChild(card);
+        startCardRotator(card, product);
     });
+}
+
+/* ---------- Card image rotation ---------- */
+const cardRotators = [];
+const prefersReducedMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+
+function stopCardRotators() {
+    cardRotators.forEach((timer) => clearInterval(timer));
+    cardRotators.length = 0;
+}
+
+function startCardRotator(card, product) {
+    const images = (product.images?.length ? product.images.map((item) => item.image) : [product.image]).filter(Boolean);
+    if (images.length < 2 || prefersReducedMotion) return;
+
+    const img = card.querySelector('img[data-preview]');
+    if (!img) return;
+
+    let index = Math.max(0, images.indexOf(product.image));
+    let paused = false;
+
+    card.addEventListener('mouseenter', () => { paused = true; });
+    card.addEventListener('mouseleave', () => { paused = false; });
+
+    const timer = setInterval(() => {
+        if (paused || !card.isConnected) return;
+        index = (index + 1) % images.length;
+        const src = imageSrc(product, images[index]);
+        img.style.transition = 'opacity 200ms ease';
+        img.style.opacity = '0.15';
+        setTimeout(() => {
+            img.src = src;
+            img.dataset.preview = src;
+            img.style.opacity = '1';
+        }, 200);
+    }, 4000);
+
+    cardRotators.push(timer);
 }
 
 searchInput.addEventListener('input', () => renderCatalog(activeFilter));
@@ -369,7 +432,7 @@ function renderProduct(code, category = null) {
     if (!product) return closeProduct();
 
     const color = categoryColors[product.category] || categoryColors.all;
-    const priceLabel = product.price === null ? 'Consultar precio' : `$${product.price}`;
+    const priceLabel = product.price === null ? 'Consultar precio' : refPrice(product.price);
 
     productDetail.innerHTML = `
         <div class="grid gap-6 md:grid-cols-[minmax(0,1.1fr)_1fr]">
@@ -425,6 +488,7 @@ function renderProduct(code, category = null) {
                 <div class="mt-6 rounded-xl border-2 border-neutral-900 bg-[#F7F7F7] p-4">
                     <span class="block text-[10px] font-bold uppercase tracking-wider text-neutral-500">${product.price === null ? 'Precio' : 'Precio unitario'}</span>
                     <span class="text-3xl font-extrabold text-neutral-900">${priceLabel}</span>
+                    ${bsPrice(product.price) ? `<span class="block text-xs font-semibold text-neutral-500">${bsPrice(product.price)}</span>` : ''}
                     <div class="mt-4 flex flex-wrap gap-3">
                         ${product.price !== null
                             ? `<button type="button" data-buy="${product.slug}"
@@ -710,6 +774,7 @@ document.querySelectorAll('.nav-link').forEach(link => {
 
 (async () => {
     await loadProducts();
+    await loadRates();
     renderCatalog();
     handleRoute();
 })();

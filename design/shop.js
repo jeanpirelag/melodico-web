@@ -160,7 +160,12 @@
     }
 
     function formatPrice(value) {
-        return value === null || value === undefined ? 'A cotizar' : `$${Number(value).toFixed(2)}`;
+        if (value === null || value === undefined) return 'A cotizar';
+        const ref = `${Number(value).toFixed(2)} REF`;
+        const rate = Number(window.MELODICO_BS_PER_REF);
+        if (!Number.isFinite(rate) || rate <= 0) return ref;
+        const bs = (Number(value) * rate).toLocaleString('es-VE', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        return `${ref} (≈ ${bs} Bs)`;
     }
 
     function renderCart() {
