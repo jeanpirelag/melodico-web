@@ -426,6 +426,7 @@ const productView = document.getElementById('product-view');
 const productDetail = document.getElementById('product-detail');
 const productsMain = document.getElementById('products');
 const heroSection = document.getElementById('hero');
+const tipsView = document.getElementById('tips-view');
 const baseTitle = document.title;
 const descriptionTag = document.querySelector('meta[name="description"]');
 const baseDescription = descriptionTag?.content || '';
@@ -444,15 +445,15 @@ function productPath(product) {
 }
 
 function closeProduct() {
-    if (!productView || productView.classList.contains('hidden')) return;
-    productView.classList.add('hidden');
+    const wasHidden = productView?.classList.contains('hidden') && tipsView?.classList.contains('hidden');
+    productView?.classList.add('hidden');
+    tipsView?.classList.add('hidden');
     productsMain.classList.remove('hidden');
     heroSection?.classList.remove('hidden');
     document.title = baseTitle;
     if (descriptionTag) descriptionTag.content = baseDescription;
 
-    // Leave the product URL behind: otherwise clicking the same product again would not fire hashchange
-    if (location.hash.startsWith('#/')) {
+    if (!wasHidden && location.hash.startsWith('#/')) {
         history.replaceState(null, '', `${location.pathname}${location.search}#products`);
     }
 }
@@ -579,7 +580,7 @@ function renderProduct(code, category = null) {
                 </div>
 
                 <ul class="mt-5 space-y-2 text-xs text-neutral-600">
-                    <li class="flex items-start gap-2"><span class="mt-0.5 text-[#25D366]">✔</span><span>Asesoría de instalación incluida por WhatsApp.</span></li>
+                    <li class="flex items-start gap-2"><span class="mt-0.5 text-[#25D366]">✔</span><span><a href="#tips" class="font-bold underline decoration-[#6699FF] decoration-2 underline-offset-2 hover:text-neutral-900">Tips de instalación</a> para un acabado profesional.</span></li>
                     <li class="flex items-start gap-2"><span class="mt-0.5 text-[#25D366]">✔</span><span>${product.digital ? 'Archivos vectoriales para plotter, con líneas de corte.' : 'Vinil de corte profesional listo para aplicar.'}</span></li>
                     <li class="flex items-start gap-2"><span class="mt-0.5 text-[#25D366]">✔</span><span>${product.digital
                         ? 'Entrega digital, sin costo ni tiempo de envío.'
@@ -662,13 +663,28 @@ function renderProduct(code, category = null) {
 
     productsMain.classList.add('hidden');
     heroSection?.classList.add('hidden');
+    tipsView?.classList.add('hidden');
     productView.classList.remove('hidden');
     document.title = `${product.name} | Melódico Design`;
     if (descriptionTag) descriptionTag.content = `${product.name}: ${product.description}`;
     productView.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
+function showTips() {
+    productView.classList.add('hidden');
+    productsMain.classList.add('hidden');
+    heroSection?.classList.add('hidden');
+    tipsView.classList.remove('hidden');
+    document.title = 'Tips de instalación de vinilo | Melódico Design';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
 function handleRoute() {
+    if (location.hash === '#tips') {
+        showTips();
+        return;
+    }
+
     const legacy = location.hash.match(/^#\/producto\/(.+)$/);
     if (legacy) return renderProduct(decodeURIComponent(legacy[1]));
 
@@ -799,6 +815,11 @@ document.addEventListener('keydown', (event) => {
 document.getElementById('product-back').addEventListener('click', () => {
     location.hash = '#products';
     if (location.hash === '#products') closeProduct();
+});
+
+document.getElementById('tips-back')?.addEventListener('click', () => {
+    location.hash = '#products';
+    closeProduct();
 });
 
 /* ---------- Navigation ---------- */
