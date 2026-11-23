@@ -106,7 +106,20 @@ function renderCatalog(filter = activeFilter) {
 
     matches.forEach(product => {
         const card = document.createElement('article');
-        card.className = 'panel group relative rounded-2xl p-6 flex flex-col overflow-hidden transition duration-200 hover:-translate-y-1 hover:shadow-[6px_6px_0_#111]';
+        card.className = 'panel group relative cursor-pointer rounded-2xl p-6 flex flex-col overflow-hidden transition duration-200 hover:-translate-y-1 hover:shadow-[6px_6px_0_#111]';
+        card.tabIndex = 0;
+        card.setAttribute('role', 'link');
+        card.setAttribute('aria-label', `Ver ${product.name}`);
+        card.addEventListener('click', (event) => {
+            if (event.target.closest('button')) return;
+            location.hash = `#/producto/${product.slug}`;
+        });
+        card.addEventListener('keydown', (event) => {
+            if (event.key === 'Enter' || event.key === ' ') {
+                event.preventDefault();
+                location.hash = `#/producto/${product.slug}`;
+            }
+        });
         const color = categoryColors[product.category] || categoryColors.all;
         card.innerHTML = `
             <span class="pointer-events-none absolute right-0 top-0 h-16 w-16 rounded-bl-[2rem] transition group-hover:scale-110" style="background:${tint(color, 0.14)}"></span>
@@ -130,6 +143,85 @@ function renderCatalog(filter = activeFilter) {
 
 searchInput.addEventListener('input', () => renderCatalog(activeFilter));
 
+/* ---------- Product page ---------- */
+const productView = document.getElementById('product-view');
+const productDetail = document.getElementById('product-detail');
+const productsMain = document.getElementById('products');
+const baseTitle = document.title;
+const descriptionTag = document.querySelector('meta[name="description"]');
+const baseDescription = descriptionTag?.content || '';
+
+function closeProduct() {
+    if (!productView || productView.classList.contains('hidden')) return;
+    productView.classList.add('hidden');
+    productsMain.classList.remove('hidden');
+    document.title = baseTitle;
+    if (descriptionTag) descriptionTag.content = baseDescription;
+}
+
+function renderProduct(slug) {
+    const product = products.find((item) => item.slug === slug);
+    if (!product) return closeProduct();
+
+    const color = categoryColors[product.category] || categoryColors.all;
+    const priceLabel = product.price === null ? 'Consultar precio' : `$${product.price}`;
+
+    productDetail.innerHTML = `
+        <div class="grid gap-6 md:grid-cols-[minmax(0,1fr)_2fr]">
+            <div class="panel flex items-center justify-center rounded-2xl p-10" style="background:${tint(color, 0.12)}">
+                <span class="[&_svg]:h-24 [&_svg]:w-24">${categoryIcons[product.category] || ''}</span>
+            </div>
+            <div class="panel flex flex-col rounded-2xl p-6 md:p-8">
+                <span class="inline-flex w-fit items-center gap-1.5 rounded-full border-2 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider" style="border-color:${color}; color:${color}; background:${tint(color, 0.1)}">${categoryIcons[product.category] || ''}<span>${categories[product.category]}</span></span>
+                <h2 class="mt-3 text-2xl font-extrabold leading-tight tracking-tight text-neutral-900 md:text-3xl">
+                    <span style="background:linear-gradient(transparent 60%, ${tint(color, 0.38)} 60%)">${product.name}</span>
+                </h2>
+                <p class="mt-3 text-neutral-600">${product.description}</p>
+                ${product.digital ? '<span class="mt-3 inline-flex w-fit items-center gap-1 rounded-full border-2 border-neutral-900 bg-white px-2 py-0.5 text-[11px] font-semibold"><span class="h-1.5 w-1.5 rounded-full bg-[#6699FF]"></span>Descarga digital</span>' : ''}
+                <p class="mt-6 text-2xl font-extrabold text-neutral-900">${priceLabel}</p>
+                <div class="mt-6 flex flex-wrap gap-3">
+                    <button type="button" data-add-cart="${product.slug}"
+                        class="rounded-lg border-2 border-neutral-900 bg-[#6699FF] px-5 py-2.5 text-sm font-bold text-neutral-900 shadow-[3px_3px_0_#111] transition hover:-translate-y-0.5 hover:bg-[#4d85ff] active:translate-y-0 active:shadow-none">
+                        Agregar al carrito
+                    </button>
+                    <button id="product-whatsapp" type="button"
+                        class="rounded-lg border-2 border-neutral-900 bg-[#25D366] px-5 py-2.5 text-sm font-bold text-neutral-900 shadow-[3px_3px_0_#111] transition hover:-translate-y-0.5">
+                        Consultar por WhatsApp
+                    </button>
+                </div>
+            </div>
+        </div>`;
+
+    document.getElementById('product-whatsapp').addEventListener('click', () => {
+        const message = document.getElementById('wa-message');
+        if (message) message.value = `Me interesa: ${product.name}`;
+        const productSelect = document.getElementById('wa-product');
+        if (productSelect) productSelect.value = 'otra consulta';
+        document.getElementById('btn-whatsapp').click();
+    });
+
+    productsMain.classList.add('hidden');
+    productView.classList.remove('hidden');
+    document.title = `${product.name} | Melódico Design`;
+    if (descriptionTag) descriptionTag.content = `${product.name}: ${product.description}`;
+    productView.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function handleRoute() {
+    const match = location.hash.match(/^#\/producto\/(.+)$/);
+    if (match) renderProduct(decodeURIComponent(match[1]));
+    else closeProduct();
+}
+
+window.addEventListener('hashchange', handleRoute);
+
+document.getElementById('product-back').addEventListener('click', () => {
+    location.hash = '#products';
+    if (location.hash === '#products') closeProduct();
+});
+
+handleRoute();
+
 /* ---------- Navigation ---------- */
 const menuButton = document.getElementById('btn-menu');
 const mobileMenu = document.getElementById('mobile-menu');
@@ -146,6 +238,7 @@ menuButton.addEventListener('click', toggleMenu);
 document.querySelectorAll('[data-category]').forEach(link => {
     link.addEventListener('click', (event) => {
         event.preventDefault();
+        closeProduct();
         renderCatalog(link.dataset.category);
         document.getElementById('products').scrollIntoView({ behavior: 'smooth', block: 'start' });
         if (!mobileMenu.classList.contains('hidden')) toggleMenu();
