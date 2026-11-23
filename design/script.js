@@ -234,10 +234,17 @@ function renderProduct(code, category = null) {
 
     productDetail.innerHTML = `
         <div class="grid gap-6 md:grid-cols-[minmax(0,1fr)_2fr]">
-            <div class="panel flex items-center justify-center rounded-2xl p-6" style="background:${tint(color, 0.12)}">
+            <div class="panel flex flex-col gap-2 rounded-2xl p-4" style="background:${tint(color, 0.12)}">
                 ${product.image
-                    ? `<img src="${product.image}" alt="${product.name}" class="w-full rounded-xl border-2 border-neutral-900 object-cover">`
-                    : `<span class="[&_svg]:h-24 [&_svg]:w-24">${categoryIcons[product.category] || ''}</span>`}
+                    ? `<img id="product-main-image" src="${product.image}" alt="${product.name}" class="w-full rounded-xl border-2 border-neutral-900 object-cover">
+                       ${(product.images?.length || 0) > 1
+                            ? `<div class="flex gap-2 overflow-x-auto pb-1">${product.images.map((image) => `
+                                <button type="button" data-gallery-src="${image.image}" aria-label="Ver imagen"
+                                    class="shrink-0 overflow-hidden rounded-lg border-2 border-neutral-900 ${image.image === product.image ? 'ring-2 ring-[#6699FF]' : ''}">
+                                    <img src="${image.image}" alt="" class="h-14 w-14 object-cover">
+                                </button>`).join('')}</div>`
+                            : ''}`
+                    : `<div class="flex items-center justify-center py-8"><span class="[&_svg]:h-24 [&_svg]:w-24">${categoryIcons[product.category] || ''}</span></div>`}
             </div>
             <div class="panel flex flex-col rounded-2xl p-6 md:p-8">
                 <span class="inline-flex w-fit items-center gap-1.5 rounded-full border-2 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider" style="border-color:${color}; color:${color}; background:${tint(color, 0.1)}">${categoryIcons[product.category] || ''}<span>${categories[product.category]}</span></span>
@@ -278,6 +285,19 @@ function renderProduct(code, category = null) {
         renderCatalog(product.category);
         productsMain.scrollIntoView({ behavior: 'smooth', block: 'start' });
     });
+
+    const mainImage = document.getElementById('product-main-image');
+    if (mainImage) {
+        productDetail.querySelectorAll('[data-gallery-src]').forEach((thumb) => {
+            thumb.addEventListener('click', () => {
+                mainImage.src = thumb.dataset.gallerySrc;
+                productDetail.querySelectorAll('[data-gallery-src]').forEach((other) => {
+                    other.classList.toggle('ring-2', other === thumb);
+                    other.classList.toggle('ring-[#6699FF]', other === thumb);
+                });
+            });
+        });
+    }
 
     productsMain.classList.add('hidden');
     productView.classList.remove('hidden');
