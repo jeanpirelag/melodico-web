@@ -373,11 +373,20 @@
 
             const statusLabels = {
                 pending: 'Pendiente',
-                confirmed: 'Confirmado',
+                confirmed: 'Cotizado',
                 paid: 'Pagado',
                 shipped: 'Enviado',
                 delivered: 'Entregado',
                 cancelled: 'Cancelado',
+            };
+
+            const statusColors = {
+                pending: { bg: '#fef3c7', color: '#92400e', border: '#92400e' },
+                confirmed: { bg: '#dcfce7', color: '#166534', border: '#166534' },
+                paid: { bg: '#bbf7d0', color: '#14532d', border: '#14532d' },
+                shipped: { bg: '#e0e7ff', color: '#3730a3', border: '#3730a3' },
+                delivered: { bg: '#166534', color: '#ffffff', border: '#166534' },
+                cancelled: { bg: '#fee2e2', color: '#991b1b', border: '#991b1b' },
             };
 
             orders.forEach((order) => {
@@ -400,13 +409,22 @@
                 info.append(reference, date);
 
                 const meta = document.createElement('span');
-                meta.className = 'shrink-0 text-right';
+                meta.className = 'flex shrink-0 flex-col items-end gap-1';
                 const total = document.createElement('span');
-                total.className = 'block text-xs font-bold text-neutral-900';
+                total.className = 'text-xs font-bold text-neutral-900';
                 total.textContent = formatPrice(order.total);
+
+                const isQuote = order.total === null;
+                const palette = isQuote
+                    ? { bg: '#dbeafe', color: '#1e3a8a', border: '#1e3a8a' }
+                    : statusColors[order.status] || statusColors.pending;
                 const status = document.createElement('span');
-                status.className = 'block text-[10px] font-semibold text-neutral-500';
-                status.textContent = statusLabels[order.status] || order.status;
+                status.className = 'inline-block rounded-full border px-2 py-0.5 text-[10px] font-bold';
+                status.style.background = palette.bg;
+                status.style.color = palette.color;
+                status.style.borderColor = palette.border;
+                status.textContent = isQuote ? 'A cotizar' : (statusLabels[order.status] || order.status);
+
                 meta.append(total, status);
 
                 head.append(info, meta);
