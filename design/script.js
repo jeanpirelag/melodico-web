@@ -305,12 +305,19 @@ document.addEventListener('click', (event) => {
     const product = products.find((item) => item.slug === quote.dataset.quote);
     if (!product) return;
 
+    const quoteCategories = {
+        decalKits: 'un kit de calcas',
+        stickers: 'una calcomanía',
+        designs: 'un diseño digital',
+        tools: 'herramientas de instalación'
+    };
+
     const message = document.getElementById('wa-message');
     if (message) {
         message.value = `Me interesa cotizar: ${product.name}${product.code ? ` (${product.code})` : ''}`;
     }
     const productSelect = document.getElementById('wa-product');
-    if (productSelect) productSelect.value = 'otra consulta';
+    if (productSelect) productSelect.value = quoteCategories[product.category] || 'otra consulta';
     document.getElementById('btn-whatsapp').click();
 });
 
