@@ -61,6 +61,50 @@
             transform-origin: bottom center;
         }
 
+        /* Barras de desplazamiento discretas */
+        * {
+            scrollbar-width: thin;
+            scrollbar-color: rgba(17, 17, 17, 0.25) transparent;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background-color: rgba(17, 17, 17, 0.25);
+            border: 2px solid transparent;
+            background-clip: content-box;
+            border-radius: 9999px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background-color: #6699FF;
+        }
+
+        ::-webkit-scrollbar-corner {
+            background: transparent;
+        }
+
+        #lista-musica {
+            scrollbar-width: thin;
+        }
+
+        #lista-musica::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        #lista-musica::-webkit-scrollbar-thumb {
+            background-color: rgba(17, 17, 17, 0.2);
+            border: 1px solid transparent;
+            background-clip: content-box;
+        }
+
         @media (prefers-reduced-motion: reduce) {
             .bailando { animation: none; }
         }
@@ -159,7 +203,7 @@
 
     <div id="panel-musica" class="hidden fixed bottom-6 left-3 z-[55] flex items-end gap-2 max-w-[calc(100vw-1.5rem)]">
         <img src="../assets/images/melodicodesign_isotipo.png" alt="" class="bailando h-9 w-auto shrink-0">
-        <div class="flex w-[210px] max-w-[calc(100vw-5rem)] flex-col gap-1">
+        <div class="flex w-max min-w-[180px] max-w-[min(280px,calc(100vw-5rem))] flex-col gap-1">
             <span class="pointer-events-none select-none text-[10px] font-bold uppercase tracking-wider text-neutral-500">Suena Melódico</span>
             <div id="lista-musica" class="hidden panel max-h-40 overflow-y-auto rounded-xl shadow-[3px_3px_0_#111]"></div>
             <div class="panel rounded-full overflow-hidden shadow-[3px_3px_0_#111]">

@@ -101,6 +101,9 @@ const PISTAS = [
     { titulo: 'Afro Is This Love', artista: 'Bob Marley · Dj Adrián Maniático', archivo: '../assets/audio/afro-is-this-love.mp3' },
     { titulo: 'Toco El Cielo', artista: 'Manco The Sound [Prod. Yilberking]', archivo: '../assets/audio/toco-el-cielo.mp3' },
     { titulo: 'Bailar Contigo (Remix)', artista: 'Monsieur Periné & LEEB', archivo: '../assets/audio/bailar-contigo-remix.mp3' },
+    { titulo: 'Enséñame a Soñar', artista: 'DJ Goozo x Massianello x Susan Díaz', archivo: '../assets/audio/ensename-a-sonar.mp3' },
+    { titulo: 'Me Provocas', artista: 'Fumaratto', archivo: '../assets/audio/me-provocas.mp3' },
+    { titulo: 'Devuélvete (Guaracha)', artista: '—', archivo: '../assets/audio/devuelvete-guaracha.mp3' },
 ];
 
 const musica = (() => {
