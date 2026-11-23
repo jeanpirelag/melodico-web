@@ -470,8 +470,6 @@ function renderProduct(code, category = null) {
     if (product.subcategory) specs.push(['Subcategoría', product.subcategory]);
     if (product.brand) specs.push(['Marca', product.brand]);
     if (product.color) specs.push(['Color', product.color]);
-    if (product.showSizes && product.minWidth) specs.push(['Ancho mínimo', `${product.minWidth} cm`]);
-    if (product.showSizes && product.minHeight) specs.push(['Alto mínimo', `${product.minHeight} cm`]);
 
     productDetail.innerHTML = `
         <div class="grid items-start gap-6 md:grid-cols-[minmax(0,1.1fr)_1fr]">
@@ -529,6 +527,17 @@ function renderProduct(code, category = null) {
                         </dd>
                     </div>
                 </dl>
+
+                ${product.showSizes && (product.minWidth || product.minHeight) ? `<div class="mt-3 grid grid-cols-2 gap-2">
+                    ${product.minWidth ? `<div class="rounded-lg border-2 border-neutral-900 bg-[#6699FF] px-3 py-2 text-center text-neutral-900">
+                        <span class="block text-[9px] font-extrabold uppercase tracking-wider">Ancho mínimo</span>
+                        <span class="text-xl font-extrabold">${product.minWidth} cm</span>
+                    </div>` : ''}
+                    ${product.minHeight ? `<div class="rounded-lg border-2 border-neutral-900 bg-[#8B5CF6] px-3 py-2 text-center text-white">
+                        <span class="block text-[9px] font-extrabold uppercase tracking-wider">Alto mínimo</span>
+                        <span class="text-xl font-extrabold">${product.minHeight} cm</span>
+                    </div>` : ''}
+                </div>` : ''}
 
                 <div class="mt-3 flex flex-wrap items-center gap-x-2 gap-y-1 rounded-md border-2 border-dashed border-neutral-900 bg-[#FF4D6D] px-2.5 py-1.5">
                     <span class="text-[10px] font-extrabold uppercase tracking-wide text-white">Colores y materiales personalizables</span>
