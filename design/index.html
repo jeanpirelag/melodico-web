@@ -287,6 +287,8 @@
         </div>
 
         <div id="subfilters" class="mb-6 hidden flex-wrap items-center justify-center gap-2"></div>
+
+        <p id="rate-note" class="mb-6 hidden text-center text-[11px] font-semibold text-neutral-500"></p>
         <div id="filters" class="flex flex-wrap gap-2 justify-center mb-10"></div>
         <div id="catalog" class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3"></div>
         <p id="no-results" class="hidden text-center text-sm text-neutral-600 py-8">No encontramos productos con esos filtros.</p>
@@ -488,6 +490,7 @@
                     <span>Total</span>
                     <span id="cart-total">A cotizar</span>
                 </div>
+                <p id="cart-rate-note" class="text-[10px] font-medium text-neutral-500">Total en REF (1 REF = 1 EUR). El monto en bolívares es referencial.</p>
                 <label for="cart-notes" class="block text-sm font-semibold text-neutral-800">Notas del pedido <span class="font-normal text-neutral-500">(opcional)</span></label>
                 <textarea id="cart-notes" rows="2" class="w-full rounded-lg border-2 border-neutral-900 bg-white px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-[#6699FF]" placeholder="Medidas, colores, tipo de vinil…"></textarea>
                 <button id="checkout" type="button" class="w-full rounded-lg border-2 border-neutral-900 bg-[#6699FF] px-4 py-3 text-sm font-bold shadow-[3px_3px_0_#111] hover:-translate-y-0.5 transition">Confirmar pedido</button>

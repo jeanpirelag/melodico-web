@@ -66,6 +66,7 @@ async function loadProducts() {
 }
 
 let bsPerRef = null;
+let rateUpdatedAt = null;
 
 async function loadRates() {
     try {
@@ -74,12 +75,39 @@ async function loadRates() {
         const data = await response.json();
         if (Number.isFinite(data.bsPerRef) && data.bsPerRef > 0) {
             bsPerRef = data.bsPerRef;
+            rateUpdatedAt = data.updatedAt || null;
             window.MELODICO_BS_PER_REF = bsPerRef;
+            renderRateNote();
         }
     } catch {
         /* keep REF only */
     }
 }
+
+function renderRateNote() {
+    const note = document.getElementById('rate-note');
+    if (!note) return;
+    if (!Number.isFinite(bsPerRef)) {
+        note.classList.add('hidden');
+        return;
+    }
+
+    const rate = bsPerRef.toLocaleString('es-VE', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    const date = rateUpdatedAt ? new Date(rateUpdatedAt).toLocaleDateString('es-VE') : null;
+    note.innerHTML = `Precios en <strong>REF</strong> (1 REF = 1 EUR). Tasa oficial <strong>BCV</strong> del euro: <strong>Bs ${rate}</strong>${date ? ` · actualizada ${date}` : ''}. El monto en bolívares es referencial.`;
+    note.classList.remove('hidden');
+
+    const cartNote = document.getElementById('cart-rate-note');
+    if (cartNote) {
+        cartNote.textContent = `Total en REF (1 REF = 1 EUR). Tasa BCV: Bs ${rate} por EUR.`;
+    }
+}
+
+const rateCaption = () => {
+    if (!Number.isFinite(bsPerRef)) return 'Precio en REF (1 REF = 1 EUR)';
+    const value = bsPerRef.toLocaleString('es-VE', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    return `Precio en REF (1 REF = 1 EUR) · Tasa BCV: Bs ${value} por EUR`;
+};
 
 const refPrice = (price) => `${price} REF`;
 const bsPrice = (price) => {
@@ -489,6 +517,7 @@ function renderProduct(code, category = null) {
                     <span class="block text-[10px] font-bold uppercase tracking-wider text-neutral-500">${product.price === null ? 'Precio' : 'Precio unitario'}</span>
                     <span class="text-3xl font-extrabold text-neutral-900">${priceLabel}</span>
                     ${bsPrice(product.price) ? `<span class="block text-xs font-semibold text-neutral-500">${bsPrice(product.price)}</span>` : ''}
+                    <span class="mt-1 block text-[10px] font-medium text-neutral-400">${rateCaption()}</span>
                     <div class="mt-4 flex flex-wrap gap-3">
                         ${product.price !== null
                             ? `<button type="button" data-buy="${product.slug}"
