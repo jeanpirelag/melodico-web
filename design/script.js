@@ -139,12 +139,12 @@ function renderCatalog(filter = activeFilter) {
         card.setAttribute('aria-label', `Ver ${product.name}`);
         card.addEventListener('click', (event) => {
             if (event.target.closest('button')) return;
-            location.hash = `#/producto/${product.code || product.slug}`;
+            location.hash = `#/${productPath(product)}`;
         });
         card.addEventListener('keydown', (event) => {
             if (event.key === 'Enter' || event.key === ' ') {
                 event.preventDefault();
-                location.hash = `#/producto/${product.code || product.slug}`;
+                location.hash = `#/${productPath(product)}`;
             }
         });
         const color = categoryColors[product.category] || categoryColors.all;
@@ -178,6 +178,19 @@ const baseTitle = document.title;
 const descriptionTag = document.querySelector('meta[name="description"]');
 const baseDescription = descriptionTag?.content || '';
 
+const categorySlugs = {
+    decalKits: 'kits-de-calcas',
+    stickers: 'calcomanias',
+    designs: 'disenos-digitales',
+    tools: 'herramientas'
+};
+
+const slugToCategory = Object.fromEntries(Object.entries(categorySlugs).map(([key, slug]) => [slug, key]));
+
+function productPath(product) {
+    return `${categorySlugs[product.category] || 'productos'}/${product.code || product.slug}`;
+}
+
 function closeProduct() {
     if (!productView || productView.classList.contains('hidden')) return;
     productView.classList.add('hidden');
@@ -186,10 +199,10 @@ function closeProduct() {
     if (descriptionTag) descriptionTag.content = baseDescription;
 }
 
-function renderProduct(code) {
+function renderProduct(code, category = null) {
     const key = String(code).toUpperCase();
-    const product = products.find((item) => (item.code || '').toUpperCase() === key)
-        || products.find((item) => item.slug === code);
+    const product = products.find((item) => (!category || item.category === category) && (item.code || '').toUpperCase() === key)
+        || products.find((item) => (!category || item.category === category) && item.slug === code);
     if (!product) return closeProduct();
 
     const color = categoryColors[product.category] || categoryColors.all;
@@ -205,7 +218,11 @@ function renderProduct(code) {
                 <h2 class="mt-3 text-2xl font-extrabold leading-tight tracking-tight text-neutral-900 md:text-3xl">
                     <span style="background:linear-gradient(transparent 60%, ${tint(color, 0.38)} 60%)">${product.name}</span>
                 </h2>
-                <p class="mt-1 font-mono text-xs font-semibold uppercase tracking-wider text-neutral-500">${product.code || product.slug}</p>
+                <p class="mt-1 flex items-center gap-1.5 text-[11px] font-semibold text-neutral-500">
+                    <button type="button" data-category-link class="hover:text-neutral-900 hover:underline">${categories[product.category]}</button>
+                    <span aria-hidden="true">/</span>
+                    <span class="font-mono uppercase tracking-wider">${product.code || product.slug}</span>
+                </p>
                 <p class="mt-3 text-neutral-600">${product.description}</p>
                 ${product.digital ? '<span class="mt-3 inline-flex w-fit items-center gap-1 rounded-full border-2 border-neutral-900 bg-white px-2 py-0.5 text-[11px] font-semibold"><span class="h-1.5 w-1.5 rounded-full bg-[#6699FF]"></span>Descarga digital</span>' : ''}
                 <p class="mt-6 text-2xl font-extrabold text-neutral-900">${priceLabel}</p>
@@ -230,6 +247,13 @@ function renderProduct(code) {
         document.getElementById('btn-whatsapp').click();
     });
 
+    productDetail.querySelector('[data-category-link]')?.addEventListener('click', () => {
+        location.hash = '#products';
+        closeProduct();
+        renderCatalog(product.category);
+        productsMain.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+
     productsMain.classList.add('hidden');
     productView.classList.remove('hidden');
     document.title = `${product.name} | Melódico Design`;
@@ -238,9 +262,16 @@ function renderProduct(code) {
 }
 
 function handleRoute() {
-    const match = location.hash.match(/^#\/producto\/(.+)$/);
-    if (match) renderProduct(decodeURIComponent(match[1]));
-    else closeProduct();
+    const legacy = location.hash.match(/^#\/producto\/(.+)$/);
+    if (legacy) return renderProduct(decodeURIComponent(legacy[1]));
+
+    const match = location.hash.match(/^#\/([a-z0-9-]+)\/([A-Za-z0-9_-]+)$/);
+    if (match) {
+        const category = slugToCategory[match[1]];
+        if (category) return renderProduct(match[2], category);
+    }
+
+    closeProduct();
 }
 
 window.addEventListener('hashchange', handleRoute);
