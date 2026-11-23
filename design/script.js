@@ -99,7 +99,8 @@ renderCatalogo();
 // Solo usa audio que tengas derecho a publicar (tus temas o música con licencia).
 const PISTAS = [
     { titulo: 'Afro Is This Love', artista: 'Bob Marley · Dj Adrián Maniático', archivo: '../assets/audio/afro-is-this-love.mp3' },
-    { titulo: 'Toco el Cielo', artista: '—', archivo: '../assets/audio/toco-el-cielo.mp3' },
+    { titulo: 'Toco El Cielo ✈️🐱', artista: 'Manco The Sound [Prod. Yilberking]', archivo: '../assets/audio/toco-el-cielo.mp3' },
+    { titulo: 'Bailar Contigo (Remix)', artista: 'Monsieur Periné & LEEB', archivo: '../assets/audio/bailar-contigo-remix.mp3' },
 ];
 
 const musica = (() => {
