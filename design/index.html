@@ -73,6 +73,11 @@
             background-color: #E6E6E6;
         }
 
+        #btn-music.is-compact .music-label,
+        #btn-music.is-compact .ping-dot {
+            display: none;
+        }
+
         .nav-link {
             white-space: nowrap;
         }
@@ -251,6 +256,30 @@
                     class="w-full rounded-full border-2 border-neutral-900 bg-white pl-11 pr-4 py-2.5 text-sm font-medium text-neutral-900 placeholder:text-neutral-500 outline-none transition focus:ring-2 focus:ring-[#6699FF]">
             </label>
         </div>
+
+        <div class="mb-6 flex flex-wrap items-center justify-center gap-2">
+            <select id="filter-brand" aria-label="Filtrar por marca"
+                class="rounded-full border-2 border-neutral-900 bg-white px-3 py-2 text-xs font-bold text-neutral-800 outline-none focus:ring-2 focus:ring-[#6699FF]">
+                <option value="">Todas las marcas</option>
+            </select>
+            <select id="filter-color" aria-label="Filtrar por color"
+                class="rounded-full border-2 border-neutral-900 bg-white px-3 py-2 text-xs font-bold text-neutral-800 outline-none focus:ring-2 focus:ring-[#6699FF]">
+                <option value="">Todos los colores</option>
+            </select>
+            <select id="filter-price" aria-label="Filtrar por precio"
+                class="rounded-full border-2 border-neutral-900 bg-white px-3 py-2 text-xs font-bold text-neutral-800 outline-none focus:ring-2 focus:ring-[#6699FF]">
+                <option value="">Todos los precios</option>
+                <option value="under10">Menos de $10</option>
+                <option value="10-25">$10 – $25</option>
+                <option value="25-50">$25 – $50</option>
+                <option value="over50">Más de $50</option>
+                <option value="quote">A cotizar</option>
+            </select>
+            <button id="clear-filters" type="button"
+                class="rounded-full border-2 border-neutral-900 bg-white px-3 py-2 text-xs font-bold text-neutral-700 transition hover:bg-neutral-100">
+                Limpiar
+            </button>
+        </div>
         <div id="filters" class="flex flex-wrap gap-2 justify-center mb-10"></div>
         <div id="catalog" class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3"></div>
         <p id="no-results" class="hidden text-center text-sm text-neutral-600 py-8">No encontramos productos con esos filtros.</p>
@@ -286,12 +315,12 @@
 
     <button id="btn-music" type="button" aria-expanded="false" aria-controls="music-panel" aria-label="Poner música"
         class="fixed bottom-6 left-4 z-50 flex h-12 items-center gap-2 rounded-full border-2 border-neutral-900 bg-[#6699FF] px-4 font-bold text-neutral-900 shadow-[4px_4px_0_#111] transition hover:-translate-y-0.5 hover:bg-[#4d85ff]">
-        <span class="relative flex h-2.5 w-2.5">
+        <span class="ping-dot relative flex h-2.5 w-2.5">
             <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-neutral-900 opacity-60"></span>
             <span class="relative inline-flex h-2.5 w-2.5 rounded-full bg-neutral-900"></span>
         </span>
         <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
-        <span class="text-sm">Ponle música a tu compra</span>
+        <span class="music-label text-sm">Ponle música a tu compra</span>
     </button>
 
     <div id="music-panel" class="hidden fixed bottom-6 left-3 z-[55] flex items-end gap-2 max-w-[calc(100vw-1.5rem)]">

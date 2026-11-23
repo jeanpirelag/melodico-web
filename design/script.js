@@ -98,6 +98,10 @@ const filtersElement = document.getElementById('filters');
 const catalogElement = document.getElementById('catalog');
 const searchInput = document.getElementById('search');
 const noResultsElement = document.getElementById('no-results');
+const brandFilter = document.getElementById('filter-brand');
+const colorFilter = document.getElementById('filter-color');
+const priceFilter = document.getElementById('filter-price');
+const clearFiltersButton = document.getElementById('clear-filters');
 
 let activeFilter = 'all';
 
@@ -107,6 +111,31 @@ const normalize = (text) => text
     .replace(/[\u0300-\u036f]/g, '')
     .toLowerCase()
     .trim();
+
+function fillSelect(select, values, placeholder) {
+    const current = select.value;
+    select.innerHTML = `<option value="">${placeholder}</option>`;
+    values.forEach((value) => {
+        const option = document.createElement('option');
+        option.value = value;
+        option.textContent = value;
+        select.appendChild(option);
+    });
+    select.value = values.includes(current) ? current : '';
+    select.disabled = values.length === 0;
+    select.classList.toggle('opacity-50', values.length === 0);
+}
+
+function matchesPrice(price, range) {
+    if (!range) return true;
+    if (range === 'quote') return price === null || price === undefined;
+    if (price === null || price === undefined) return false;
+    if (range === 'under10') return price < 10;
+    if (range === '10-25') return price >= 10 && price < 25;
+    if (range === '25-50') return price >= 25 && price < 50;
+    if (range === 'over50') return price >= 50;
+    return true;
+}
 
 function renderFilters(active) {
     filtersElement.innerHTML = '';
@@ -141,10 +170,22 @@ function renderCatalog(filter = activeFilter) {
     });
 
     const query = normalize(searchInput.value || '');
+    const brand = brandFilter.value;
+    const color = colorFilter.value;
+    const priceRange = priceFilter.value;
+
+    const brands = [...new Set(products.map((item) => item.brand).filter(Boolean))].sort((a, b) => a.localeCompare(b, 'es'));
+    const colors = [...new Set(products.map((item) => item.color).filter(Boolean))].sort((a, b) => a.localeCompare(b, 'es'));
+    fillSelect(brandFilter, brands, 'Todas las marcas');
+    fillSelect(colorFilter, colors, 'Todos los colores');
+
     const matches = products.filter(product => {
         const inCategory = activeFilter === 'all' || product.category === activeFilter;
-        const haystack = normalize(`${product.name} ${product.description} ${categories[product.category]}`);
-        return inCategory && (!query || haystack.includes(query));
+        const haystack = normalize(`${product.name} ${product.description} ${categories[product.category]} ${product.brand || ''} ${product.color || ''}`);
+        const matchesQuery = !query || haystack.includes(query);
+        const matchesBrand = !brand || product.brand === brand;
+        const matchesColor = !color || product.color === color;
+        return inCategory && matchesQuery && matchesBrand && matchesColor && matchesPrice(product.price, priceRange);
     });
 
     catalogElement.innerHTML = '';
@@ -177,6 +218,7 @@ function renderCatalog(filter = activeFilter) {
                 ${(product.images?.length || 0) > 1 ? `<span class="absolute bottom-2 right-2 rounded-full bg-neutral-900/80 px-2 py-0.5 text-[9px] font-bold text-white">${product.images.length} fotos</span>` : ''}
             </div>
             <h3 class="text-lg font-extrabold leading-snug tracking-tight text-neutral-900">${product.name}</h3>
+            ${(product.brand || product.color) ? `<p class="mt-1 text-[11px] font-bold uppercase tracking-wider text-neutral-500">${[product.brand, product.color].filter(Boolean).join(' · ')}</p>` : ''}
             <p class="mt-1.5 line-clamp-2 text-sm text-neutral-600">${product.description}</p>
             <div class="mt-4 flex items-end justify-between gap-3">
                 <div>
@@ -211,6 +253,16 @@ function renderCatalog(filter = activeFilter) {
 }
 
 searchInput.addEventListener('input', () => renderCatalog(activeFilter));
+brandFilter.addEventListener('change', () => renderCatalog(activeFilter));
+colorFilter.addEventListener('change', () => renderCatalog(activeFilter));
+priceFilter.addEventListener('change', () => renderCatalog(activeFilter));
+clearFiltersButton.addEventListener('click', () => {
+    searchInput.value = '';
+    brandFilter.value = '';
+    colorFilter.value = '';
+    priceFilter.value = '';
+    renderCatalog('all');
+});
 
 /* ---------- Product page ---------- */
 const productView = document.getElementById('product-view');
@@ -286,6 +338,11 @@ function renderProduct(code, category = null) {
                 </p>
 
                 <p class="mt-4 text-neutral-600">${product.description}</p>
+
+                ${(product.brand || product.color) ? `<div class="mt-4 flex flex-wrap gap-2 text-[11px] font-bold text-neutral-700">
+                    ${product.brand ? `<span class="rounded-full border-2 border-neutral-900 bg-white px-2.5 py-0.5">Marca: ${product.brand}</span>` : ''}
+                    ${product.color ? `<span class="rounded-full border-2 border-neutral-900 bg-white px-2.5 py-0.5">Color: ${product.color}</span>` : ''}
+                </div>` : ''}
 
                 <div class="mt-6 rounded-xl border-2 border-neutral-900 bg-[#F7F7F7] p-4">
                     <span class="block text-[10px] font-bold uppercase tracking-wider text-neutral-500">${product.price === null ? 'Precio' : 'Precio unitario'}</span>
@@ -410,8 +467,15 @@ document.addEventListener('error', (event) => {
     }
 }, true);
 
-/* ---------- Image previews ---------- */
-const previewBox = document.getElementById('hover-preview');
+/* ---------- Music button: compact while scrolling ---------- */
+const musicTrigger = document.getElementById('btn-music');
+function compactMusicButton() {
+    musicTrigger?.classList.toggle('is-compact', window.scrollY > 140);
+}
+window.addEventListener('scroll', compactMusicButton, { passive: true });
+compactMusicButton();
+
+/* ---------- Image previews ---------- */const previewBox = document.getElementById('hover-preview');
 const previewImage = previewBox?.querySelector('img');
 const lightbox = document.getElementById('image-lightbox');
 const lightboxImage = document.getElementById('lightbox-image');
