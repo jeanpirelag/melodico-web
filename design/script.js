@@ -102,8 +102,10 @@ const brandFilter = document.getElementById('filter-brand');
 const colorFilter = document.getElementById('filter-color');
 const priceFilter = document.getElementById('filter-price');
 const clearFiltersButton = document.getElementById('clear-filters');
+const subfiltersElement = document.getElementById('subfilters');
 
 let activeFilter = 'all';
+let activeSubcategory = '';
 
 const normalize = (text) => text
     .toString()
@@ -126,8 +128,45 @@ function fillSelect(select, values, placeholder) {
     select.classList.toggle('opacity-50', values.length === 0);
 }
 
-function matchesPrice(price, range) {
-    if (!range) return true;
+function renderSubfilters() {
+    if (!subfiltersElement) return;
+
+    const names = activeFilter === 'stickers'
+        ? [...new Set(products.filter((item) => item.category === 'stickers' && item.subcategory).map((item) => item.subcategory))]
+            .sort((a, b) => a.localeCompare(b, 'es'))
+        : [];
+
+    if (activeSubcategory && !names.includes(activeSubcategory)) activeSubcategory = '';
+
+    subfiltersElement.innerHTML = '';
+    if (!names.length) {
+        subfiltersElement.classList.add('hidden');
+        subfiltersElement.classList.remove('flex');
+        return;
+    }
+
+    subfiltersElement.classList.remove('hidden');
+    subfiltersElement.classList.add('flex');
+
+    const addChip = (label, value) => {
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.textContent = label;
+        const active = activeSubcategory === value;
+        button.className = `rounded-full border-2 border-neutral-900 px-3 py-1.5 text-xs font-bold transition ${active ? 'bg-neutral-900 text-white' : 'bg-white text-neutral-700 hover:bg-neutral-100'}`;
+        button.setAttribute('aria-pressed', String(active));
+        button.addEventListener('click', () => {
+            activeSubcategory = value;
+            renderCatalog(activeFilter);
+        });
+        subfiltersElement.appendChild(button);
+    };
+
+    addChip('Todas', '');
+    names.forEach((name) => addChip(name, name));
+}
+
+function matchesPrice(price, range) {    if (!range) return true;
     if (range === 'quote') return price === null || price === undefined;
     if (price === null || price === undefined) return false;
     if (range === 'under10') return price < 10;
@@ -181,12 +220,15 @@ function renderCatalog(filter = activeFilter) {
 
     const matches = products.filter(product => {
         const inCategory = activeFilter === 'all' || product.category === activeFilter;
-        const haystack = normalize(`${product.name} ${product.description} ${categories[product.category]} ${product.brand || ''} ${product.color || ''}`);
+        const haystack = normalize(`${product.name} ${product.description} ${categories[product.category]} ${product.brand || ''} ${product.color || ''} ${product.subcategory || ''}`);
         const matchesQuery = !query || haystack.includes(query);
         const matchesBrand = !brand || product.brand === brand;
         const matchesColor = !color || product.color === color;
-        return inCategory && matchesQuery && matchesBrand && matchesColor && matchesPrice(product.price, priceRange);
+        const matchesSubcategory = !activeSubcategory || product.subcategory === activeSubcategory;
+        return inCategory && matchesQuery && matchesBrand && matchesColor && matchesPrice(product.price, priceRange) && matchesSubcategory;
     });
+
+    renderSubfilters();
 
     // "Todo" shows the newest products first; a category keeps the order set in the panel
     if (activeFilter === 'all') {
@@ -226,7 +268,7 @@ function renderCatalog(filter = activeFilter) {
                 ${(product.images?.length || 0) > 1 ? `<span class="absolute bottom-2 right-2 rounded-full bg-neutral-900/80 px-2 py-0.5 text-[9px] font-bold text-white">${product.images.length} fotos</span>` : ''}
             </div>
             <h3 class="text-lg font-extrabold leading-snug tracking-tight text-neutral-900">${product.name}</h3>
-            ${(product.brand || product.color) ? `<p class="mt-1 text-[11px] font-bold uppercase tracking-wider text-neutral-500">${[product.brand, product.color].filter(Boolean).join(' · ')}</p>` : ''}
+            ${(product.brand || product.color || product.subcategory) ? `<p class="mt-1 text-[11px] font-bold uppercase tracking-wider text-neutral-500">${[product.subcategory, product.brand, product.color].filter(Boolean).join(' · ')}</p>` : ''}
             <p class="mt-1.5 line-clamp-2 text-sm text-neutral-600">${product.description}</p>
             <div class="mt-4 flex items-end justify-between gap-3">
                 <div>
@@ -269,6 +311,7 @@ clearFiltersButton.addEventListener('click', () => {
     brandFilter.value = '';
     colorFilter.value = '';
     priceFilter.value = '';
+    activeSubcategory = '';
     renderCatalog('all');
 });
 
@@ -347,7 +390,8 @@ function renderProduct(code, category = null) {
 
                 <p class="mt-4 text-neutral-600">${product.description}</p>
 
-                ${(product.brand || product.color) ? `<div class="mt-4 flex flex-wrap gap-2 text-[11px] font-bold text-neutral-700">
+                ${(product.brand || product.color || product.subcategory) ? `<div class="mt-4 flex flex-wrap gap-2 text-[11px] font-bold text-neutral-700">
+                    ${product.subcategory ? `<span class="rounded-full border-2 border-neutral-900 bg-[#E6E6E6] px-2.5 py-0.5">${product.subcategory}</span>` : ''}
                     ${product.brand ? `<span class="rounded-full border-2 border-neutral-900 bg-white px-2.5 py-0.5">Marca: ${product.brand}</span>` : ''}
                     ${product.color ? `<span class="rounded-full border-2 border-neutral-900 bg-white px-2.5 py-0.5">Color: ${product.color}</span>` : ''}
                 </div>` : ''}
