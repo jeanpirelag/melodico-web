@@ -156,11 +156,21 @@ function renderCatalog(filter = activeFilter) {
             ${product.digital ? '<span class="relative mt-3 inline-flex w-fit items-center gap-1 rounded-full border-2 border-neutral-900 bg-white px-2 py-0.5 text-[11px] font-semibold"><span class="h-1.5 w-1.5 rounded-full bg-[#6699FF]"></span>Descarga digital</span>' : ''}
             <div class="relative mt-6 flex items-center justify-between gap-3">
                 <span class="text-base font-extrabold text-neutral-900">${product.price === null ? 'Consultar precio' : `$${product.price}`}</span>
-                <button type="button" ${product.price === null ? `data-quote="${product.slug}"` : `data-add-cart="${product.slug}"`}
-                    class="px-4 py-2 rounded-lg text-sm font-bold border-2 border-neutral-900 bg-[#6699FF] text-neutral-900 shadow-[3px_3px_0_#111] transition hover:-translate-y-0.5 hover:bg-[#4d85ff] active:translate-y-0 active:shadow-none">${product.digital ? 'Comprar' : 'Cotizar'}</button>
+                ${product.price === null
+                    ? `<button type="button" data-quote="${product.slug}"
+                        class="inline-flex items-center gap-1.5 rounded-lg border-2 border-neutral-900 bg-[#25D366] px-4 py-2 text-sm font-bold text-neutral-900 shadow-[3px_3px_0_#111] transition hover:-translate-y-0.5 hover:brightness-105 active:translate-y-0 active:shadow-none">
+                        <svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.04 2c-5.5 0-9.96 4.46-9.96 9.96 0 1.76.46 3.42 1.26 4.86L2 22l5.3-1.39a9.9 9.9 0 0 0 4.74 1.2h.01c5.5 0 9.96-4.46 9.96-9.96S17.54 2 12.04 2zm5.8 14.08c-.24.68-1.4 1.3-1.93 1.35-.5.05-.96.23-3.24-.68-2.73-1.08-4.45-3.9-4.59-4.08-.13-.18-1.09-1.45-1.09-2.77 0-1.32.7-1.97.94-2.24.25-.27.54-.34.72-.34l.52.01c.17 0 .39-.06.61.47l.83 2.02c.07.14.11.31 0 .5-.1.18-.16.3-.32.46l-.48.5c-.16.16-.32.34-.14.66.18.32.8 1.32 1.72 2.14 1.18 1.05 1.74 1.24 2.06 1.4.32.15.5.13.68-.08l.98-1.14c.23-.27.42-.2.7-.1l1.99.94c.29.14.48.2.55.32.07.11.07.68-.17 1.36z"/></svg>
+                        Cotizar
+                    </button>`
+                    : `<button type="button" data-buy="${product.slug}"
+                        class="inline-flex items-center gap-1.5 rounded-lg border-2 border-neutral-900 bg-[#6699FF] px-4 py-2 text-sm font-bold text-neutral-900 shadow-[3px_3px_0_#111] transition hover:-translate-y-0.5 hover:bg-[#4d85ff] active:translate-y-0 active:shadow-none">
+                        <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="20" r="1.5"/><circle cx="18" cy="20" r="1.5"/><path d="M2 3h3l2.6 12.4a2 2 0 0 0 2 1.6h8.8a2 2 0 0 0 2-1.6L22 7H6"/></svg>
+                        Comprar
+                    </button>`}
             </div>
             <button type="button" data-add-cart="${product.slug}"
-                class="relative mt-3 w-full rounded-lg border-2 border-neutral-900 bg-white px-4 py-2 text-sm font-bold text-neutral-900 transition hover:-translate-y-0.5 hover:bg-[#E6E6E6] active:translate-y-0">
+                class="relative mt-3 inline-flex w-full items-center justify-center gap-1.5 rounded-lg border-2 border-neutral-900 bg-white px-4 py-2 text-sm font-bold text-neutral-900 transition hover:-translate-y-0.5 hover:bg-[#E6E6E6] active:translate-y-0">
+                <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
                 Agregar al carrito
             </button>`;
         catalogElement.appendChild(card);

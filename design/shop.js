@@ -496,9 +496,15 @@
 
     /* ---------------- Events ---------------- */
 
-    document.addEventListener('click', (event) => {
+    document.addEventListener('click', async (event) => {
         const add = event.target.closest('[data-add-cart]');
         if (add) addToCart(add.dataset.addCart);
+
+        const buy = event.target.closest('[data-buy]');
+        if (buy) {
+            await addToCart(buy.dataset.buy);
+            openCart();
+        }
     });
 
     el('btn-cart').addEventListener('click', openCart);
