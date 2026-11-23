@@ -210,7 +210,7 @@
             });
 
             shippingNote.textContent = hasPhysical
-                ? 'Envío nacional en Venezuela. Pagas el producto por adelantado y el flete al recibir en la agencia.'
+                ? 'Envío nacional en Venezuela con cobro a destino (COD): el producto se paga por adelantado y el envío al recibir en la agencia.'
                 : (hasDigital ? 'Producto digital: entrega inmediata, sin envío.' : '');
             shippingNote.classList.toggle('hidden', !shippingNote.textContent);
         }
@@ -411,7 +411,7 @@
             `Pedido ${order.reference}:`,
             ...lines,
             order.total !== null ? `Total: ${Number(order.total).toFixed(2)} REF` : 'Total: por cotizar',
-            hasPhysical ? 'Envío: nacional en Venezuela. Producto pagado por adelantado; flete al recibir en la agencia.' : 'Entrega digital: sin envío.',
+            hasPhysical ? 'Envío: nacional en Venezuela con cobro a destino (COD). Producto pagado por adelantado; el envío se paga al recibir.' : 'Entrega digital: sin envío.',
         ].join('\n');
 
         el('order-whatsapp').href = `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(message)}`;
