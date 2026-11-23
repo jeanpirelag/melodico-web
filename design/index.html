@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Melódico Design | Calcomanías y productos para instaladores de vinil</title>
+    <meta name="description" content="Calcomanías, kits de calcas y herramientas para la instalación de vinil.">
+    <link rel="icon" type="image/png" href="../assets/images/melodicodesign_isotipo.png">
+    <link rel="apple-touch-icon" href="../assets/images/melodicodesign_isotipo.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap"
+        rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #E6E6E6;
+        }
+
+        .panel {
+            background: #FFFFFF;
+            border: 2px solid #111111;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+        }
+
+        @keyframes isotipo-float {
+            0%   { transform: translateY(0) rotate(-2deg) scale(1); }
+            25%  { transform: translateY(-14px) rotate(2deg) scale(1.03); }
+            50%  { transform: translateY(-22px) rotate(-1deg) scale(1.06); }
+            75%  { transform: translateY(-12px) rotate(2deg) scale(1.02); }
+            100% { transform: translateY(0) rotate(-2deg) scale(1); }
+        }
+
+        .isotipo-hero {
+            animation: isotipo-float 6s ease-in-out infinite, isotipo-glow 3s ease-in-out infinite;
+        }
+
+        @keyframes isotipo-glow {
+            0%, 100% { filter: drop-shadow(0 8px 14px rgba(102, 153, 255, 0.25)); }
+            50%      { filter: drop-shadow(0 16px 28px rgba(102, 153, 255, 0.6)); }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .isotipo-hero { animation: none; }
+        }
+
+        @keyframes baile {
+            0%   { transform: translateY(0) rotate(-6deg) scale(1); }
+            25%  { transform: translateY(-4px) rotate(4deg) scale(1.04); }
+            50%  { transform: translateY(0) rotate(-3deg) scale(0.98); }
+            75%  { transform: translateY(-5px) rotate(6deg) scale(1.05); }
+            100% { transform: translateY(0) rotate(-6deg) scale(1); }
+        }
+
+        .bailando {
+            animation: baile 1.4s ease-in-out infinite;
+            transform-origin: bottom center;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .bailando { animation: none; }
+        }
+    </style>
+</head>
+
+<body class="text-neutral-900 min-h-screen">
+
+    <header class="sticky top-0 z-50 bg-[#E6E6E6] border-b-2 border-neutral-900">
+        <nav class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between gap-6">
+            <a href="#" class="flex flex-col items-center gap-0.5 shrink-0" aria-label="Melódico Design">
+                <img src="../assets/images/melodigodesign_logo.png" alt="Melódico Design" class="h-9 w-auto">
+                <span class="text-[10px] font-semibold text-neutral-600">@melodicodesign</span>
+            </a>
+
+            <div class="hidden md:flex items-center gap-1">
+                <a href="#productos" data-categoria="todas" class="nav-link rounded-full px-3 py-1.5 text-sm font-semibold text-neutral-700 hover:bg-white/70">Todo</a>
+                <a href="#productos" data-categoria="calcomanias" class="nav-link rounded-full px-3 py-1.5 text-sm font-semibold text-neutral-700 hover:bg-white/70">Calcomanías</a>
+                <a href="#productos" data-categoria="kits" class="nav-link rounded-full px-3 py-1.5 text-sm font-semibold text-neutral-700 hover:bg-white/70">Kits de calcas</a>
+                <a href="#productos" data-categoria="herramientas" class="nav-link rounded-full px-3 py-1.5 text-sm font-semibold text-neutral-700 hover:bg-white/70">Herramientas</a>
+                <a href="#productos" data-categoria="disenos" class="nav-link rounded-full px-3 py-1.5 text-sm font-semibold text-neutral-700 hover:bg-white/70">Diseños digitales</a>
+                <button type="button" data-abrir-whatsapp class="ml-2 rounded-full border-2 border-neutral-900 bg-[#6699FF] px-4 py-1.5 text-sm font-bold text-neutral-900 shadow-[2px_2px_0_#111] hover:-translate-y-0.5 transition">Contacto</button>
+            </div>
+
+            <button id="btn-menu" type="button" aria-expanded="false" aria-controls="menu-movil" aria-label="Abrir menú"
+                class="md:hidden h-10 w-10 rounded-lg border-2 border-neutral-900 bg-white flex items-center justify-center">
+                <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+            </button>
+        </nav>
+
+        <div id="menu-movil" class="hidden md:hidden border-t-2 border-neutral-900 bg-[#E6E6E6]">
+            <div class="max-w-6xl mx-auto px-4 py-3 flex flex-col gap-1">
+                <a href="#productos" data-categoria="todas" class="nav-link flex items-center justify-between rounded-lg px-3 py-2 text-sm font-semibold text-neutral-700 hover:bg-white/70">Todo <span class="text-neutral-400">→</span></a>
+                <a href="#productos" data-categoria="calcomanias" class="nav-link flex items-center justify-between rounded-lg px-3 py-2 text-sm font-semibold text-neutral-700 hover:bg-white/70">Calcomanías <span class="text-neutral-400">→</span></a>
+                <a href="#productos" data-categoria="kits" class="nav-link flex items-center justify-between rounded-lg px-3 py-2 text-sm font-semibold text-neutral-700 hover:bg-white/70">Kits de calcas <span class="text-neutral-400">→</span></a>
+                <a href="#productos" data-categoria="herramientas" class="nav-link flex items-center justify-between rounded-lg px-3 py-2 text-sm font-semibold text-neutral-700 hover:bg-white/70">Herramientas <span class="text-neutral-400">→</span></a>
+                <a href="#productos" data-categoria="disenos" class="nav-link flex items-center justify-between rounded-lg px-3 py-2 text-sm font-semibold text-neutral-700 hover:bg-white/70">Diseños digitales <span class="text-neutral-400">→</span></a>
+                <button type="button" data-abrir-whatsapp class="mt-2 rounded-lg border-2 border-neutral-900 bg-[#6699FF] px-3 py-2 text-sm font-bold text-neutral-900">Contacto por WhatsApp</button>
+            </div>
+        </div>
+    </header>
+
+    <section class="max-w-6xl mx-auto px-4 py-16 text-center">
+        <img src="../assets/images/melodicodesign_isotipo.png" alt="" class="isotipo-hero mx-auto h-28 w-auto mb-8">
+        <h1 class="text-3xl md:text-5xl font-extrabold text-neutral-900">
+            Calcomanías, kits de calcas, herramientas y <span class="text-[#6699FF]">diseños digitales</span>
+        </h1>
+        <p class="mt-4 text-neutral-600 max-w-2xl mx-auto">
+            Todo para instalar vinil con acabado profesional: calcas listas para aplicar, kits completos,
+            herramientas de instalación y archivos editables para otros diseñadores.
+        </p>
+    </section>
+
+    <main id="productos" class="max-w-6xl mx-auto px-4 pb-20 scroll-mt-24">
+        <div id="filtros" class="flex flex-wrap gap-2 justify-center mb-10"></div>
+        <div id="catalogo" class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3"></div>
+    </main>
+
+    <footer class="bg-[#E6E6E6] border-t-2 border-neutral-900">
+        <div class="max-w-6xl mx-auto px-4 py-6 flex flex-col items-center gap-3 text-sm text-neutral-600">
+            <img src="../assets/images/melodicodesign_isotipo.png" alt="" class="h-12 w-auto">
+            <div class="flex items-center gap-3">
+                <a href="https://instagram.com/melodicodesign" target="_blank" rel="noopener" aria-label="Instagram de Melódico Design" title="Instagram"
+                    class="flex h-10 w-10 items-center justify-center rounded-xl shadow-sm transition hover:-translate-y-0.5"
+                    style="background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);">
+                    <svg class="h-6 w-6" viewBox="0 0 24 24" fill="#ffffff" aria-hidden="true">
+                        <path d="M7.0301.084c-1.2768.0602-2.1487.264-2.911.5634-.7888.3075-1.4575.72-2.1228 1.3877-.6652.6677-1.075 1.3368-1.3802 2.127-.2954.7638-.4956 1.6365-.552 2.914-.0564 1.2775-.0689 1.6882-.0626 4.947.0062 3.2586.0206 3.6671.0825 4.9473.061 1.2765.264 2.1482.5635 2.9107.308.7889.72 1.4573 1.388 2.1228.6679.6655 1.3365 1.0743 2.1285 1.38.7632.295 1.6361.4961 2.9134.552 1.2773.056 1.6884.069 4.9462.0627 3.2578-.0062 3.668-.0207 4.9478-.0814 1.28-.0607 2.147-.2652 2.9098-.5633.7889-.3086 1.4578-.72 2.1228-1.3881.665-.6682 1.0745-1.3378 1.3795-2.1284.2957-.7632.4966-1.636.552-2.9124.056-1.2809.0692-1.6898.063-4.948-.0063-3.2583-.021-3.6668-.0817-4.9465-.0607-1.2797-.264-2.1487-.5633-2.9117-.3084-.7889-.72-1.4568-1.3876-2.1228C21.2982 1.33 20.628.9208 19.8378.6165 19.074.321 18.2017.1197 16.9244.0645 15.6471.0093 15.236-.005 11.977.0014 8.718.0076 8.31.0215 7.0301.0839m.1402 21.6932c-1.17-.0509-1.8053-.2453-2.2287-.408-.5606-.216-.96-.4771-1.3819-.895-.422-.4178-.6811-.8186-.9-1.378-.1644-.4234-.3624-1.058-.4171-2.228-.0595-1.2645-.072-1.6442-.079-4.848-.007-3.2037.0053-3.583.0607-4.848.05-1.169.2456-1.805.408-2.2282.216-.5613.4762-.96.895-1.3816.4188-.4217.8184-.6814 1.3783-.9003.423-.1651 1.0575-.3614 2.227-.4171 1.2655-.06 1.6447-.072 4.848-.079 3.2033-.007 3.5835.005 4.8495.0608 1.169.0508 1.8053.2445 2.228.408.5608.216.96.4754 1.3816.895.4217.4194.6816.8176.9005 1.3787.1653.4217.3617 1.056.4169 2.2263.0602 1.2655.0739 1.645.0796 4.848.0058 3.203-.0055 3.5834-.061 4.848-.051 1.17-.245 1.8055-.408 2.2294-.216.5604-.4763.96-.8954 1.3814-.419.4215-.8181.6811-1.3783.9-.4224.1649-1.0577.3617-2.2262.4174-1.2656.0595-1.6448.072-4.8493.079-3.2045.007-3.5825-.006-4.848-.0608M16.953 5.5864A1.44 1.44 0 1 0 18.39 4.144a1.44 1.44 0 0 0-1.437 1.4424M5.8385 12.012c.0067 3.4032 2.7706 6.1557 6.173 6.1493 3.4026-.0065 6.157-2.7701 6.1506-6.1733-.0065-3.4032-2.771-6.1565-6.174-6.1498-3.403.0067-6.156 2.771-6.1496 6.1738M8 12.0077a4 4 0 1 1 4.008 3.9921A3.9996 3.9996 0 0 1 8 12.0077" />
+                    </svg>
+                </a>
+                <a href="https://tiktok.com/@melodicodesign" target="_blank" rel="noopener" aria-label="TikTok de Melódico Design" title="TikTok"
+                    class="relative flex h-10 w-10 items-center justify-center overflow-hidden rounded-xl bg-black transition hover:-translate-y-0.5">
+                    <svg class="absolute h-6 w-6 -translate-x-[1px] text-[#25F4EE]" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                        <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z" />
+                    </svg>
+                    <svg class="absolute h-6 w-6 translate-x-[1px] text-[#FE2C55]" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                        <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z" />
+                    </svg>
+                    <svg class="relative h-6 w-6 text-white" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                        <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z" />
+                    </svg>
+                </a>
+            </div>
+            <span>&copy; Melódico Design</span>
+        </div>
+    </footer>
+
+    <button id="btn-musica" type="button" aria-expanded="false" aria-controls="panel-musica" aria-label="Poner música"
+        class="fixed bottom-6 left-4 z-50 flex h-12 items-center gap-2 rounded-full border-2 border-neutral-900 bg-[#6699FF] px-4 font-bold text-neutral-900 shadow-[4px_4px_0_#111] transition hover:-translate-y-0.5 hover:bg-[#4d85ff]">
+        <span class="relative flex h-2.5 w-2.5">
+            <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-neutral-900 opacity-60"></span>
+            <span class="relative inline-flex h-2.5 w-2.5 rounded-full bg-neutral-900"></span>
+        </span>
+        <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+        <span class="text-sm">Ponle música a tu compra</span>
+    </button>
+
+    <div id="panel-musica" class="hidden fixed bottom-6 left-3 z-[55] flex items-end gap-2 max-w-[calc(100vw-1.5rem)]">
+        <img src="../assets/images/melodicodesign_isotipo.png" alt="" class="bailando h-9 w-auto shrink-0">
+        <div class="flex w-[210px] max-w-[calc(100vw-5rem)] flex-col gap-1">
+            <span class="pointer-events-none select-none text-[10px] font-bold uppercase tracking-wider text-neutral-500">Suena Melódico</span>
+            <div id="lista-musica" class="hidden panel max-h-40 overflow-y-auto rounded-xl shadow-[3px_3px_0_#111]"></div>
+            <div class="panel rounded-full overflow-hidden shadow-[3px_3px_0_#111]">
+                <div class="flex items-center gap-1.5 py-1.5 pl-1.5 pr-1.5">
+                    <button id="m-play" type="button" aria-label="Reproducir" class="h-7 w-7 shrink-0 rounded-full border-2 border-neutral-900 bg-[#6699FF] flex items-center justify-center hover:brightness-105 disabled:opacity-40"></button>
+                    <button id="m-lista-btn" type="button" aria-expanded="false" aria-controls="lista-musica" aria-label="Ver lista de canciones"
+                        class="min-w-0 flex-1 text-left">
+                        <span id="m-titulo" class="block truncate text-[11px] font-bold leading-tight text-neutral-900">Sin pistas</span>
+                        <span id="m-artista" class="block truncate text-[10px] leading-tight text-neutral-500">—</span>
+                    </button>
+                    <button id="m-next" type="button" aria-label="Canción siguiente" class="h-6 w-6 shrink-0 rounded-full border-2 border-neutral-900 bg-white flex items-center justify-center hover:bg-neutral-100 disabled:opacity-40">
+                        <svg class="h-2.5 w-2.5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16 5h2v14h-2zM4 5v14l11-7z"/></svg>
+                    </button>
+                    <button id="cerrar-musica" type="button" aria-label="Cerrar reproductor" class="h-6 w-6 shrink-0 rounded-full border-2 border-neutral-900 bg-white flex items-center justify-center hover:bg-neutral-100">
+                        <svg class="h-2.5 w-2.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>
+                    </button>
+                </div>
+                <input id="m-seek" type="range" min="0" max="100" value="0" step="0.1" aria-label="Progreso de la canción"
+                    class="block w-full h-1 accent-[#3366FF] disabled:opacity-40">
+            </div>
+        </div>
+    </div>
+
+    <button id="btn-whatsapp" type="button" aria-haspopup="dialog" aria-controls="modal-whatsapp" aria-label="Contactar por WhatsApp"
+        class="fixed bottom-6 right-4 z-50 h-12 w-12 rounded-full border-2 border-neutral-900 bg-[#25D366] text-neutral-900 shadow-[4px_4px_0_#111] flex items-center justify-center transition hover:-translate-y-0.5">
+        <svg class="h-6 w-6" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M12.04 2c-5.5 0-9.96 4.46-9.96 9.96 0 1.76.46 3.42 1.26 4.86L2 22l5.3-1.39a9.9 9.9 0 0 0 4.74 1.2h.01c5.5 0 9.96-4.46 9.96-9.96S17.54 2 12.04 2zm5.8 14.08c-.24.68-1.4 1.3-1.93 1.35-.5.05-.96.23-3.24-.68-2.73-1.08-4.45-3.9-4.59-4.08-.13-.18-1.09-1.45-1.09-2.77 0-1.32.7-1.97.94-2.24.25-.27.54-.34.72-.34l.52.01c.17 0 .39-.06.61.47l.83 2.02c.07.14.11.31 0 .5-.1.18-.16.3-.32.46l-.48.5c-.16.16-.32.34-.14.66.18.32.8 1.32 1.72 2.14 1.18 1.05 1.74 1.24 2.06 1.4.32.15.5.13.68-.08l.98-1.14c.23-.27.42-.2.7-.1l1.99.94c.29.14.48.2.55.32.07.11.07.68-.17 1.36z" />
+        </svg>
+    </button>
+
+    <div id="modal-whatsapp" class="fixed inset-0 z-[60] hidden items-center justify-center p-4 bg-neutral-900/60" role="dialog" aria-modal="true" aria-labelledby="titulo-whatsapp">
+        <div class="panel rounded-2xl w-full max-w-lg p-6 shadow-[8px_8px_0_#111] max-h-[90vh] overflow-y-auto">
+            <div class="flex items-start justify-between gap-4 mb-5">
+                <div>
+                    <h2 id="titulo-whatsapp" class="text-xl font-extrabold text-neutral-900">Escríbenos por WhatsApp</h2>
+                    <p class="text-sm text-neutral-600 mt-1">Completa los datos y te abrimos el chat con el mensaje listo.</p>
+                </div>
+                <button id="cerrar-whatsapp" type="button" aria-label="Cerrar" class="shrink-0 h-9 w-9 rounded-full border-2 border-neutral-900 bg-white flex items-center justify-center hover:bg-neutral-100">
+                    <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>
+                </button>
+            </div>
+
+            <form id="form-whatsapp" class="space-y-4">
+                <div>
+                    <label for="wa-nombre" class="block text-sm font-semibold text-neutral-800 mb-1">Tu nombre</label>
+                    <input id="wa-nombre" name="nombre" type="text" required autocomplete="name"
+                        class="w-full rounded-lg border-2 border-neutral-900 bg-white px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-[#6699FF]"
+                        placeholder="Ej. Ana Pérez">
+                </div>
+
+                <div>
+                    <label for="wa-producto" class="block text-sm font-semibold text-neutral-800 mb-1">¿Con qué necesitas ayuda?</label>
+                    <select id="wa-producto" name="producto" required
+                        class="w-full rounded-lg border-2 border-neutral-900 bg-white px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-[#6699FF]">
+                        <option value="una calcomanía">Una calcomanía</option>
+                        <option value="un kit de calcas">Un kit de calcas</option>
+                        <option value="herramientas de instalación">Herramientas de instalación</option>
+                        <option value="un diseño digital">Un diseño digital (archivos)</option>
+                        <option value="asesoría para instalar vinil">Asesoría para instalar vinil</option>
+                        <option value="un pedido que ya hice">Un pedido que ya hice</option>
+                        <option value="otra consulta">Otra consulta</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label for="wa-mensaje" class="block text-sm font-semibold text-neutral-800 mb-1">Cuéntanos un poco más <span class="font-normal text-neutral-500">(opcional)</span></label>
+                    <textarea id="wa-mensaje" name="mensaje" rows="3"
+                        class="w-full rounded-lg border-2 border-neutral-900 bg-white px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-[#6699FF]"
+                        placeholder="Medidas, tipo de vinil, vehículo, superficie…"></textarea>
+                </div>
+
+                <button type="submit"
+                    class="w-full rounded-lg border-2 border-neutral-900 bg-[#25D366] px-4 py-3 text-sm font-bold text-neutral-900 shadow-[4px_4px_0_#111] transition hover:-translate-y-0.5">
+                    Abrir chat de WhatsApp
+                </button>
+                <p class="text-xs text-neutral-500 text-center">Se abrirá WhatsApp con tu mensaje ya escrito; puedes revisarlo antes de enviarlo.</p>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
