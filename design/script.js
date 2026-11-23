@@ -417,8 +417,8 @@ const lightbox = document.getElementById('image-lightbox');
 const lightboxImage = document.getElementById('lightbox-image');
 
 function placePreview(x, y) {
-    const width = previewBox.offsetWidth || 420;
-    const height = previewBox.offsetHeight || 420;
+    const width = previewBox.offsetWidth || 320;
+    const height = previewBox.offsetHeight || 320;
     const left = Math.min(x + 24, window.innerWidth - width - 12);
     const top = Math.min(y + 18, window.innerHeight - height - 12);
     previewBox.style.left = `${Math.max(12, left)}px`;
@@ -429,6 +429,8 @@ function hidePreview() {
     previewBox?.classList.add('hidden');
 }
 
+let lastPointer = { x: 0, y: 0 };
+
 document.addEventListener('mousemove', (event) => {
     if (!previewBox) return;
     const target = event.target.closest('[data-preview]');
@@ -436,12 +438,18 @@ document.addEventListener('mousemove', (event) => {
         hidePreview();
         return;
     }
+    lastPointer = { x: event.clientX, y: event.clientY };
     const source = target.dataset.preview;
     if (previewImage.getAttribute('src') !== source) {
         previewImage.src = source;
     }
     previewBox.classList.remove('hidden');
-    placePreview(event.clientX, event.clientY);
+    placePreview(lastPointer.x, lastPointer.y);
+});
+
+// The preview has no size until the image loads: reposition it once it does
+previewImage?.addEventListener('load', () => {
+    if (!previewBox.classList.contains('hidden')) placePreview(lastPointer.x, lastPointer.y);
 });
 
 document.addEventListener('scroll', hidePreview, true);
