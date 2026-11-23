@@ -1,367 +1,377 @@
-const categorias = {
-    calcomanias: 'Calcomanías',
-    kits: 'Kits de calcas',
-    herramientas: 'Herramientas',
-    disenos: 'Diseños digitales'
+const categories = {
+    stickers: 'Calcomanías',
+    decalKits: 'Kits de calcas',
+    tools: 'Herramientas',
+    designs: 'Diseños digitales'
 };
 
-// Catálogo de ejemplo: reemplazar con productos reales. price: null muestra "Consultar precio".
-// digital: true marca los archivos descargables (SVG, AI, PDF) para otros diseñadores.
-const productos = [
-    { id: 1, categoria: 'calcomanias', nombre: 'Calcomanía de diseño personalizado', descripcion: 'Vinil de corte para autos, paredes y vitrinas.', price: null },
-    { id: 2, categoria: 'kits', nombre: 'Kit de calcas para casco', descripcion: 'Set de piezas recortadas listas para aplicar.', price: null },
-    { id: 3, categoria: 'herramientas', nombre: 'Raspador de aplicación', descripcion: 'Raspador flexible para eliminar burbujas sin rayar el vinil.', price: null },
-    { id: 4, categoria: 'herramientas', nombre: 'Cutter de precisión', descripcion: 'Cuchilla de punta fina para retirar excedentes.', price: null },
-    { id: 5, categoria: 'herramientas', nombre: 'Pistola de calor', descripcion: 'Control de temperatura para moldear vinil en curvas.', price: null },
-    { id: 6, categoria: 'kits', nombre: 'Kit de calcas para vehículo', descripcion: 'Franjas y detalles recortados para carrocería.', price: null },
-    { id: 7, categoria: 'disenos', digital: true, nombre: 'Pack de plantillas para calcas', descripcion: 'Archivos vectoriales listos para plotter, con líneas de corte y sangrado.', price: null },
-    { id: 8, categoria: 'disenos', digital: true, nombre: 'Mockups de vehículo para portafolio', descripcion: 'Presenta tus proyectos de vinil en carrocerías reales.', price: null },
-    { id: 9, categoria: 'disenos', digital: true, nombre: 'Tramas y texturas para vinil', descripcion: 'Patrones editables para fondos, letreros y detalles.', price: null }
+// Sample catalog: replace with real products. price: null renders "Consultar precio".
+// digital: true marks downloadable files (SVG, AI, PDF) for other designers.
+const products = [
+    { id: 1, category: 'stickers', name: 'Calcomanía de diseño personalizado', description: 'Vinil de corte para autos, paredes y vitrinas.', price: null },
+    { id: 2, category: 'decalKits', name: 'Kit de calcas para casco', description: 'Set de piezas recortadas listas para aplicar.', price: null },
+    { id: 3, category: 'tools', name: 'Raspador de aplicación', description: 'Raspador flexible para eliminar burbujas sin rayar el vinil.', price: null },
+    { id: 4, category: 'tools', name: 'Cutter de precisión', description: 'Cuchilla de punta fina para retirar excedentes.', price: null },
+    { id: 5, category: 'tools', name: 'Pistola de calor', description: 'Control de temperatura para moldear vinil en curvas.', price: null },
+    { id: 6, category: 'decalKits', name: 'Kit de calcas para vehículo', description: 'Franjas y detalles recortados para carrocería.', price: null },
+    { id: 7, category: 'designs', digital: true, name: 'Pack de plantillas para calcas', description: 'Archivos vectoriales listos para plotter, con líneas de corte y sangrado.', price: null },
+    { id: 8, category: 'designs', digital: true, name: 'Mockups de vehículo para portafolio', description: 'Presenta tus proyectos de vinil en carrocerías reales.', price: null },
+    { id: 9, category: 'designs', digital: true, name: 'Tramas y texturas para vinil', description: 'Patrones editables para fondos, letreros y detalles.', price: null }
 ];
 
-const filtros = document.getElementById('filtros');
-const catalogo = document.getElementById('catalogo');
+const filtersElement = document.getElementById('filters');
+const catalogElement = document.getElementById('catalog');
 
-function renderFiltros(activa) {
-    filtros.innerHTML = '';
-    const opciones = { todas: 'Todas', ...categorias };
-    Object.entries(opciones).forEach(([clave, etiqueta]) => {
-        const boton = document.createElement('button');
-        boton.textContent = etiqueta;
-        boton.className = `px-4 py-2 rounded-full text-sm font-semibold border-2 border-neutral-900 transition ${clave === activa
+function renderFilters(activeFilter) {
+    filtersElement.innerHTML = '';
+    const options = { all: 'Todas', ...categories };
+    Object.entries(options).forEach(([key, label]) => {
+        const button = document.createElement('button');
+        button.textContent = label;
+        button.className = `px-4 py-2 rounded-full text-sm font-semibold border-2 border-neutral-900 transition ${key === activeFilter
             ? 'bg-[#6699FF] text-neutral-900'
             : 'bg-white text-neutral-700 hover:bg-neutral-100'}`;
-        boton.addEventListener('click', () => renderCatalogo(clave));
-        filtros.appendChild(boton);
+        button.addEventListener('click', () => renderCatalog(key));
+        filtersElement.appendChild(button);
     });
 }
 
-function renderCatalogo(filtro = 'todas') {
-    renderFiltros(filtro);
-    document.querySelectorAll('.nav-link').forEach(el => {
-        const activo = el.dataset.categoria === filtro;
-        el.classList.toggle('bg-white', activo);
-        el.classList.toggle('text-neutral-900', activo);
-        if (activo) el.setAttribute('aria-current', 'true');
-        else el.removeAttribute('aria-current');
+function renderCatalog(filter = 'all') {
+    renderFilters(filter);
+    document.querySelectorAll('.nav-link').forEach(link => {
+        const isActive = link.dataset.category === filter;
+        link.classList.toggle('bg-white', isActive);
+        link.classList.toggle('text-neutral-900', isActive);
+        if (isActive) link.setAttribute('aria-current', 'true');
+        else link.removeAttribute('aria-current');
     });
-    catalogo.innerHTML = '';
-    productos
-        .filter(p => filtro === 'todas' || p.categoria === filtro)
-        .forEach(p => {
+    catalogElement.innerHTML = '';
+    products
+        .filter(product => filter === 'all' || product.category === filter)
+        .forEach(product => {
             const card = document.createElement('article');
             card.className = 'panel rounded-2xl p-6 flex flex-col';
             card.innerHTML = `
-                <span class="text-xs font-semibold uppercase tracking-wider text-[#3366FF]">${categorias[p.categoria]}</span>
-                <h3 class="mt-2 text-lg font-bold text-neutral-900">${p.nombre}</h3>
-                <p class="mt-2 text-sm text-neutral-600 flex-1">${p.descripcion}</p>
-                ${p.digital ? '<span class="mt-3 inline-flex w-fit items-center gap-1 rounded-full border-2 border-neutral-900 bg-[#E6E6E6] px-2 py-0.5 text-[11px] font-semibold">Descarga digital</span>' : ''}
+                <span class="text-xs font-semibold uppercase tracking-wider text-[#3366FF]">${categories[product.category]}</span>
+                <h3 class="mt-2 text-lg font-bold text-neutral-900">${product.name}</h3>
+                <p class="mt-2 text-sm text-neutral-600 flex-1">${product.description}</p>
+                ${product.digital ? '<span class="mt-3 inline-flex w-fit items-center gap-1 rounded-full border-2 border-neutral-900 bg-[#E6E6E6] px-2 py-0.5 text-[11px] font-semibold">Descarga digital</span>' : ''}
                 <div class="mt-6 flex items-center justify-between">
-                    <span class="font-semibold text-neutral-800">${p.price === null ? 'Consultar precio' : `$${p.price}`}</span>
-                    <button class="px-4 py-2 rounded-lg text-sm font-semibold border-2 border-neutral-900 bg-[#6699FF] hover:bg-[#4d85ff] text-neutral-900">${p.digital ? 'Comprar' : 'Cotizar'}</button>
+                    <span class="font-semibold text-neutral-800">${product.price === null ? 'Consultar precio' : `$${product.price}`}</span>
+                    <button class="px-4 py-2 rounded-lg text-sm font-semibold border-2 border-neutral-900 bg-[#6699FF] hover:bg-[#4d85ff] text-neutral-900">${product.digital ? 'Comprar' : 'Cotizar'}</button>
                 </div>`;
-            catalogo.appendChild(card);
+            catalogElement.appendChild(card);
         });
 }
 
-const btnMenu = document.getElementById('btn-menu');
-const menuMovil = document.getElementById('menu-movil');
+/* ---------- Navigation ---------- */
+const menuButton = document.getElementById('btn-menu');
+const mobileMenu = document.getElementById('mobile-menu');
 
-function alternarMenu() {
-    const abierto = !menuMovil.classList.contains('hidden');
-    menuMovil.classList.toggle('hidden', abierto);
-    btnMenu.setAttribute('aria-expanded', String(!abierto));
-    btnMenu.setAttribute('aria-label', abierto ? 'Abrir menú' : 'Cerrar menú');
+function toggleMenu() {
+    const isOpen = !mobileMenu.classList.contains('hidden');
+    mobileMenu.classList.toggle('hidden', isOpen);
+    menuButton.setAttribute('aria-expanded', String(!isOpen));
+    menuButton.setAttribute('aria-label', isOpen ? 'Abrir menú' : 'Cerrar menú');
 }
 
-btnMenu.addEventListener('click', alternarMenu);
+menuButton.addEventListener('click', toggleMenu);
 
-document.querySelectorAll('[data-categoria]').forEach(enlace => {
-    enlace.addEventListener('click', (e) => {
-        e.preventDefault();
-        renderCatalogo(enlace.dataset.categoria);
-        document.getElementById('productos').scrollIntoView({ behavior: 'smooth', block: 'start' });
-        if (!menuMovil.classList.contains('hidden')) alternarMenu();
+document.querySelectorAll('[data-category]').forEach(link => {
+    link.addEventListener('click', (event) => {
+        event.preventDefault();
+        renderCatalog(link.dataset.category);
+        document.getElementById('products').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        if (!mobileMenu.classList.contains('hidden')) toggleMenu();
     });
 });
 
-document.querySelectorAll('[data-abrir-whatsapp]').forEach(boton => {
-    boton.addEventListener('click', () => {
+document.querySelectorAll('[data-open-whatsapp]').forEach(button => {
+    button.addEventListener('click', () => {
         document.getElementById('btn-whatsapp').click();
-        if (!menuMovil.classList.contains('hidden')) alternarMenu();
+        if (!mobileMenu.classList.contains('hidden')) toggleMenu();
     });
 });
 
-renderCatalogo();
+renderCatalog();
 
-/* ---------- Reproductor propio ---------- */
-// Añade tus MP3 en assets/audio/ y declara cada pista aquí.
-// Solo usa audio que tengas derecho a publicar (tus temas o música con licencia).
-const PISTAS = [
-    { titulo: 'Afro Is This Love', artista: 'Bob Marley · Dj Adrián Maniático', archivo: '../assets/audio/afro-is-this-love.mp3' },
-    { titulo: 'Toco El Cielo', artista: 'Manco The Sound [Prod. Yilberking]', archivo: '../assets/audio/toco-el-cielo.mp3' },
-    { titulo: 'Bailar Contigo (Remix)', artista: 'Monsieur Periné & LEEB', archivo: '../assets/audio/bailar-contigo-remix.mp3' },
-    { titulo: 'Enséñame a Soñar', artista: 'DJ Goozo x Massianello x Susan Díaz', archivo: '../assets/audio/ensename-a-sonar.mp3' },
-    { titulo: 'Me Provocas', artista: 'Fumaratto', archivo: '../assets/audio/me-provocas.mp3' },
-    { titulo: 'Devuélvete (Natz Remix)', artista: 'Carla Morrison', archivo: '../assets/audio/devuelvete-natz-remix.mp3' },
+/* ---------- Music player ---------- */
+// Add your MP3 files to assets/audio/ and declare each track here.
+// Only use audio you have the right to publish (your own tracks or licensed music).
+const tracks = [
+    { title: 'Afro Is This Love', artist: 'Bob Marley · Dj Adrián Maniático', file: '../assets/audio/afro-is-this-love.mp3' },
+    { title: 'Toco El Cielo', artist: 'Manco The Sound [Prod. Yilberking]', file: '../assets/audio/toco-el-cielo.mp3' },
+    { title: 'Bailar Contigo (Remix)', artist: 'Monsieur Periné & LEEB', file: '../assets/audio/bailar-contigo-remix.mp3' },
+    { title: 'Enséñame a Soñar', artist: 'DJ Goozo x Massianello x Susan Díaz', file: '../assets/audio/ensename-a-sonar.mp3' },
+    { title: 'Me Provocas', artist: 'Fumaratto', file: '../assets/audio/me-provocas.mp3' },
+    { title: 'Devuélvete (Natz Remix)', artist: 'Carla Morrison', file: '../assets/audio/devuelvete-natz-remix.mp3' }
 ];
 
-const musica = (() => {
-    const CLAVE = 'melodico-reproductor';
-    const boton = document.getElementById('btn-musica');
-    const panel = document.getElementById('panel-musica');
+const music = (() => {
+    const STORAGE_KEY = 'melodico-player';
+    const trigger = document.getElementById('btn-music');
+    const panel = document.getElementById('music-panel');
     const audio = new Audio();
     audio.preload = 'metadata';
 
     const ui = {
-        titulo: document.getElementById('m-titulo'),
-        artista: document.getElementById('m-artista'),
-        play: document.getElementById('m-play'),
-        next: document.getElementById('m-next'),
-        seek: document.getElementById('m-seek'),
-        lista: document.getElementById('lista-musica'),
-        listaBtn: document.getElementById('m-lista-btn'),
+        title: document.getElementById('track-title'),
+        artist: document.getElementById('track-artist'),
+        play: document.getElementById('btn-play'),
+        next: document.getElementById('btn-next'),
+        seek: document.getElementById('seek'),
+        list: document.getElementById('music-list'),
+        listButton: document.getElementById('btn-list'),
     };
 
-    const ICONO_PLAY = '<svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>';
-    const ICONO_PAUSA = '<svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 5h4v14H7zM13 5h4v14h-4z"/></svg>';
+    const PLAY_ICON = '<svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>';
+    const PAUSE_ICON = '<svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 5h4v14H7zM13 5h4v14h-4z"/></svg>';
 
-    let indice = 0;
-    let abierto = false;
-    let ultimoGuardado = 0;
-    let guardado = leer();
+    let currentIndex = 0;
+    let isOpen = false;
+    let lastSaved = 0;
+    let savedState = readState();
 
-    function leer() {
+    function readState() {
+        const defaults = { index: 0, time: 0, volume: 0.8, playing: false, open: false };
         try {
-            return { indice: 0, tiempo: 0, volumen: 0.8, reproduciendo: false, abierto: false, ...JSON.parse(localStorage.getItem(CLAVE) || '{}') };
+            return { ...defaults, ...JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}') };
         } catch {
-            return { indice: 0, tiempo: 0, volumen: 0.8, reproduciendo: false, abierto: false };
+            return defaults;
         }
     }
 
-    function guardar(extra = {}) {
-        guardado = {
-            indice,
-            tiempo: audio.currentTime || 0,
-            volumen: audio.volume,
-            reproduciendo: !audio.paused,
-            abierto,
+    function saveState(extra = {}) {
+        savedState = {
+            index: currentIndex,
+            time: audio.currentTime || 0,
+            volume: audio.volume,
+            playing: !audio.paused,
+            open: isOpen,
             ...extra,
         };
-        localStorage.setItem(CLAVE, JSON.stringify(guardado));
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(savedState));
     }
 
-    function pintarLista() {
-        ui.lista.innerHTML = '';
-        if (!PISTAS.length) {
-            const vacio = document.createElement('p');
-            vacio.className = 'px-3 py-2 text-[10px] leading-snug text-neutral-500';
-            vacio.textContent = 'Añade tus MP3 en assets/audio/ y decláralos en PISTAS.';
-            ui.lista.appendChild(vacio);
+    function paintList() {
+        ui.list.innerHTML = '';
+        if (!tracks.length) {
+            const empty = document.createElement('p');
+            empty.className = 'px-3 py-2 text-[10px] leading-snug text-neutral-500';
+            empty.textContent = 'Añade tus MP3 en assets/audio/ y decláralos en tracks.';
+            ui.list.appendChild(empty);
             return;
         }
-        PISTAS.forEach((pista, i) => {
+        tracks.forEach((track, index) => {
             const item = document.createElement('button');
             item.type = 'button';
-            item.className = `flex w-full items-center gap-2 border-b-2 border-neutral-900 px-2.5 py-2 text-left last:border-b-0 ${i === indice ? 'bg-[#6699FF]' : 'bg-white hover:bg-neutral-100'}`;
-            item.setAttribute('aria-current', i === indice ? 'true' : 'false');
-            item.innerHTML = `<span class="w-4 shrink-0 text-[10px] font-bold text-neutral-700">${i === indice ? '▶' : i + 1}</span>
+            item.className = `flex w-full items-center gap-2 border-b-2 border-neutral-900 px-2.5 py-2 text-left last:border-b-0 ${index === currentIndex ? 'bg-[#6699FF]' : 'bg-white hover:bg-neutral-100'}`;
+            item.setAttribute('aria-current', index === currentIndex ? 'true' : 'false');
+            item.innerHTML = `<span class="w-4 shrink-0 text-[10px] font-bold text-neutral-700">${index === currentIndex ? '▶' : index + 1}</span>
                 <span class="min-w-0">
-                    <span class="block truncate text-[11px] font-bold text-neutral-900">${pista.titulo}</span>
-                    <span class="block truncate text-[10px] text-neutral-600">${pista.artista}</span>
+                    <span class="block truncate text-[11px] font-bold text-neutral-900">${track.title}</span>
+                    <span class="block truncate text-[10px] text-neutral-600">${track.artist}</span>
                 </span>`;
             item.addEventListener('click', () => {
-                cargar(i, { iniciar: true });
-                alternarLista(false);
+                loadTrack(index, { startPlaying: true });
+                toggleList(false);
             });
-            ui.lista.appendChild(item);
+            ui.list.appendChild(item);
         });
     }
 
-    function alternarLista(forzar) {
-        const abrir = typeof forzar === 'boolean' ? forzar : ui.lista.classList.contains('hidden');
-        ui.lista.classList.toggle('hidden', !abrir);
-        ui.listaBtn.setAttribute('aria-expanded', String(abrir));
+    function toggleList(force) {
+        const shouldOpen = typeof force === 'boolean' ? force : ui.list.classList.contains('hidden');
+        ui.list.classList.toggle('hidden', !shouldOpen);
+        ui.listButton.setAttribute('aria-expanded', String(shouldOpen));
     }
 
-    function pintar() {
-        const pista = PISTAS[indice];
-        ui.titulo.textContent = pista ? pista.titulo : 'Sin pistas';
-        ui.artista.textContent = pista ? pista.artista : '—';
-        ui.play.innerHTML = audio.paused ? ICONO_PLAY : ICONO_PAUSA;
+    function paint() {
+        const track = tracks[currentIndex];
+        ui.title.textContent = track ? track.title : 'Sin pistas';
+        ui.artist.textContent = track ? track.artist : '—';
+        ui.play.innerHTML = audio.paused ? PLAY_ICON : PAUSE_ICON;
         ui.play.setAttribute('aria-label', audio.paused ? 'Reproducir' : 'Pausar');
-        const vacio = PISTAS.length === 0;
-        [ui.play, ui.next, ui.seek].forEach(el => el.disabled = vacio);
+        const isEmpty = tracks.length === 0;
+        [ui.play, ui.next, ui.seek].forEach(element => element.disabled = isEmpty);
         if (audio.duration) {
             ui.seek.max = audio.duration;
             ui.seek.value = audio.currentTime;
         }
     }
 
-    function cargar(i, { iniciar = false } = {}) {
-        if (!PISTAS.length) return pintar();
-        indice = (i + PISTAS.length) % PISTAS.length;
-        audio.src = PISTAS[indice].archivo;
+    function loadTrack(index, { startPlaying = false } = {}) {
+        if (!tracks.length) return paint();
+        currentIndex = (index + tracks.length) % tracks.length;
+        audio.src = tracks[currentIndex].file;
         audio.load();
-        if (iniciar) reproducir();
-        pintar();
-        pintarLista();
-        guardar();
+        if (startPlaying) play();
+        paint();
+        paintList();
+        saveState();
     }
 
-    function reproducir() {
-        audio.play().catch(() => pintar());
+    function play() {
+        audio.play().catch(() => paint());
     }
 
-    function alternar() {
-        audio.paused ? reproducir() : audio.pause();
+    function togglePlayback() {
+        audio.paused ? play() : audio.pause();
     }
 
-    function mostrar() {
+    function show() {
         panel.classList.remove('hidden');
-        boton.classList.add('hidden');
-        abierto = true;
-        boton.setAttribute('aria-expanded', 'true');
-        pintar();
-        guardar();
+        trigger.classList.add('hidden');
+        isOpen = true;
+        trigger.setAttribute('aria-expanded', 'true');
+        paint();
+        saveState();
     }
 
-    function ocultar() {
+    function hide() {
         panel.classList.add('hidden');
-        boton.classList.remove('hidden');
-        abierto = false;
-        boton.setAttribute('aria-expanded', 'false');
-        guardar();
+        trigger.classList.remove('hidden');
+        isOpen = false;
+        trigger.setAttribute('aria-expanded', 'false');
+        saveState();
     }
 
-    /* --- restauración --- */
-    audio.volume = guardado.volumen;
+    /* --- restore previous session --- */
+    audio.volume = savedState.volume;
 
-    if (PISTAS.length) {
-        indice = Math.min(guardado.indice || 0, PISTAS.length - 1);
-        audio.src = PISTAS[indice].archivo;
+    if (tracks.length) {
+        currentIndex = Math.min(savedState.index || 0, tracks.length - 1);
+        audio.src = tracks[currentIndex].file;
         audio.addEventListener('loadedmetadata', () => {
-            if (guardado.tiempo && guardado.tiempo < audio.duration) {
-                audio.currentTime = guardado.tiempo;
+            if (savedState.time && savedState.time < audio.duration) {
+                audio.currentTime = savedState.time;
             }
-            pintar();
+            paint();
         }, { once: true });
     }
 
-    // Los navegadores solo permiten audio tras un gesto: reanudamos en el primero.
-    if (guardado.reproduciendo && PISTAS.length) {
-        reproducir(); // intento inmediato (puede fallar por la política de autoplay)
-        const reanudar = () => {
-            window.removeEventListener('pointerdown', reanudar);
-            window.removeEventListener('keydown', reanudar);
-            if (audio.paused) reproducir();
+    // Browsers only allow audio after a user gesture: resume on the first one.
+    if (savedState.playing && tracks.length) {
+        play(); // immediate attempt (may be blocked by the autoplay policy)
+        const resume = () => {
+            window.removeEventListener('pointerdown', resume);
+            window.removeEventListener('keydown', resume);
+            if (audio.paused) play();
         };
-        window.addEventListener('pointerdown', reanudar);
-        window.addEventListener('keydown', reanudar);
+        window.addEventListener('pointerdown', resume);
+        window.addEventListener('keydown', resume);
     }
 
-    if (guardado.abierto) mostrar();
+    if (savedState.open) show();
 
-    /* --- eventos --- */
-    boton.addEventListener('click', () => (abierto ? ocultar() : mostrar()));
-    document.getElementById('cerrar-musica').addEventListener('click', ocultar);
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && abierto) ocultar();
+    /* --- events --- */
+    trigger.addEventListener('click', () => {
+        if (isOpen) {
+            hide();
+            return;
+        }
+        show();
+        play();
     });
 
-    ui.play.addEventListener('click', alternar);
-    ui.next.addEventListener('click', () => cargar(indice + 1, { iniciar: true }));
-    ui.listaBtn.addEventListener('click', () => alternarLista());
+    document.getElementById('btn-close-music').addEventListener('click', hide);
+    document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && isOpen) hide();
+    });
+
+    ui.play.addEventListener('click', togglePlayback);
+    ui.next.addEventListener('click', () => loadTrack(currentIndex + 1, { startPlaying: true }));
+    ui.listButton.addEventListener('click', () => toggleList());
     ui.seek.addEventListener('input', () => {
         audio.currentTime = Number(ui.seek.value);
     });
 
-    audio.addEventListener('play', () => { pintar(); guardar(); });
-    audio.addEventListener('pause', () => { pintar(); guardar(); });
-    audio.addEventListener('ended', () => cargar(indice + 1, { iniciar: true }));
+    audio.addEventListener('play', () => { paint(); saveState(); });
+    audio.addEventListener('pause', () => { paint(); saveState(); });
+    audio.addEventListener('ended', () => loadTrack(currentIndex + 1, { startPlaying: true }));
     audio.addEventListener('error', () => {
-        ui.artista.textContent = 'No se pudo cargar el audio';
+        ui.artist.textContent = 'No se pudo cargar el audio';
     });
     audio.addEventListener('timeupdate', () => {
         ui.seek.value = audio.currentTime;
-        if (Date.now() - ultimoGuardado > 2000) {
-            ultimoGuardado = Date.now();
-            guardar();
+        if (Date.now() - lastSaved > 2000) {
+            lastSaved = Date.now();
+            saveState();
         }
     });
 
-    pintar();
-    pintarLista();
+    paint();
+    paintList();
 
-    return { mostrar, ocultar };
+    return { show, hide };
 })();
 
-/* ---------- Blip al pulsar botones ---------- */
-let ctxBlip;
-function blip() {
+/* ---------- Click blip ---------- */
+let blipContext;
+function playBlip() {
     try {
-        ctxBlip = ctxBlip || new (window.AudioContext || window.webkitAudioContext)();
-        const osc = ctxBlip.createOscillator();
-        const g = ctxBlip.createGain();
-        osc.type = 'sine';
-        osc.frequency.setValueAtTime(660, ctxBlip.currentTime);
-        osc.frequency.exponentialRampToValueAtTime(440, ctxBlip.currentTime + 0.08);
-        g.gain.setValueAtTime(0.05, ctxBlip.currentTime);
-        g.gain.exponentialRampToValueAtTime(0.0001, ctxBlip.currentTime + 0.12);
-        osc.connect(g).connect(ctxBlip.destination);
-        osc.start();
-        osc.stop(ctxBlip.currentTime + 0.13);
-    } catch { /* el navegador no permite audio */ }
+        blipContext = blipContext || new (window.AudioContext || window.webkitAudioContext)();
+        const oscillator = blipContext.createOscillator();
+        const gain = blipContext.createGain();
+        oscillator.type = 'sine';
+        oscillator.frequency.setValueAtTime(660, blipContext.currentTime);
+        oscillator.frequency.exponentialRampToValueAtTime(440, blipContext.currentTime + 0.08);
+        gain.gain.setValueAtTime(0.05, blipContext.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.0001, blipContext.currentTime + 0.12);
+        oscillator.connect(gain).connect(blipContext.destination);
+        oscillator.start();
+        oscillator.stop(blipContext.currentTime + 0.13);
+    } catch { /* the browser does not allow audio */ }
 }
 
-document.addEventListener('click', (e) => {
-    if (e.target.closest('button')) blip();
+document.addEventListener('click', (event) => {
+    if (event.target.closest('button')) playBlip();
 });
 
-/* ---------- Contacto por WhatsApp ---------- */
+/* ---------- WhatsApp contact ---------- */
 (() => {
-    const TELEFONO = '584246441382';
-    const modal = document.getElementById('modal-whatsapp');
-    const abrir = document.getElementById('btn-whatsapp');
-    const cerrar = document.getElementById('cerrar-whatsapp');
-    const form = document.getElementById('form-whatsapp');
-    let ultimoFoco = null;
+    const PHONE = '584246441382';
+    const modal = document.getElementById('whatsapp-modal');
+    const openButton = document.getElementById('btn-whatsapp');
+    const closeButton = document.getElementById('btn-close-whatsapp');
+    const form = document.getElementById('whatsapp-form');
+    let lastFocused = null;
 
-    function mostrar() {
-        ultimoFoco = document.activeElement;
+    function show() {
+        lastFocused = document.activeElement;
         modal.classList.remove('hidden');
         modal.classList.add('flex');
         document.body.style.overflow = 'hidden';
-        document.getElementById('wa-nombre').focus();
+        document.getElementById('wa-name').focus();
     }
 
-    function ocultar() {
+    function hide() {
         modal.classList.add('hidden');
         modal.classList.remove('flex');
         document.body.style.overflow = '';
-        if (ultimoFoco) ultimoFoco.focus();
+        if (lastFocused) lastFocused.focus();
     }
 
-    abrir.addEventListener('click', mostrar);
-    cerrar.addEventListener('click', ocultar);
-    modal.addEventListener('click', (e) => {
-        if (e.target === modal) ocultar();
+    openButton.addEventListener('click', show);
+    closeButton.addEventListener('click', hide);
+    modal.addEventListener('click', (event) => {
+        if (event.target === modal) hide();
     });
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && !modal.classList.contains('hidden')) ocultar();
+    document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && !modal.classList.contains('hidden')) hide();
     });
 
-    form.addEventListener('submit', (e) => {
-        e.preventDefault();
-        const nombre = document.getElementById('wa-nombre').value.trim();
-        const producto = document.getElementById('wa-producto').value;
-        const detalle = document.getElementById('wa-mensaje').value.trim();
+    form.addEventListener('submit', (event) => {
+        event.preventDefault();
+        const name = document.getElementById('wa-name').value.trim();
+        const product = document.getElementById('wa-product').value;
+        const details = document.getElementById('wa-message').value.trim();
 
-        let mensaje = `¡Hola Melódico Design! Soy ${nombre} y necesito ayuda con ${producto}.`;
-        if (detalle) mensaje += `\n\n${detalle}`;
-        mensaje += '\n\n¿Me pueden orientar con la compra?';
+        let message = `¡Hola Melódico Design! Soy ${name} y necesito ayuda con ${product}.`;
+        if (details) message += `\n\n${details}`;
+        message += '\n\n¿Me pueden orientar con la compra?';
 
-        window.open(`https://wa.me/${TELEFONO}?text=${encodeURIComponent(mensaje)}`, '_blank', 'noopener');
-        ocultar();
+        window.open(`https://wa.me/${PHONE}?text=${encodeURIComponent(message)}`, '_blank', 'noopener');
+        hide();
     });
 })();
