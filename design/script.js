@@ -417,9 +417,10 @@ const lightbox = document.getElementById('image-lightbox');
 const lightboxImage = document.getElementById('lightbox-image');
 
 function placePreview(x, y) {
-    const size = 264;
-    const left = Math.min(x + 22, window.innerWidth - size - 12);
-    const top = Math.min(y + 18, window.innerHeight - size - 12);
+    const width = previewBox.offsetWidth || 420;
+    const height = previewBox.offsetHeight || 420;
+    const left = Math.min(x + 24, window.innerWidth - width - 12);
+    const top = Math.min(y + 18, window.innerHeight - height - 12);
     previewBox.style.left = `${Math.max(12, left)}px`;
     previewBox.style.top = `${Math.max(12, top)}px`;
 }
@@ -435,10 +436,11 @@ document.addEventListener('mousemove', (event) => {
         hidePreview();
         return;
     }
-    if (previewImage.getAttribute('src') !== target.dataset.preview) {
-        previewImage.src = target.dataset.preview;
-        previewBox.classList.remove('hidden');
+    const source = target.dataset.preview;
+    if (previewImage.getAttribute('src') !== source) {
+        previewImage.src = source;
     }
+    previewBox.classList.remove('hidden');
     placePreview(event.clientX, event.clientY);
 });
 
