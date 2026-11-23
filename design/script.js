@@ -150,6 +150,7 @@ function renderCatalog(filter = activeFilter) {
         const color = categoryColors[product.category] || categoryColors.all;
         card.innerHTML = `
             <span class="pointer-events-none absolute right-0 top-0 h-16 w-16 rounded-bl-[2rem] transition group-hover:scale-110" style="background:${tint(color, 0.14)}"></span>
+            ${product.image ? `<img src="${product.image}" alt="${product.name}" class="relative mb-3 h-40 w-full rounded-xl border-2 border-neutral-900 object-cover">` : ''}
             <span class="relative inline-flex w-fit items-center gap-1.5 rounded-full border-2 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider" style="border-color:${color}; color:${color}; background:${tint(color, 0.1)}">${categoryIcons[product.category] || ''}<span>${categories[product.category]}</span></span>
             <h3 class="relative mt-3 text-xl font-extrabold leading-snug tracking-tight text-neutral-900">${product.name}</h3>
             <p class="relative mt-2 text-sm text-neutral-600 flex-1">${product.description}</p>
@@ -233,8 +234,10 @@ function renderProduct(code, category = null) {
 
     productDetail.innerHTML = `
         <div class="grid gap-6 md:grid-cols-[minmax(0,1fr)_2fr]">
-            <div class="panel flex items-center justify-center rounded-2xl p-10" style="background:${tint(color, 0.12)}">
-                <span class="[&_svg]:h-24 [&_svg]:w-24">${categoryIcons[product.category] || ''}</span>
+            <div class="panel flex items-center justify-center rounded-2xl p-6" style="background:${tint(color, 0.12)}">
+                ${product.image
+                    ? `<img src="${product.image}" alt="${product.name}" class="w-full rounded-xl border-2 border-neutral-900 object-cover">`
+                    : `<span class="[&_svg]:h-24 [&_svg]:w-24">${categoryIcons[product.category] || ''}</span>`}
             </div>
             <div class="panel flex flex-col rounded-2xl p-6 md:p-8">
                 <span class="inline-flex w-fit items-center gap-1.5 rounded-full border-2 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider" style="border-color:${color}; color:${color}; background:${tint(color, 0.1)}">${categoryIcons[product.category] || ''}<span>${categories[product.category]}</span></span>

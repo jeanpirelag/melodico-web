@@ -101,6 +101,14 @@
         el('register-form').classList.toggle('hidden', state.authTab !== 'register' || Boolean(state.customer));
         el('account-panel').classList.toggle('hidden', !state.customer);
         if (!state.customer) el('my-orders').classList.add('hidden');
+        prefillContactName();
+    }
+
+    // Signed-in customers do not have to type their name in the WhatsApp form.
+    function prefillContactName() {
+        if (!state.customer) return;
+        const input = el('wa-name');
+        if (input && !input.value.trim()) input.value = state.customer.name;
     }
 
     function setAuthTab(tab) {
@@ -509,6 +517,7 @@
 
     el('btn-cart').addEventListener('click', openCart);
     el('btn-account').addEventListener('click', openAuth);
+    el('btn-whatsapp').addEventListener('click', prefillContactName);
     el('btn-account-mobile').addEventListener('click', () => {
         el('mobile-menu').classList.add('hidden');
         el('btn-menu').setAttribute('aria-expanded', 'false');
