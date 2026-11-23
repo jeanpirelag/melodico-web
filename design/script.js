@@ -156,7 +156,8 @@ function renderCatalog(filter = activeFilter) {
             ${product.digital ? '<span class="relative mt-3 inline-flex w-fit items-center gap-1 rounded-full border-2 border-neutral-900 bg-white px-2 py-0.5 text-[11px] font-semibold"><span class="h-1.5 w-1.5 rounded-full bg-[#6699FF]"></span>Descarga digital</span>' : ''}
             <div class="relative mt-6 flex items-center justify-between gap-3">
                 <span class="text-base font-extrabold text-neutral-900">${product.price === null ? 'Consultar precio' : `$${product.price}`}</span>
-                <button class="px-4 py-2 rounded-lg text-sm font-bold border-2 border-neutral-900 bg-[#6699FF] text-neutral-900 shadow-[3px_3px_0_#111] transition hover:-translate-y-0.5 hover:bg-[#4d85ff] active:translate-y-0 active:shadow-none">${product.digital ? 'Comprar' : 'Cotizar'}</button>
+                <button type="button" ${product.price === null ? `data-quote="${product.slug}"` : `data-add-cart="${product.slug}"`}
+                    class="px-4 py-2 rounded-lg text-sm font-bold border-2 border-neutral-900 bg-[#6699FF] text-neutral-900 shadow-[3px_3px_0_#111] transition hover:-translate-y-0.5 hover:bg-[#4d85ff] active:translate-y-0 active:shadow-none">${product.digital ? 'Comprar' : 'Cotizar'}</button>
             </div>
             <button type="button" data-add-cart="${product.slug}"
                 class="relative mt-3 w-full rounded-lg border-2 border-neutral-900 bg-white px-4 py-2 text-sm font-bold text-neutral-900 transition hover:-translate-y-0.5 hover:bg-[#E6E6E6] active:translate-y-0">
@@ -271,6 +272,22 @@ function handleRoute() {
 }
 
 window.addEventListener('hashchange', handleRoute);
+
+document.addEventListener('click', (event) => {
+    const quote = event.target.closest('[data-quote]');
+    if (!quote) return;
+
+    const product = products.find((item) => item.slug === quote.dataset.quote);
+    if (!product) return;
+
+    const message = document.getElementById('wa-message');
+    if (message) {
+        message.value = `Me interesa cotizar: ${product.name}${product.code ? ` (${product.code})` : ''}`;
+    }
+    const productSelect = document.getElementById('wa-product');
+    if (productSelect) productSelect.value = 'otra consulta';
+    document.getElementById('btn-whatsapp').click();
+});
 
 document.getElementById('product-back').addEventListener('click', () => {
     location.hash = '#products';
