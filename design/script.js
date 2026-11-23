@@ -67,6 +67,7 @@ async function loadProducts() {
 
 let bsPerRef = null;
 let rateUpdatedAt = null;
+let minCartRef = 15;
 
 async function loadRates() {
     try {
@@ -77,8 +78,12 @@ async function loadRates() {
             bsPerRef = data.bsPerRef;
             rateUpdatedAt = data.updatedAt || null;
             window.MELODICO_BS_PER_REF = bsPerRef;
-            renderRateNote();
         }
+        if (Number.isFinite(data.minCartRef) && data.minCartRef > 0) {
+            minCartRef = data.minCartRef;
+            window.MELODICO_MIN_CART_REF = minCartRef;
+        }
+        renderRateNote();
     } catch {
         /* keep REF only */
     }
@@ -99,7 +104,7 @@ function renderRateNote() {
 
     const cartNote = document.getElementById('cart-rate-note');
     if (cartNote) {
-        cartNote.textContent = `Total en REF (1 REF = 1 EUR). Tasa BCV: Bs ${rate} por EUR.`;
+        cartNote.textContent = `Compra mínima: ${minCartRef} REF. Total en REF (1 REF = 1 EUR). Tasa BCV: Bs ${rate} por EUR.`;
     }
 }
 
@@ -336,7 +341,6 @@ function renderCatalog(filter = activeFilter) {
                     <span class="block text-[10px] font-bold uppercase tracking-wider text-neutral-400">${product.code || ''}</span>
                     <span class="text-xl font-extrabold text-neutral-900">${product.price === null ? 'A cotizar' : refPrice(product.price)}</span>
                     ${bsPrice(product.price) ? `<span class="block text-[10px] font-semibold text-neutral-500">${bsPrice(product.price)}</span>` : ''}
-                    ${product.minPurchase ? `<span class="block text-[10px] font-bold text-[#b3002d]">Compra mínima: ${product.minPurchase} REF</span>` : ''}
                 </div>
                 <span class="inline-flex items-center gap-1 text-[11px] font-bold text-neutral-500 transition group-hover:text-neutral-900">
                     Ver detalle
@@ -502,7 +506,6 @@ function renderProduct(code, category = null) {
                     ${product.color ? `<span class="rounded-full border-2 border-neutral-900 bg-white px-2.5 py-0.5">Color: ${product.color}</span>` : ''}
                     ${product.showSizes && product.minWidth ? `<span class="whitespace-nowrap rounded-full border-2 border-neutral-900 bg-[#6699FF] px-2.5 py-0.5">Ancho mínimo: ${product.minWidth} cm</span>` : ''}
                     ${product.showSizes && product.minHeight ? `<span class="whitespace-nowrap rounded-full border-2 border-neutral-900 bg-[#6699FF] px-2.5 py-0.5">Alto mínimo: ${product.minHeight} cm</span>` : ''}
-                    ${product.minPurchase ? `<span class="whitespace-nowrap rounded-full border-2 border-neutral-900 bg-[#FF4D6D] px-2.5 py-0.5 text-white">Compra mínima: ${product.minPurchase} REF</span>` : ''}
                 </div>` : ''}
 
                 <h2 class="mt-3 text-2xl font-extrabold leading-tight tracking-tight text-neutral-900 md:text-3xl">${product.name}</h2>

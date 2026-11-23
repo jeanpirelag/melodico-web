@@ -180,6 +180,23 @@
             : null;
         el('cart-total').textContent = formatPrice(total);
 
+        // Store-wide minimum: 15 REF by default (only enforced when the total is known)
+        const min = Number(window.MELODICO_MIN_CART_REF) || 0;
+        const belowMinimum = total !== null && min > 0 && total < min;
+        const checkoutButton = el('checkout');
+        checkoutButton.disabled = belowMinimum;
+        checkoutButton.classList.toggle('opacity-50', belowMinimum);
+        checkoutButton.classList.toggle('cursor-not-allowed', belowMinimum);
+
+        const rateNote = el('cart-rate-note');
+        if (rateNote) {
+            rateNote.textContent = belowMinimum
+                ? `Compra mínima: ${min} REF. Te faltan ${(min - total).toFixed(2)} REF para confirmar.`
+                : `Compra mínima: ${min} REF. Total en REF (1 REF = 1 EUR). El monto en bolívares es referencial.`;
+            rateNote.classList.toggle('text-red-700', belowMinimum);
+            rateNote.classList.toggle('text-neutral-500', !belowMinimum);
+        }
+
         items.forEach((item) => {
             const row = document.createElement('div');
             row.className = 'flex items-center gap-3 py-3';
@@ -322,6 +339,16 @@
 
     async function checkout() {
         el('cart-error').textContent = '';
+
+        const min = Number(window.MELODICO_MIN_CART_REF) || 0;
+        const items = currentCart();
+        const total = items.every((item) => item.unitPrice !== null) && items.length
+            ? items.reduce((sum, item) => sum + item.unitPrice * item.quantity, 0)
+            : null;
+        if (total !== null && min > 0 && total < min) {
+            showCartError(`La compra mínima es de ${min} REF.`);
+            return;
+        }
 
         if (!state.customer) {
             showCartError('Inicia sesión o crea una cuenta para confirmar el pedido.');
