@@ -414,7 +414,7 @@
                 total.className = 'text-xs font-bold text-neutral-900';
                 total.textContent = formatPrice(order.total);
 
-                const isQuote = order.total === null;
+                const isQuote = order.total === null && order.status === 'pending';
                 const palette = isQuote
                     ? { bg: '#dbeafe', color: '#1e3a8a', border: '#1e3a8a' }
                     : statusColors[order.status] || statusColors.pending;
