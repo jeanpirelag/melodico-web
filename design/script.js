@@ -25,14 +25,33 @@ let products = fallbackProducts;
 
 const apiOverride = document.querySelector('meta[name="melodico-api"]')?.content?.trim();
 const isLocalHost = /^(localhost|127\.0\.0\.1)$/.test(location.hostname);
-const API_BASE = location.protocol === 'file:'
-    ? 'http://localhost:3000/api'
+const LOCAL_API = 'http://localhost:3000/api';
+
+// Same origin by default: the server that serves /design also serves /api.
+// Only files opened directly or a cross-origin deployment need a different base.
+let API_BASE = location.protocol === 'file:'
+    ? LOCAL_API
     : isLocalHost
-        ? `${location.protocol}//${location.hostname}:3000/api`
+        ? '/api'
         : (apiOverride || '/api');
 window.MELODICO_API_BASE = API_BASE;
 
+async function resolveApiBase() {
+    try {
+        const response = await fetch(`${API_BASE}/shop/products`);
+        if (response.ok) return;
+    } catch {
+        /* try the fallback below */
+    }
+    // Static preview servers (Live Server, etc.) do not expose the API: use the local server
+    if (isLocalHost && API_BASE !== LOCAL_API) {
+        API_BASE = LOCAL_API;
+        window.MELODICO_API_BASE = API_BASE;
+    }
+}
+
 async function loadProducts() {
+    await resolveApiBase();
     try {
         const response = await fetch(`${API_BASE}/shop/products`);
         if (!response.ok) return;

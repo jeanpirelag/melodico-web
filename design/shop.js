@@ -3,7 +3,7 @@
     const TOKEN_KEY = 'melodico-shop-token';
     const GUEST_CART_KEY = 'melodico-guest-cart';
     const WHATSAPP = '584246441382';
-    const API_BASE = window.MELODICO_API_BASE || '/api';
+    const apiBase = () => window.MELODICO_API_BASE || '/api';
 
     const el = (id) => document.getElementById(id);
 
@@ -24,13 +24,13 @@
 
         let response;
         try {
-            response = await fetch(`${API_BASE}${path}`, {
+            response = await fetch(`${apiBase()}${path}`, {
                 method,
                 headers,
                 body: body === undefined ? undefined : JSON.stringify(body),
             });
         } catch {
-            throw new Error(`No se pudo conectar con el servidor (${API_BASE}). Revisa que esté encendido y que el origen esté permitido.`);
+            throw new Error(`No se pudo conectar con el servidor (${apiBase()}). Revisa que esté encendido y que el origen esté permitido.`);
         }
 
         const data = await response.json().catch(() => ({}));
