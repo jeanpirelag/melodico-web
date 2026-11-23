@@ -812,6 +812,24 @@ document.addEventListener('keydown', (event) => {
     if (event.key === 'Escape') closeLightbox();
 });
 
+/* ---------- Tips page reveal ---------- */
+const tipCards = document.querySelectorAll('.tip-card');
+if (tipCards.length) {
+    if ('IntersectionObserver' in window) {
+        const observer = new IntersectionObserver((entries, obs) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('in');
+                    obs.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.15 });
+        tipCards.forEach((card) => observer.observe(card));
+    } else {
+        tipCards.forEach((card) => card.classList.add('in'));
+    }
+}
+
 document.getElementById('product-back').addEventListener('click', () => {
     location.hash = '#products';
     if (location.hash === '#products') closeProduct();
