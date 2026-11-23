@@ -466,8 +466,15 @@ function renderProduct(code, category = null) {
     const color = categoryColors[product.category] || categoryColors.all;
     const priceLabel = product.price === null ? 'Consultar precio' : refPrice(product.price);
 
+    const specs = [];
+    if (product.subcategory) specs.push(['Subcategoría', product.subcategory]);
+    if (product.brand) specs.push(['Marca', product.brand]);
+    if (product.color) specs.push(['Color', product.color]);
+    if (product.showSizes && product.minWidth) specs.push(['Ancho mínimo', `${product.minWidth} cm`]);
+    if (product.showSizes && product.minHeight) specs.push(['Alto mínimo', `${product.minHeight} cm`]);
+
     productDetail.innerHTML = `
-        <div class="grid gap-6 md:grid-cols-[minmax(0,1.1fr)_1fr]">
+        <div class="grid items-start gap-6 md:grid-cols-[minmax(0,1.1fr)_1fr]">
             <div class="panel flex flex-col gap-3 rounded-2xl p-4">
                 <div class="relative aspect-square w-full overflow-hidden rounded-xl border-2 border-neutral-900" style="background:#D6D6D6" id="product-gallery">
                     ${product.image
@@ -498,16 +505,7 @@ function renderProduct(code, category = null) {
                 <div class="flex flex-wrap items-center gap-2">
                     <span class="inline-flex w-fit items-center gap-1.5 rounded-full border-2 px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider" style="border-color:${color}; color:${color}; background:${tint(color, 0.1)}">${categoryIcons[product.category] || ''}<span>${categories[product.category]}</span></span>
                     ${product.digital ? '<span class="inline-flex items-center gap-1 rounded-full border-2 border-neutral-900 bg-[#6699FF] px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-neutral-900">Digital</span>' : ''}
-                    <span class="inline-flex items-center gap-1 whitespace-nowrap rounded-full border-2 border-neutral-900 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider ${product.digital ? 'bg-white text-neutral-800' : 'bg-[#25D366] text-neutral-900'}">${product.digital ? 'Entrega digital · sin envío' : 'Envío nacional · cobro a destino (COD)'}</span>
                 </div>
-
-                ${(product.brand || product.color || product.subcategory || product.minWidth || product.minHeight) ? `<div class="mt-2 flex flex-wrap gap-2 text-[11px] font-bold text-neutral-700">
-                    ${product.subcategory ? `<span class="rounded-full border-2 border-neutral-900 bg-[#E6E6E6] px-2.5 py-0.5">${product.subcategory}</span>` : ''}
-                    ${product.brand ? `<span class="rounded-full border-2 border-neutral-900 bg-white px-2.5 py-0.5">Marca: ${product.brand}</span>` : ''}
-                    ${product.color ? `<span class="rounded-full border-2 border-neutral-900 bg-white px-2.5 py-0.5">Color: ${product.color}</span>` : ''}
-                    ${product.showSizes && product.minWidth ? `<span class="whitespace-nowrap rounded-full border-2 border-neutral-900 bg-[#6699FF] px-2.5 py-0.5">Ancho mínimo: ${product.minWidth} cm</span>` : ''}
-                    ${product.showSizes && product.minHeight ? `<span class="whitespace-nowrap rounded-full border-2 border-neutral-900 bg-[#6699FF] px-2.5 py-0.5">Alto mínimo: ${product.minHeight} cm</span>` : ''}
-                </div>` : ''}
 
                 <h2 class="mt-3 text-2xl font-extrabold leading-tight tracking-tight text-neutral-900 md:text-3xl">${product.name}</h2>
                 <p class="mt-1 flex items-center gap-1.5 text-[11px] font-semibold text-neutral-500">
@@ -517,6 +515,20 @@ function renderProduct(code, category = null) {
                 </p>
 
                 <p class="mt-4 text-neutral-600">${product.description}</p>
+
+                <dl class="mt-4 divide-y divide-neutral-200 overflow-hidden rounded-lg border-2 border-neutral-900 bg-white text-xs">
+                    ${specs.map(([label, value]) => `
+                        <div class="flex items-center justify-between gap-3 px-3 py-1.5">
+                            <dt class="font-semibold text-neutral-500">${label}</dt>
+                            <dd class="text-right font-bold text-neutral-900">${value}</dd>
+                        </div>`).join('')}
+                    <div class="flex items-center justify-between gap-3 px-3 py-1.5">
+                        <dt class="font-semibold text-neutral-500">Envío</dt>
+                        <dd class="text-right font-bold ${product.digital ? 'text-neutral-900' : 'text-emerald-700'}">
+                            ${product.digital ? 'Digital, sin envío' : 'Nacional en Venezuela · cobro a destino (COD)'}
+                        </dd>
+                    </div>
+                </dl>
 
                 <div class="mt-3 flex flex-wrap items-center gap-x-2 gap-y-1 rounded-md border-2 border-dashed border-neutral-900 bg-[#FF4D6D] px-2.5 py-1.5">
                     <span class="text-[10px] font-extrabold uppercase tracking-wide text-white">Colores y materiales personalizables</span>
@@ -558,11 +570,11 @@ function renderProduct(code, category = null) {
                 </div>
 
                 <ul class="mt-5 space-y-2 text-xs text-neutral-600">
-                    <li class="flex items-start gap-2"><span class="mt-0.5 text-[#25D366]">✔</span> Asesoría de instalación incluida por WhatsApp.</li>
-                    <li class="flex items-start gap-2"><span class="mt-0.5 text-[#25D366]">✔</span> ${product.digital ? 'Archivos vectoriales para plotter, con líneas de corte.' : 'Vinil de corte profesional listo para aplicar.'}</li>
-                    <li class="flex items-start gap-2"><span class="mt-0.5 text-[#25D366]">✔</span> ${product.digital
+                    <li class="flex items-start gap-2"><span class="mt-0.5 text-[#25D366]">✔</span><span>Asesoría de instalación incluida por WhatsApp.</span></li>
+                    <li class="flex items-start gap-2"><span class="mt-0.5 text-[#25D366]">✔</span><span>${product.digital ? 'Archivos vectoriales para plotter, con líneas de corte.' : 'Vinil de corte profesional listo para aplicar.'}</span></li>
+                    <li class="flex items-start gap-2"><span class="mt-0.5 text-[#25D366]">✔</span><span>${product.digital
                         ? 'Entrega digital, sin costo ni tiempo de envío.'
-                        : 'Pago del producto por adelantado. El envío es con <strong>cobro a destino (COD)</strong> en la agencia, solo dentro de Venezuela.'}</li>
+                        : 'Pago del producto por adelantado; el envío es con <strong>cobro a destino (COD)</strong>, solo dentro de Venezuela.'}</span></li>
                 </ul>
             </div>
         </div>`;
