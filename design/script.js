@@ -7,7 +7,9 @@ const categories = {
 
 // Sample catalog: replace with real products. price: null renders "Consultar precio".
 // digital: true marks downloadable files (SVG, AI, PDF) for other designers.
-const products = [
+// Fallback catalog used when the API is unreachable. The real catalog lives in the database
+// and is managed from /design/panel.
+const fallbackProducts = [
     { id: 1, slug: 'kit-calcas-casco', category: 'decalKits', name: 'Kit de calcas para casco', description: 'Set de piezas recortadas listas para aplicar.', price: null },
     { id: 2, slug: 'kit-calcas-vehiculo', category: 'decalKits', name: 'Kit de calcas para vehículo', description: 'Franjas y detalles recortados para carrocería.', price: null },
     { id: 3, slug: 'calcomania-personalizada', category: 'stickers', name: 'Calcomanía de diseño personalizado', description: 'Vinil de corte para autos, paredes y vitrinas.', price: null },
@@ -18,6 +20,31 @@ const products = [
     { id: 8, slug: 'cutter-precision', category: 'tools', name: 'Cutter de precisión', description: 'Cuchilla de punta fina para retirar excedentes.', price: null },
     { id: 9, slug: 'pistola-calor', category: 'tools', name: 'Pistola de calor', description: 'Control de temperatura para moldear vinil en curvas.', price: null }
 ];
+
+let products = fallbackProducts;
+
+const apiOverride = document.querySelector('meta[name="melodico-api"]')?.content?.trim();
+const isLocalHost = /^(localhost|127\.0\.0\.1)$/.test(location.hostname);
+const API_BASE = location.protocol === 'file:'
+    ? 'http://localhost:3000/api'
+    : isLocalHost
+        ? `${location.protocol}//${location.hostname}:3000/api`
+        : (apiOverride || '/api');
+window.MELODICO_API_BASE = API_BASE;
+
+async function loadProducts() {
+    try {
+        const response = await fetch(`${API_BASE}/shop/products`);
+        if (!response.ok) return;
+        const data = await response.json();
+        if (Array.isArray(data.products) && data.products.length) {
+            products = data.products;
+            window.MELODICO_PRODUCTS = products;
+        }
+    } catch {
+        /* offline: keep the fallback catalog */
+    }
+}
 
 // The shop module (shop.js) needs the catalog to build cart items.
 window.MELODICO_PRODUCTS = products;
@@ -220,8 +247,6 @@ document.getElementById('product-back').addEventListener('click', () => {
     if (location.hash === '#products') closeProduct();
 });
 
-handleRoute();
-
 /* ---------- Navigation ---------- */
 const menuButton = document.getElementById('btn-menu');
 const mobileMenu = document.getElementById('mobile-menu');
@@ -263,7 +288,11 @@ document.querySelectorAll('.nav-link').forEach(link => {
     }
 });
 
-renderCatalog();
+(async () => {
+    await loadProducts();
+    renderCatalog();
+    handleRoute();
+})();
 
 /* ---------- Music player ---------- */
 // Add your MP3 files to assets/audio/ and declare each track here.

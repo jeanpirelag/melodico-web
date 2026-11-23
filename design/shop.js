@@ -3,16 +3,7 @@
     const TOKEN_KEY = 'melodico-shop-token';
     const GUEST_CART_KEY = 'melodico-guest-cart';
     const WHATSAPP = '584246441382';
-
-    const isFile = location.protocol === 'file:';
-    const apiOverride = document.querySelector('meta[name="melodico-api"]')?.content?.trim();
-    const isLocal = /^(localhost|127\.0\.0\.1)$/.test(location.hostname);
-    // Local development always talks to the local server, even if the page carries a production API override.
-    const API_BASE = isFile
-        ? 'http://localhost:3000/api'
-        : isLocal
-            ? `${location.protocol}//${location.hostname}:3000/api`
-            : (apiOverride || '/api');
+    const API_BASE = window.MELODICO_API_BASE || '/api';
 
     const el = (id) => document.getElementById(id);
 
