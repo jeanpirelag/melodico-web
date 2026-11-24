@@ -1,220 +1,303 @@
 <!DOCTYPE html>
-<html lang="es" class="scroll-smooth">
+<html lang="es">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Melodico | En Construcción</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap"
+    <title>Melódico Design</title>
+    <meta name="description" content="Melódico Design: calcomanías, calcas y vinil de corte. Entra al catálogo y compra en línea.">
+    <meta name="theme-color" content="#0b0f1a">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap"
         rel="stylesheet">
-    <script src="https://unpkg.com/lucide@latest"></script>
     <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        html,
         body {
-            font-family: 'Plus Jakarta Sans', sans-serif;
+            height: 100%;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
             background-color: #0b0f1a;
+            color: #e2e8f0;
+            overflow: hidden;
         }
 
-        .glass-panel {
-            background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-        }
-
-        .text-gradient {
-            background: linear-gradient(135deg, #10b981 0%, #3b82f6 50%, #8b5cf6 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        @keyframes float {
-
-            0%,
-            100% {
-                transform: translateY(0px);
-            }
-
-            50% {
-                transform: translateY(-15px);
-            }
-        }
-
-        .animate-float {
-            animation: float 4s ease-in-out infinite;
-        }
-
-        @keyframes pulse-slow {
-
-            0%,
-            100% {
-                opacity: 0.3;
-                transform: scale(1);
-            }
-
-            50% {
-                opacity: 0.6;
-                transform: scale(1.1);
-            }
-        }
-
-        .animate-pulse-slow {
-            animation: pulse-slow 6s ease-in-out infinite;
-        }
-
-        @keyframes progress {
-            from {
-                width: 0%;
-            }
-
-            to {
-                width: 75%;
-            }
-        }
-
-        .progress-bar {
-            animation: progress 2s ease-out forwards;
+        /* Ambient light */
+        .glow {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            background:
+                radial-gradient(circle at 18% 22%, rgba(16, 185, 129, .14), transparent 42%),
+                radial-gradient(circle at 82% 76%, rgba(59, 130, 246, .16), transparent 46%),
+                radial-gradient(circle at 50% 50%, rgba(99, 102, 241, .08), transparent 60%);
         }
 
         .grain {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            inset: 0;
             pointer-events: none;
-            opacity: 0.03;
-            z-index: 100;
+            opacity: .035;
+            z-index: 5;
             background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+
+        .stage {
+            position: relative;
+            z-index: 2;
+            min-height: 100dvh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: clamp(28px, 6vh, 52px);
+            padding: 28px;
+        }
+
+        /* ---------- Animated mark ---------- */
+        .mark-wrap {
+            position: relative;
+            display: grid;
+            place-items: center;
+            animation: fadeIn .9s ease-out both;
+        }
+
+        .halo {
+            position: absolute;
+            width: 150%;
+            height: 150%;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(96, 165, 250, .38), transparent 66%);
+            filter: blur(26px);
+            animation: breathe 5.5s ease-in-out infinite;
+        }
+
+        .ring {
+            position: absolute;
+            inset: -18px;
+            border-radius: 50%;
+            border: 2px dashed rgba(147, 197, 253, .35);
+            animation: spin 22s linear infinite;
+        }
+
+        .mark {
+            position: relative;
+            width: clamp(148px, 38vw, 208px);
+            aspect-ratio: 1;
+            display: grid;
+            place-items: center;
+            padding: 14%;
+            border-radius: 38%;
+            border: 2px solid rgba(17, 17, 17, .9);
+            background: radial-gradient(circle at 30% 22%, #ffffff 0%, #e7ebf3 62%, #ccd2de 100%);
+            box-shadow:
+                0 34px 70px -26px rgba(0, 0, 0, .9),
+                inset 0 1px 0 #fff,
+                0 0 0 6px rgba(255, 255, 255, .04);
+            animation: float 5.5s ease-in-out infinite;
+        }
+
+        .mark img {
+            width: 100%;
+            height: auto;
+            display: block;
+            filter: drop-shadow(0 6px 8px rgba(17, 17, 17, .2));
+        }
+
+        /* ---------- Store link ---------- */
+        .store {
+            position: relative;
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+            padding: clamp(18px, 4vw, 24px) clamp(26px, 7vw, 46px) clamp(16px, 3vw, 20px);
+            border-radius: 24px;
+            border: 2px solid #111;
+            background: linear-gradient(180deg, #ffffff 0%, #e9ecf2 100%);
+            box-shadow:
+                0 26px 54px -22px rgba(0, 0, 0, .85),
+                inset 0 1px 0 #fff;
+            text-decoration: none;
+            color: #111;
+            overflow: hidden;
+            isolation: isolate;
+            transition: transform .3s ease, box-shadow .3s ease;
+            animation: rise .8s .15s cubic-bezier(.22, .61, .36, 1) both;
+        }
+
+        .store::after {
+            content: "";
+            position: absolute;
+            top: -30%;
+            left: 0;
+            width: 45%;
+            height: 160%;
+            z-index: 2;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, .85), transparent);
+            transform: translateX(-180%) skewX(-18deg);
+            pointer-events: none;
+            animation: sheen 6s ease-in-out infinite;
+        }
+
+        .store:hover,
+        .store:focus-visible {
+            transform: translateY(-5px);
+            box-shadow:
+                0 34px 64px -20px rgba(0, 0, 0, .9),
+                inset 0 1px 0 #fff;
+            outline: none;
+        }
+
+        .store:focus-visible {
+            outline: 3px solid #60a5fa;
+            outline-offset: 4px;
+        }
+
+        .store-logo {
+            width: clamp(196px, 52vw, 300px);
+            height: auto;
+            display: block;
+        }
+
+        .store-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: clamp(10px, 2.4vw, 12px);
+            font-weight: 800;
+            letter-spacing: .2em;
+            text-transform: uppercase;
+            color: #1d4ed8;
+        }
+
+        .store-cta svg {
+            width: 15px;
+            height: 15px;
+            transition: transform .3s ease;
+        }
+
+        .store:hover .store-cta svg,
+        .store:focus-visible .store-cta svg {
+            transform: translateX(5px);
+        }
+
+        /* ---------- Motion ---------- */
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(-7px);
+            }
+
+            50% {
+                transform: translateY(7px);
+            }
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes breathe {
+
+            0%,
+            100% {
+                opacity: .55;
+                transform: scale(.94);
+            }
+
+            50% {
+                opacity: 1;
+                transform: scale(1.05);
+            }
+        }
+
+        @keyframes sheen {
+
+            0%,
+            52% {
+                transform: translateX(-180%) skewX(-18deg);
+            }
+
+            78%,
+            100% {
+                transform: translateX(320%) skewX(-18deg);
+            }
+        }
+
+        @keyframes rise {
+            from {
+                opacity: 0;
+                transform: translateY(22px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(.92);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+
+            .mark,
+            .ring,
+            .halo,
+            .store,
+            .store::after,
+            .mark-wrap {
+                animation: none !important;
+            }
         }
     </style>
 </head>
 
-<body class="text-slate-300 selection:bg-emerald-500/30 selection:text-emerald-200 overflow-x-hidden">
+<body>
+    <div class="glow"></div>
     <div class="grain"></div>
 
-    <!-- NAV -->
-    <nav class="fixed w-full z-50 border-b border-white/5 bg-slate-950/40 backdrop-blur-xl">
-        <div class="max-w-6xl mx-auto px-6 py-5 flex justify-center items-center">
-            <div class="logo text-2xl font-black tracking-tighter text-white uppercase group cursor-pointer">
-                Melodico<span class="text-emerald-500 group-hover:animate-pulse">.</span>
+    <main class="stage">
+        <div class="mark-wrap">
+            <span class="halo" aria-hidden="true"></span>
+            <span class="ring" aria-hidden="true"></span>
+            <div class="mark">
+                <img src="assets/images/melodicodesign_isotipo.png" alt="Melódico Design" width="760" height="620">
             </div>
         </div>
-    </nav>
 
-    <!-- HERO -->
-    <header class="relative min-h-screen flex items-center justify-center px-6 overflow-hidden pt-24">
-
-        <!-- Background blobs -->
-        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full pointer-events-none">
-            <div
-                class="absolute top-[-15%] left-[-10%] w-[50%] h-[50%] bg-emerald-500/10 rounded-full blur-[120px] animate-pulse-slow">
-            </div>
-            <div class="absolute bottom-[-15%] right-[-10%] w-[50%] h-[50%] bg-blue-500/10 rounded-full blur-[120px] animate-pulse-slow"
-                style="animation-delay: 2s;"></div>
-            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[60%] h-[60%] bg-indigo-500/5 rounded-full blur-[150px] animate-pulse-slow"
-                style="animation-delay: 4s;"></div>
-        </div>
-
-        <div class="max-w-3xl mx-auto text-center relative z-10">
-
-            <!-- Icon -->
-            <div class="flex justify-center mb-10">
-                <div class="relative">
-                    <div class="absolute inset-0 bg-emerald-500/20 rounded-full blur-2xl animate-pulse-slow"></div>
-                    <div
-                        class="relative w-24 h-24 md:w-28 md:h-28 glass-panel rounded-3xl flex items-center justify-center animate-float">
-                        <i data-lucide="hard-hat" class="w-12 h-12 md:w-14 md:h-14 text-emerald-500"></i>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Badge -->
-            <div class="inline-flex items-center gap-2 px-4 py-2 glass-panel rounded-full mb-8">
-                <span class="relative flex h-2 w-2">
-                    <span
-                        class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                    <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
-                </span>
-                <span class="text-[10px] font-black uppercase tracking-[0.3em] text-emerald-400">Sitio en
-                    mantenimiento</span>
-            </div>
-
-            <!-- Title -->
-            <h1 class="text-5xl md:text-7xl lg:text-8xl font-black text-white mb-8 tracking-tighter leading-[0.9]">
-                Estamos <br><span class="text-gradient">construyendo</span> algo grande.
-            </h1>
-
-            <!-- Description -->
-            <p class="text-base md:text-lg text-slate-400 mb-16 max-w-xl mx-auto font-medium leading-relaxed">
-                Nuestro laboratorio está afinando los últimos detalles.
-                Pronto tendrás acceso a una experiencia completamente renovada.
-            </p>
-
-            <!-- Progress -->
-            <div class="max-w-md mx-auto">
-                <div class="flex justify-between items-center mb-3">
-                    <span class="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">Progreso</span>
-                    <span class="text-[10px] font-black uppercase tracking-[0.2em] text-emerald-400">75%</span>
-                </div>
-                <div class="h-1.5 bg-white/5 rounded-full overflow-hidden">
-                    <div
-                        class="progress-bar h-full bg-gradient-to-r from-emerald-500 via-blue-500 to-indigo-500 rounded-full">
-                    </div>
-                </div>
-            </div>
-
-        </div>
-
-        <!-- Scroll hint -->
-        <div class="absolute bottom-8 left-1/2 -translate-x-1/2 text-slate-600 animate-bounce">
-            <i data-lucide="chevron-down" class="w-5 h-5"></i>
-        </div>
-    </header>
-
-    <!-- INFO SECTION -->
-    <section class="py-24 px-6 max-w-4xl mx-auto">
-        <div class="glass-panel rounded-[2.5rem] p-10 md:p-16 text-center relative overflow-hidden">
-            <div class="absolute top-0 right-0 w-64 h-64 bg-emerald-500/5 rounded-full blur-3xl"></div>
-            <div class="absolute bottom-0 left-0 w-64 h-64 bg-blue-500/5 rounded-full blur-3xl"></div>
-
-            <div class="relative z-10">
-                <div class="inline-flex items-center justify-center w-14 h-14 bg-emerald-500/10 rounded-2xl mb-6">
-                    <i data-lucide="clock" class="w-7 h-7 text-emerald-500"></i>
-                </div>
-
-                <h2 class="text-3xl md:text-4xl font-black text-white mb-6 tracking-tight">
-                    Volvemos <span class="text-emerald-500 italic font-light">pronto</span>
-                </h2>
-
-                <p class="text-slate-400 leading-relaxed max-w-lg mx-auto">
-                    Estamos trabajando para ofrecerte una experiencia renovada.
-                    Gracias por tu paciencia.
-                </p>
-            </div>
-        </div>
-    </section>
-
-    <!-- FOOTER -->
-    <footer class="py-16 text-center border-t border-white/5">
-        <div class="max-w-6xl mx-auto px-6">
-            <div class="flex justify-center items-center gap-3 mb-6">
-                <div class="w-8 h-8 bg-emerald-500/10 rounded-lg flex items-center justify-center">
-                    <i data-lucide="music" class="w-4 h-4 text-emerald-500"></i>
-                </div>
-                <span class="text-sm font-black text-white tracking-tighter uppercase">Melodico<span
-                        class="text-emerald-500">.</span></span>
-            </div>
-            <p class="text-slate-500 text-[10px] tracking-[0.4em] uppercase font-bold mb-2">
-                © 2026 Melodico Projects
-            </p>
-            <p class="text-slate-600 text-[9px] tracking-[0.3em] uppercase font-bold">
-                Afinando para el éxito
-            </p>
-        </div>
-    </footer>
-
-    <script>lucide.createIcons();</script>
+        <a class="store" href="https://design.melodico.net">
+            <img class="store-logo" src="assets/images/melodigodesign_logo.png" alt="Melódico Design" width="1008"
+                height="376">
+            <span class="store-cta">
+                design.melodico.net
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"
+                    stroke-linejoin="round" aria-hidden="true">
+                    <path d="M5 12h14M13 6l6 6-6 6" />
+                </svg>
+            </span>
+        </a>
+    </main>
 </body>
 
 </html>
