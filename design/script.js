@@ -815,6 +815,21 @@ document.addEventListener('keydown', (event) => {
 /* ---------- Tips page reveal ---------- */
 const tipCards = document.querySelectorAll('.tip-card');
 if (tipCards.length) {
+    // Play/pause control on every scene, like a tutorial video
+    document.querySelectorAll('.tip-scene').forEach((scene) => {
+        const toggle = document.createElement('button');
+        toggle.type = 'button';
+        toggle.className = 'scene-toggle';
+        toggle.textContent = '❚❚';
+        toggle.setAttribute('aria-label', 'Pausar animación');
+        toggle.addEventListener('click', () => {
+            const paused = scene.classList.toggle('paused');
+            toggle.textContent = paused ? '▶' : '❚❚';
+            toggle.setAttribute('aria-label', paused ? 'Reproducir animación' : 'Pausar animación');
+        });
+        scene.appendChild(toggle);
+    });
+
     if ('IntersectionObserver' in window) {
         const observer = new IntersectionObserver((entries, obs) => {
             entries.forEach((entry) => {

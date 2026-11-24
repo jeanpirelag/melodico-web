@@ -459,6 +459,68 @@
             border-radius: 12px;
         }
 
+        /* Tutorial player controls */
+        .scene-toggle {
+            position: absolute;
+            right: 6px;
+            top: 6px;
+            z-index: 5;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid #111;
+            border-radius: 9999px;
+            background: rgba(255,255,255,.92);
+            color: #111;
+            font-size: 8px;
+            font-weight: 800;
+            line-height: 1;
+            cursor: pointer;
+        }
+
+        .tip-scene.paused .scene-svg,
+        .tip-scene.paused .scene-svg *,
+        .tip-scene.paused .dirt,
+        .tip-scene.paused .cloth,
+        .tip-scene.paused .squeegee,
+        .tip-scene.paused .bub,
+        .tip-scene.paused .speck,
+        .tip-scene.paused .sun-rays,
+        .tip-scene.paused .tool-rise,
+        .tip-scene.paused::after {
+            animation-play-state: paused !important;
+        }
+
+        /* One synchronized 8 s timeline for every scene */
+        .hand-cloth { animation-duration: 8s; }
+        .hand-spray { animation-duration: 8s; }
+        .sticker-drop { animation-duration: 8s; }
+        .hand-press { animation-duration: 8s; }
+        .tool-rise { animation-duration: 8s; }
+        .bub { animation-duration: 8s; }
+        .dirt { animation-duration: 8s; }
+        .tip-scene::after { animation-duration: 8s; }
+
+        @keyframes handSweep {
+            0% { transform: translateX(-70px); }
+            46%, 78% { transform: translateX(96px); }
+            100% { transform: translateX(-70px); }
+        }
+
+        @keyframes stickerDrop {
+            0%, 10% { transform: translateY(-54px); opacity: .5; }
+            30%, 62% { transform: translateY(0); opacity: 1; }
+            80%, 100% { transform: translateY(-54px); opacity: .5; }
+        }
+
+        @keyframes handPress {
+            0%, 30% { transform: translate(-40px, -34px); opacity: 0; }
+            42% { opacity: 1; }
+            60%, 82% { transform: translate(120px, 4px); opacity: 1; }
+            100% { transform: translate(-40px, -34px); opacity: 0; }
+        }
     </style>
 </head>
 
