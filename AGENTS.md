@@ -6,10 +6,8 @@ Sitio web estático (HTML/CSS/JS), sin build, sin gestor de paquetes, sin tests 
 - Código (variables, funciones, ids, clases de datos, comentarios) y mensajes de commit en inglés; textos visibles para el usuario en español.
 
 ## Estructura
-- `index.html`: página principal ("En Construcción"). Estilos inline en `<style>`, Tailwind y Lucide por CDN.
-- `style.css`, `script.js`: estilos y scripts globales (scroll suave para enlaces `#ancla`, `lucide.createIcons()`).
-- `playground/*.html`: páginas independientes, no enlazadas desde el index.
-- `design/`, `assets/`: recursos (ver contenido antes de asumir su uso).
+- `index.html`: página principal con el enlace a la tienda (`design.melodico.net`, hospedada aparte). Estilos inline en `<style>` y Google Fonts por CDN.
+- `assets/images/`: logos e iconos usados por el index.
 
 ## Despliegue
 - `.cpanel.yml` copia con `cp -R *` todo el contenido de la raíz a `/home/melodico/public_html` en cPanel.
@@ -17,4 +15,4 @@ Sitio web estático (HTML/CSS/JS), sin build, sin gestor de paquetes, sin tests 
 
 ## Verificación
 - No hay comandos de build, test ni lint. Para verificar, abre el HTML en el navegador.
-- Los CDN (Tailwind, Lucide, Google Fonts) requieren conexión a internet.
+- Los CDN (Google Fonts) requieren conexión a internet.
