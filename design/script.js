@@ -815,6 +815,19 @@ document.addEventListener('keydown', (event) => {
 /* ---------- Tips page reveal ---------- */
 const tipCards = document.querySelectorAll('.tip-card');
 if (tipCards.length) {
+    // Each scene gets a subtitle with its step name, like a tutorial video
+    tipCards.forEach((card) => {
+        const scene = card.querySelector('.tip-scene');
+        const title = card.querySelector('h2')?.textContent?.trim();
+        if (scene && title) {
+            const caption = document.createElement('span');
+            caption.className = 'scene-caption';
+            const number = title.match(/^(\d+)\./);
+            caption.textContent = number ? `Paso ${number[1]}` : title;
+            scene.appendChild(caption);
+        }
+    });
+
     if ('IntersectionObserver' in window) {
         const observer = new IntersectionObserver((entries, obs) => {
             entries.forEach((entry) => {
