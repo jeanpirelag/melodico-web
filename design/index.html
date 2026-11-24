@@ -92,22 +92,7 @@
             box-shadow: inset 0 -22px 26px -22px rgba(0,0,0,.35);
         }
 
-        .tip-scene::before {
-            content: "TUTORIAL";
-            position: absolute;
-            top: 6px;
-            left: 8px;
-            z-index: 4;
-            padding: 2px 7px 2px 16px;
-            font-size: 8px;
-            font-weight: 800;
-            letter-spacing: .12em;
-            color: #fff;
-            background-color: rgba(17,17,17,.78);
-            background-image: radial-gradient(circle at 7px 50%, #FF3B30 3px, transparent 3.5px);
-            background-repeat: no-repeat;
-            border-radius: 5px;
-        }
+
 
         .tip-scene::after {
             content: "";
@@ -147,29 +132,12 @@
         @media (prefers-reduced-motion: reduce) {
             .tip-scene::after, .scene-svg { animation: none; }
         }
-        .scene-caption {
-            position: absolute;
-            left: 50%;
-            bottom: 9px;
-            z-index: 4;
-            transform: translateX(-50%);
-            max-width: 88%;
-            overflow: hidden;
-            white-space: nowrap;
-            text-overflow: ellipsis;
-            background: rgba(17,17,17,.72);
-            color: #fff;
-            font-size: 9px;
-            font-weight: 700;
-            letter-spacing: .02em;
-            padding: 2px 9px;
-            border-radius: 4px;
-        }
+
         /* SVG scenes with hands and tools */
         .scene-svg { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
 
         .hand-cloth { transform-box: fill-box; transform-origin: center; animation: handSweep 4.6s ease-in-out infinite; }
-        @keyframes handSweep { 0% { transform: translateX(-70px); } 65%, 100% { transform: translateX(150px); } }
+        @keyframes handSweep { 0% { transform: translateX(-70px); } 65%, 100% { transform: translateX(96px); } }
 
         .hand-spray { transform-box: fill-box; animation: handBob 2.6s ease-in-out infinite; }
         @keyframes handBob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }
@@ -577,14 +545,24 @@
                         <h2 class="text-base font-extrabold text-neutral-900">1. Superficie y ambiente</h2>
                     </div>
                     <div class="tip-scene scene-env" aria-hidden="true">
-                        <span class="env-sun">
-                            <svg class="sun-rays" viewBox="0 0 40 40" fill="none" stroke="#111" stroke-width="2" stroke-linecap="round"><circle cx="20" cy="20" r="7" fill="#FFE066"/><path d="M20 4v4M20 32v4M4 20h4M32 20h4M8.7 8.7l2.8 2.8M28.5 28.5l2.8 2.8M8.7 31.3l2.8-2.8M28.5 11.5l2.8-2.8"/></svg>
-                        </span>
-                        <span class="env-temp">23 °C</span>
-                        <span class="speck" style="left:22%; top:56%"></span>
-                        <span class="speck" style="left:48%; top:44%; animation-delay:1.2s"></span>
-                        <span class="speck" style="left:68%; top:62%; animation-delay:2.1s"></span>
-                        <span class="env-surface"></span>
+                        <svg class="scene-svg" viewBox="0 0 300 124">
+                            <defs>
+                                <linearGradient id="panelEnv" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F6F6F6"/><stop offset="1" stop-color="#BEBEBE"/></linearGradient>
+                                <radialGradient id="sunEnv"><stop offset="0" stop-color="#FFF6B8"/><stop offset="1" stop-color="#FFD400"/></radialGradient>
+                            </defs>
+                            <rect x="14" y="74" width="272" height="40" rx="10" fill="url(#panelEnv)" stroke="#111" stroke-width="2"/>
+                            <path d="M26 82h72" stroke="#fff" stroke-width="4" opacity=".9" stroke-linecap="round"/>
+                            <path d="M34 96h44" stroke="#fff" stroke-width="2" opacity=".55" stroke-linecap="round"/>
+                            <g transform="translate(234,12)">
+                                <g class="sun-rays"><path d="M20 2v8M20 38v8M2 24h8M30 24h8M7 11l6 6M27 31l6 6M7 37l6-6M27 17l6-6" stroke="#111" stroke-width="2" stroke-linecap="round"/></g>
+                                <circle cx="20" cy="24" r="11" fill="url(#sunEnv)" stroke="#111" stroke-width="2"/>
+                            <rect x="24" y="16" width="56" height="21" rx="10" fill="#FFE066" stroke="#111" stroke-width="2"/>
+                            <text x="52" y="31" font-size="11" font-weight="700" text-anchor="middle" fill="#111">23 °C</text>
+                            
+                            <circle class="speck" cx="72" cy="62" r="2.5" fill="#777"/>
+                            <circle class="speck" cx="98" cy="50" r="2" fill="#999" style="animation-delay:1.2s"/>
+                            <circle class="speck" cx="196" cy="58" r="2" fill="#888" style="animation-delay:2s"/>
+                        </svg>
                     </div>
                     <ul class="mt-2 space-y-1.5 text-sm text-neutral-700">
                         <li>• Aplica sobre superficies lisas, secas y sin polvo, grasa ni cera.</li>
@@ -596,22 +574,27 @@
 
                 <section class="tip-card rounded-xl border-2 border-neutral-900 bg-white p-5">
                     <div class="tip-scene" aria-hidden="true">
-                        <svg class="scene-svg" viewBox="0 0 300 104">
-                            <rect x="12" y="68" width="276" height="26" rx="6" fill="#C9C9C9" stroke="#111" stroke-width="2"/>
-                            <circle class="dirt" cx="74" cy="80" r="4" fill="#6b7280"/>
-                            <circle class="dirt b" cx="158" cy="76" r="4" fill="#9ca3af"/>
-                            <circle class="dirt c" cx="228" cy="84" r="4" fill="#4b5563"/>
+                        <svg class="scene-svg" viewBox="0 0 300 124">
+                            <defs><linearGradient id="panelClean" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F2F2F2"/><stop offset="1" stop-color="#C2C2C2"/></linearGradient></defs>
+                            <rect x="10" y="78" width="280" height="36" rx="9" fill="url(#panelClean)" stroke="#111" stroke-width="2"/>
+                            <path d="M22 86h60" stroke="#fff" stroke-width="3" opacity=".8" stroke-linecap="round"/>
+                            <circle class="dirt" cx="150" cy="98" r="4" fill="#6b7280"/>
+                            <circle class="dirt b" cx="210" cy="94" r="3.5" fill="#9ca3af"/>
+                            <circle class="dirt c" cx="248" cy="102" r="3" fill="#4b5563"/>
                             <g class="hand-spray">
-                                <rect x="30" y="34" width="18" height="30" rx="4" fill="#fff" stroke="#111" stroke-width="2"/>
-                                <rect x="34" y="28" width="10" height="7" rx="2" fill="#111"/>
-                                <ellipse cx="40" cy="68" rx="15" ry="8" fill="#F3C9A5" stroke="#111" stroke-width="2"/>
-                                <path d="M48 36q9 1 13 6" stroke="#6699FF" stroke-width="2" fill="none" stroke-dasharray="3 4"/>
-                            </g>
+                                <rect x="34" y="40" width="20" height="34" rx="4" fill="#fff" stroke="#111" stroke-width="2"/>
+                                <rect x="38" y="33" width="12" height="8" rx="2" fill="#111"/>
+                                <path d="M58 44h6l2 6h-8z" fill="#6699FF" stroke="#111" stroke-width="1.5"/>
+                                <path d="M66 44l10-4M66 48h12M66 52l10 4" stroke="#6699FF" stroke-width="2" stroke-linecap="round"/>
+                                <rect x="30" y="72" width="44" height="18" rx="8" fill="#F3C9A5" stroke="#111" stroke-width="2"/>
+                                <path d="M40 72v-6M50 72v-8M60 72v-6" stroke="#111" stroke-width="2" stroke-linecap="round"/>
                             <g class="hand-cloth">
-                                <ellipse cx="196" cy="58" rx="13" ry="9" fill="#F3C9A5" stroke="#111" stroke-width="2"/>
-                                <rect x="150" y="52" width="42" height="18" rx="4" fill="#fff" stroke="#111" stroke-width="2"/>
-                                <rect x="150" y="64" width="42" height="12" rx="3" fill="#E6E6E6" stroke="#111" stroke-width="2"/>
-                            </g>
+                                <rect x="150" y="52" width="48" height="26" rx="5" fill="#fff" stroke="#111" stroke-width="2"/>
+                                <path d="M150 64h48" stroke="#111" stroke-width="1.5" opacity=".4"/>
+                                <path d="M158 52v26M172 52v26M186 52v26" stroke="#111" stroke-width="1" opacity=".25"/>
+                                <ellipse cx="206" cy="62" rx="16" ry="10" fill="#F3C9A5" stroke="#111" stroke-width="2"/>
+                                <path d="M206 52v-6M214 54l4-4M198 54l-4-4" stroke="#111" stroke-width="2" stroke-linecap="round"/>
+                                <path d="M222 58l10-4" stroke="#6699FF" stroke-width="2" stroke-linecap="round" opacity=".7"/>
                         </svg>
                     </div>
                     <div class="flex items-center gap-3">
@@ -632,25 +615,24 @@
                         <h2 class="text-base font-extrabold text-neutral-900">3. Herramientas recomendadas</h2>
                     </div>
                     <div class="tip-scene scene-tools" aria-hidden="true">
-                        <svg class="scene-svg" viewBox="0 0 300 104">
-                            <!-- Espátula -->
+                        <svg class="scene-svg" viewBox="0 0 300 124">
+                            <defs><linearGradient id="benchTools" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#EFEFEF"/><stop offset="1" stop-color="#CDCDCD"/></linearGradient></defs>
+                            <rect x="8" y="92" width="284" height="24" rx="6" fill="url(#benchTools)" stroke="#111" stroke-width="2"/>
                             <g class="tool-rise" style="--d:0s">
-                                <rect x="36" y="52" width="10" height="34" rx="3" fill="#111"/>
-                                <rect x="20" y="42" width="42" height="10" rx="3" fill="#fff" stroke="#111" stroke-width="2"/>
-                                <rect x="20" y="50" width="42" height="5" rx="2" fill="#D6D6D6" stroke="#111" stroke-width="1.5"/>
-                            </g>
-                            <!-- Cutter -->
+                                <rect x="26" y="50" width="12" height="40" rx="4" fill="#111"/>
+                                <rect x="16" y="38" width="34" height="12" rx="4" fill="#fff" stroke="#111" stroke-width="2"/>
+                                <rect x="16" y="47" width="34" height="6" rx="3" fill="#D6D6D6" stroke="#111" stroke-width="1.5"/>
                             <g class="tool-rise" style="--d:.35s">
-                                <rect x="118" y="54" width="62" height="16" rx="5" fill="#111"/>
-                                <rect x="126" y="58" width="22" height="4" rx="2" fill="#FFE066"/>
-                                <path d="M180 54l18 8-18 8z" fill="#D6D6D6" stroke="#111" stroke-width="2"/>
-                            </g>
-                            <!-- Pistola de calor -->
+                                <rect x="96" y="64" width="74" height="18" rx="6" fill="#111"/>
+                                <rect x="106" y="68" width="26" height="5" rx="2.5" fill="#FFE066"/>
+                                <path d="M170 64l22 9-22 9z" fill="#E6E6E6" stroke="#111" stroke-width="2"/>
+                                <path d="M176 68l12 5-12 5z" fill="#BDBDBD"/>
                             <g class="tool-rise" style="--d:.7s">
-                                <rect x="228" y="34" width="46" height="30" rx="8" fill="#FFE066" stroke="#111" stroke-width="2"/>
-                                <path d="M274 40h14l-4 18h-10z" fill="#fff" stroke="#111" stroke-width="2"/>
-                                <rect x="242" y="64" width="14" height="26" rx="5" fill="#111"/>
-                            </g>
+                                <rect x="216" y="44" width="52" height="34" rx="10" fill="#FFE066" stroke="#111" stroke-width="2"/>
+                                <path d="M268 50h16l-5 22h-11z" fill="#fff" stroke="#111" stroke-width="2"/>
+                                <path d="M222 54h8M222 60h8M222 66h8" stroke="#111" stroke-width="1.5" opacity=".45"/>
+                                <rect x="228" y="78" width="16" height="22" rx="6" fill="#111"/>
+                                <path d="M216 48c-8-10-18-12-26-10" stroke="#111" stroke-width="2" fill="none" stroke-linecap="round" stroke-dasharray="4 4"/>
                         </svg>
                     </div>
                     <ul class="mt-2 space-y-1.5 text-sm text-neutral-700">
@@ -663,18 +645,21 @@
 
                 <section class="tip-card rounded-xl border-2 border-neutral-900 bg-white p-5">
                     <div class="tip-scene scene-apply" aria-hidden="true">
-                        <svg class="scene-svg" viewBox="0 0 300 104">
-                            <rect x="10" y="68" width="280" height="26" rx="6" fill="#C9C9C9" stroke="#111" stroke-width="2"/>
+                        <svg class="scene-svg" viewBox="0 0 300 124">
+                            <defs><linearGradient id="panelApply" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F2F2F2"/><stop offset="1" stop-color="#BFBFBF"/></linearGradient></defs>
+                            <rect x="8" y="78" width="284" height="36" rx="9" fill="url(#panelApply)" stroke="#111" stroke-width="2"/>
+                            <path d="M20 86h54" stroke="#fff" stroke-width="3" opacity=".8" stroke-linecap="round"/>
+                            <path d="M70 42v22M82 36v30M94 40v24" stroke="#6699FF" stroke-width="2" stroke-linecap="round" opacity=".5"/>
                             <g class="sticker-drop">
-                                <rect x="116" y="26" width="74" height="44" rx="6" fill="#6699FF" stroke="#111" stroke-width="2"/>
-                                <path d="M190 60l14 10h-14z" fill="#fff" stroke="#111" stroke-width="2"/>
-                            </g>
+                                <rect x="112" y="30" width="82" height="48" rx="6" fill="#6699FF" stroke="#111" stroke-width="2"/>
+                                <path d="M112 46h82" stroke="#fff" stroke-width="1.5" opacity=".35"/>
+                                <path d="M194 62l18 16h-18z" fill="#fff" stroke="#111" stroke-width="2"/>
+                                <path d="M200 66l8 8" stroke="#BDBDBD" stroke-width="1.5"/>
                             <g class="hand-press">
-                                <ellipse cx="34" cy="34" rx="16" ry="11" fill="#F3C9A5" stroke="#111" stroke-width="2"/>
-                                <rect x="18" y="26" width="14" height="22" rx="6" fill="#F3C9A5" stroke="#111" stroke-width="2"/>
-                                <rect x="14" y="46" width="34" height="8" rx="4" fill="#fff" stroke="#111" stroke-width="2"/>
-                                <rect x="28" y="46" width="8" height="26" rx="2" fill="#111"/>
-                            </g>
+                                <rect x="18" y="34" width="38" height="22" rx="9" fill="#F3C9A5" stroke="#111" stroke-width="2"/>
+                                <path d="M26 34v-7M36 34v-9M46 34v-7" stroke="#111" stroke-width="2" stroke-linecap="round"/>
+                                <rect x="16" y="56" width="38" height="8" rx="4" fill="#fff" stroke="#111" stroke-width="2"/>
+                                <rect x="32" y="56" width="9" height="28" rx="3" fill="#111"/>
                         </svg>
                     </div>
                     <div class="flex items-center gap-3">
@@ -692,17 +677,18 @@
 
                 <section class="tip-card rounded-xl border-2 border-neutral-900 bg-white p-5">
                     <div class="tip-scene scene-bubbles" aria-hidden="true">
-                        <svg class="scene-svg" viewBox="0 0 300 104">
-                            <rect x="10" y="12" width="280" height="84" rx="8" fill="rgba(102,153,255,.18)" stroke="#111" stroke-width="2"/>
-                            <circle class="bub" cx="96" cy="46" r="8" fill="rgba(102,153,255,.55)" stroke="#111" stroke-width="2"/>
-                            <circle class="bub" cx="146" cy="66" r="7" fill="rgba(102,153,255,.55)" stroke="#111" stroke-width="2" style="animation-delay:.7s"/>
-                            <circle class="bub" cx="76" cy="70" r="6" fill="rgba(102,153,255,.55)" stroke="#111" stroke-width="2" style="animation-delay:1.3s"/>
+                        <svg class="scene-svg" viewBox="0 0 300 124">
+                            <rect x="10" y="18" width="280" height="94" rx="10" fill="rgba(102,153,255,.18)" stroke="#111" stroke-width="2"/>
+                            <path d="M20 30h260M20 48h260M20 66h260M20 84h260M20 102h260" stroke="rgba(17,17,17,.06)" stroke-width="1"/>
+                            <circle class="bub" cx="96" cy="52" r="9" fill="rgba(102,153,255,.55)" stroke="#111" stroke-width="2"/>
+                            <circle class="bub" cx="146" cy="76" r="8" fill="rgba(102,153,255,.55)" stroke="#111" stroke-width="2" style="animation-delay:.7s"/>
+                            <circle class="bub" cx="76" cy="82" r="6" fill="rgba(102,153,255,.55)" stroke="#111" stroke-width="2" style="animation-delay:1.3s"/>
+                            <path d="M180 46c14-4 26-2 34 4" stroke="#111" stroke-width="2" stroke-dasharray="4 5" fill="none" stroke-linecap="round" opacity=".6"/>
                             <g class="hand-press">
-                                <ellipse cx="34" cy="30" rx="16" ry="11" fill="#F3C9A5" stroke="#111" stroke-width="2"/>
-                                <rect x="18" y="22" width="14" height="22" rx="6" fill="#F3C9A5" stroke="#111" stroke-width="2"/>
-                                <rect x="14" y="44" width="34" height="8" rx="4" fill="#fff" stroke="#111" stroke-width="2"/>
-                                <rect x="28" y="44" width="8" height="26" rx="2" fill="#111"/>
-                            </g>
+                                <rect x="16" y="30" width="38" height="22" rx="9" fill="#F3C9A5" stroke="#111" stroke-width="2"/>
+                                <path d="M24 30v-7M34 30v-9M44 30v-7" stroke="#111" stroke-width="2" stroke-linecap="round"/>
+                                <rect x="14" y="52" width="38" height="8" rx="4" fill="#fff" stroke="#111" stroke-width="2"/>
+                                <rect x="30" y="52" width="9" height="30" rx="3" fill="#111"/>
                         </svg>
                     </div>
                     <div class="flex items-center gap-3">
@@ -722,12 +708,23 @@
                         <h2 class="text-base font-extrabold text-neutral-900">6. Cuidados después de instalar</h2>
                     </div>
                     <div class="tip-scene scene-care" aria-hidden="true">
-                        <span class="drop" style="left:22%; --d:0s"></span>
-                        <span class="drop" style="left:46%; --d:.8s"></span>
-                        <span class="drop" style="left:70%; --d:1.6s"></span>
-                        <span class="care-shield">
-                            <svg class="h-14 w-14" viewBox="0 0 24 24" fill="rgba(102,153,255,.35)" stroke="#111" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4" fill="none"/></svg>
-                        </span>
+                        <svg class="scene-svg" viewBox="0 0 300 124">
+                            <defs><linearGradient id="panelCare" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F2F2F2"/><stop offset="1" stop-color="#C2C2C2"/></linearGradient></defs>
+                            <rect x="10" y="82" width="280" height="32" rx="8" fill="url(#panelCare)" stroke="#111" stroke-width="2"/>
+                            <rect x="70" y="70" width="160" height="12" rx="4" fill="#6699FF" stroke="#111" stroke-width="2"/>
+                            <path d="M84 74h40" stroke="#fff" stroke-width="2" opacity=".5" stroke-linecap="round"/>
+                            <path d="M110 34s-8 10-8 15a8 8 0 0 0 16 0c0-5-8-15-8-15z" fill="#6699FF" stroke="#111" stroke-width="2"/>
+                            <path d="M154 26s-8 10-8 15a8 8 0 0 0 16 0c0-5-8-15-8-15z" fill="#6699FF" stroke="#111" stroke-width="2"/>
+                            <path d="M198 34s-8 10-8 15a8 8 0 0 0 16 0c0-5-8-15-8-15z" fill="#6699FF" stroke="#111" stroke-width="2"/>
+                            <g transform="translate(238,26)"><g class="care-shield">
+                                <path d="M14 0l14 6v10c0 10-14 16-14 16S0 26 0 16V6z" fill="rgba(102,153,255,.35)" stroke="#111" stroke-width="2"/>
+                                <path d="M8 15l4 4 7-7" stroke="#111" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></g></g>
+                            <g class="hand-cloth">
+                                <rect x="40" y="44" width="52" height="30" rx="6" fill="#fff" stroke="#111" stroke-width="2"/>
+                                <path d="M40 58h52" stroke="#111" stroke-width="1.5" opacity=".4"/>
+                                <ellipse cx="96" cy="54" rx="17" ry="11" fill="#F3C9A5" stroke="#111" stroke-width="2"/>
+                                <path d="M96 43v-7M104 45l4-5M88 45l-4-5" stroke="#111" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
                     </div>
                     <ul class="mt-2 space-y-1.5 text-sm text-neutral-700">
                         <li>• No laves la pieza durante las primeras 24 h.</li>
