@@ -464,6 +464,29 @@
 
 <body class="text-neutral-900 min-h-screen">
 
+    <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+        <defs>
+            <symbol id="hand-press" viewBox="0 0 100 92">
+                <rect x="18" y="8" width="64" height="44" rx="15" fill="#F7CBA6" stroke="#111" stroke-width="4"/>
+                <rect x="21" y="48" width="13" height="32" rx="6.5" fill="#F7CBA6" stroke="#111" stroke-width="4"/>
+                <rect x="37" y="50" width="13" height="34" rx="6.5" fill="#F7CBA6" stroke="#111" stroke-width="4"/>
+                <rect x="53" y="50" width="13" height="34" rx="6.5" fill="#F7CBA6" stroke="#111" stroke-width="4"/>
+                <rect x="69" y="48" width="13" height="32" rx="6.5" fill="#F7CBA6" stroke="#111" stroke-width="4"/>
+                <path d="M18 22c-11 2-16 11-14 20 2 9 11 12 18 7" fill="#F7CBA6" stroke="#111" stroke-width="4" stroke-linejoin="round"/>
+                <path d="M30 28h46M34 37h38" stroke="#111" stroke-width="2" opacity=".22" stroke-linecap="round"/>
+            </symbol>
+            <symbol id="hand-grip" viewBox="0 0 100 92">
+                <rect x="18" y="10" width="62" height="50" rx="16" fill="#F7CBA6" stroke="#111" stroke-width="4"/>
+                <rect x="12" y="20" width="16" height="12" rx="6" fill="#F7CBA6" stroke="#111" stroke-width="4"/>
+                <rect x="12" y="36" width="16" height="12" rx="6" fill="#F7CBA6" stroke="#111" stroke-width="4"/>
+                <path d="M18 28c-10 6-10 18 0 24" fill="none" stroke="#111" stroke-width="4" stroke-linecap="round"/>
+                <path d="M78 26c10 4 12 14 4 20" fill="#F7CBA6" stroke="#111" stroke-width="4" stroke-linejoin="round"/>
+                <path d="M30 30h40" stroke="#111" stroke-width="2" opacity=".22" stroke-linecap="round"/>
+            </symbol>
+        </defs>
+    </svg>
+
+
     <header class="sticky top-0 z-50 bg-[#E6E6E6] border-b-2 border-neutral-900">
         <nav class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between gap-6">
             <a href="#" class="flex flex-col items-center gap-0.5 shrink-0" aria-label="Melódico Design">
@@ -582,19 +605,18 @@
                             <circle class="dirt b" cx="210" cy="94" r="3.5" fill="#9ca3af"/>
                             <circle class="dirt c" cx="248" cy="102" r="3" fill="#4b5563"/>
                             <g class="hand-spray">
-                                <rect x="34" y="40" width="20" height="34" rx="4" fill="#fff" stroke="#111" stroke-width="2"/>
-                                <rect x="38" y="33" width="12" height="8" rx="2" fill="#111"/>
-                                <path d="M58 44h6l2 6h-8z" fill="#6699FF" stroke="#111" stroke-width="1.5"/>
-                                <path d="M66 44l10-4M66 48h12M66 52l10 4" stroke="#6699FF" stroke-width="2" stroke-linecap="round"/>
-                                <rect x="30" y="72" width="44" height="18" rx="8" fill="#F3C9A5" stroke="#111" stroke-width="2"/>
-                                <path d="M40 72v-6M50 72v-8M60 72v-6" stroke="#111" stroke-width="2" stroke-linecap="round"/>
+                                <use href="#hand-grip" x="20" y="42" width="68" height="54"/>
+                                <rect x="42" y="34" width="20" height="36" rx="4" fill="#fff" stroke="#111" stroke-width="2"/>
+                                <rect x="46" y="27" width="12" height="8" rx="2" fill="#111"/>
+                                <path d="M66 38h6l2 6h-8z" fill="#6699FF" stroke="#111" stroke-width="1.5"/>
+                                <path d="M74 38l10-4M74 42h12M74 46l10 4" stroke="#6699FF" stroke-width="2" stroke-linecap="round"/>
+                            </g>
                             <g class="hand-cloth">
-                                <rect x="150" y="52" width="48" height="26" rx="5" fill="#fff" stroke="#111" stroke-width="2"/>
-                                <path d="M150 64h48" stroke="#111" stroke-width="1.5" opacity=".4"/>
-                                <path d="M158 52v26M172 52v26M186 52v26" stroke="#111" stroke-width="1" opacity=".25"/>
-                                <ellipse cx="206" cy="62" rx="16" ry="10" fill="#F3C9A5" stroke="#111" stroke-width="2"/>
-                                <path d="M206 52v-6M214 54l4-4M198 54l-4-4" stroke="#111" stroke-width="2" stroke-linecap="round"/>
-                                <path d="M222 58l10-4" stroke="#6699FF" stroke-width="2" stroke-linecap="round" opacity=".7"/>
+                                <rect x="150" y="88" width="66" height="18" rx="5" fill="#fff" stroke="#111" stroke-width="2"/>
+                                <path d="M150 97h66" stroke="#111" stroke-width="1.5" opacity=".35"/>
+                                <path d="M162 88v18M178 88v18M194 88v18" stroke="#111" stroke-width="1" opacity=".2"/>
+                                <use href="#hand-press" x="164" y="26" width="74" height="66"/>
+                            </g>
                         </svg>
                     </div>
                     <div class="flex items-center gap-3">
@@ -656,10 +678,10 @@
                                 <path d="M194 62l18 16h-18z" fill="#fff" stroke="#111" stroke-width="2"/>
                                 <path d="M200 66l8 8" stroke="#BDBDBD" stroke-width="1.5"/>
                             <g class="hand-press">
-                                <rect x="18" y="34" width="38" height="22" rx="9" fill="#F3C9A5" stroke="#111" stroke-width="2"/>
-                                <path d="M26 34v-7M36 34v-9M46 34v-7" stroke="#111" stroke-width="2" stroke-linecap="round"/>
-                                <rect x="16" y="56" width="38" height="8" rx="4" fill="#fff" stroke="#111" stroke-width="2"/>
-                                <rect x="32" y="56" width="9" height="28" rx="3" fill="#111"/>
+                                <rect x="16" y="56" width="40" height="8" rx="4" fill="#fff" stroke="#111" stroke-width="2"/>
+                                <rect x="32" y="56" width="9" height="26" rx="3" fill="#111"/>
+                                <use href="#hand-press" x="6" y="0" width="62" height="58"/>
+                            </g>
                         </svg>
                     </div>
                     <div class="flex items-center gap-3">
@@ -685,10 +707,10 @@
                             <circle class="bub" cx="76" cy="82" r="6" fill="rgba(102,153,255,.55)" stroke="#111" stroke-width="2" style="animation-delay:1.3s"/>
                             <path d="M180 46c14-4 26-2 34 4" stroke="#111" stroke-width="2" stroke-dasharray="4 5" fill="none" stroke-linecap="round" opacity=".6"/>
                             <g class="hand-press">
-                                <rect x="16" y="30" width="38" height="22" rx="9" fill="#F3C9A5" stroke="#111" stroke-width="2"/>
-                                <path d="M24 30v-7M34 30v-9M44 30v-7" stroke="#111" stroke-width="2" stroke-linecap="round"/>
-                                <rect x="14" y="52" width="38" height="8" rx="4" fill="#fff" stroke="#111" stroke-width="2"/>
+                                <rect x="14" y="52" width="40" height="8" rx="4" fill="#fff" stroke="#111" stroke-width="2"/>
                                 <rect x="30" y="52" width="9" height="30" rx="3" fill="#111"/>
+                                <use href="#hand-press" x="4" y="-4" width="62" height="58"/>
+                            </g>
                         </svg>
                     </div>
                     <div class="flex items-center gap-3">
@@ -720,10 +742,10 @@
                                 <path d="M14 0l14 6v10c0 10-14 16-14 16S0 26 0 16V6z" fill="rgba(102,153,255,.35)" stroke="#111" stroke-width="2"/>
                                 <path d="M8 15l4 4 7-7" stroke="#111" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></g></g>
                             <g class="hand-cloth">
-                                <rect x="40" y="44" width="52" height="30" rx="6" fill="#fff" stroke="#111" stroke-width="2"/>
-                                <path d="M40 58h52" stroke="#111" stroke-width="1.5" opacity=".4"/>
-                                <ellipse cx="96" cy="54" rx="17" ry="11" fill="#F3C9A5" stroke="#111" stroke-width="2"/>
-                                <path d="M96 43v-7M104 45l4-5M88 45l-4-5" stroke="#111" stroke-width="2" stroke-linecap="round"/>
+                                <rect x="44" y="70" width="64" height="16" rx="5" fill="#fff" stroke="#111" stroke-width="2"/>
+                                <path d="M44 78h64" stroke="#111" stroke-width="1.5" opacity=".35"/>
+                                <use href="#hand-press" x="56" y="6" width="76" height="68"/>
+                            </g>
                         </svg>
                     </div>
                     <ul class="mt-2 space-y-1.5 text-sm text-neutral-700">
