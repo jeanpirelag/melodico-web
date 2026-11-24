@@ -61,56 +61,6 @@
             padding: 28px;
         }
 
-        /* ---------- Animated mark ---------- */
-        .mark-wrap {
-            position: relative;
-            display: grid;
-            place-items: center;
-            animation: fadeIn .9s ease-out both;
-        }
-
-        .halo {
-            position: absolute;
-            width: 150%;
-            height: 150%;
-            border-radius: 50%;
-            background: radial-gradient(circle, rgba(96, 165, 250, .38), transparent 66%);
-            filter: blur(26px);
-            animation: breathe 5.5s ease-in-out infinite;
-        }
-
-        .ring {
-            position: absolute;
-            inset: -18px;
-            border-radius: 50%;
-            border: 2px dashed rgba(147, 197, 253, .35);
-            animation: spin 22s linear infinite;
-        }
-
-        .mark {
-            position: relative;
-            width: clamp(148px, 38vw, 208px);
-            aspect-ratio: 1;
-            display: grid;
-            place-items: center;
-            padding: 14%;
-            border-radius: 38%;
-            border: 2px solid rgba(17, 17, 17, .9);
-            background: radial-gradient(circle at 30% 22%, #ffffff 0%, #e7ebf3 62%, #ccd2de 100%);
-            box-shadow:
-                0 34px 70px -26px rgba(0, 0, 0, .9),
-                inset 0 1px 0 #fff,
-                0 0 0 6px rgba(255, 255, 255, .04);
-            animation: float 5.5s ease-in-out infinite;
-        }
-
-        .mark img {
-            width: 100%;
-            height: auto;
-            display: block;
-            filter: drop-shadow(0 6px 8px rgba(17, 17, 17, .2));
-        }
-
         /* ---------- Store link ---------- */
         .store {
             position: relative;
@@ -190,38 +140,6 @@
         }
 
         /* ---------- Motion ---------- */
-        @keyframes float {
-
-            0%,
-            100% {
-                transform: translateY(-7px);
-            }
-
-            50% {
-                transform: translateY(7px);
-            }
-        }
-
-        @keyframes spin {
-            to {
-                transform: rotate(360deg);
-            }
-        }
-
-        @keyframes breathe {
-
-            0%,
-            100% {
-                opacity: .55;
-                transform: scale(.94);
-            }
-
-            50% {
-                opacity: 1;
-                transform: scale(1.05);
-            }
-        }
-
         @keyframes sheen {
 
             0%,
@@ -247,26 +165,10 @@
             }
         }
 
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: scale(.92);
-            }
-
-            to {
-                opacity: 1;
-                transform: scale(1);
-            }
-        }
-
         @media (prefers-reduced-motion: reduce) {
 
-            .mark,
-            .ring,
-            .halo,
             .store,
-            .store::after,
-            .mark-wrap {
+            .store::after {
                 animation: none !important;
             }
         }
@@ -278,14 +180,6 @@
     <div class="grain"></div>
 
     <main class="stage">
-        <div class="mark-wrap">
-            <span class="halo" aria-hidden="true"></span>
-            <span class="ring" aria-hidden="true"></span>
-            <div class="mark">
-                <img src="assets/images/melodicodesign_isotipo.png" alt="Melódico Design" width="760" height="620">
-            </div>
-        </div>
-
         <a class="store" href="https://design.melodico.net">
             <img class="store-logo" src="assets/images/melodigodesign_logo.png" alt="Melódico Design" width="1008"
                 height="376">
