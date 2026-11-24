@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Melódico</title>
+    <title>Melódico Projects</title>
     <meta name="description" content="Melódico Design: calcomanías, calcas y vinil de corte. Entra al catálogo y compra en línea.">
     <meta name="theme-color" content="#0b0f1a">
     <link rel="icon" type="image/png" sizes="512x512" href="favicon.png">
@@ -64,33 +64,6 @@
             justify-content: center;
             gap: clamp(28px, 6vh, 52px);
             padding: 28px;
-        }
-
-        /* ---------- Animated icon ---------- */
-        .icon-wrap {
-            position: relative;
-            display: grid;
-            place-items: center;
-            animation: fadeIn .9s ease-out both;
-        }
-
-        .halo {
-            position: absolute;
-            width: 130%;
-            height: 180%;
-            border-radius: 50%;
-            background: radial-gradient(ellipse, rgba(59, 130, 246, .38), rgba(16, 185, 129, .16) 50%, transparent 72%);
-            filter: blur(30px);
-            animation: breathe 5.5s ease-in-out infinite;
-        }
-
-        .icon {
-            position: relative;
-            display: block;
-            width: clamp(210px, 52vw, 330px);
-            height: auto;
-            filter: drop-shadow(0 18px 26px rgba(0, 0, 0, .55));
-            animation: float 5.5s ease-in-out infinite;
         }
 
         /* ---------- Store link ---------- */
@@ -212,32 +185,6 @@
             }
         }
 
-        @keyframes float {
-
-            0%,
-            100% {
-                transform: translateY(-8px);
-            }
-
-            50% {
-                transform: translateY(8px);
-            }
-        }
-
-        @keyframes breathe {
-
-            0%,
-            100% {
-                opacity: .5;
-                transform: scale(.94);
-            }
-
-            50% {
-                opacity: 1;
-                transform: scale(1.06);
-            }
-        }
-
         @keyframes sheen {
 
             0%,
@@ -263,23 +210,9 @@
             }
         }
 
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: scale(.94);
-            }
-
-            to {
-                opacity: 1;
-                transform: scale(1);
-            }
-        }
-
         @media (prefers-reduced-motion: reduce) {
 
-            .icon,
-            .halo,
-            .icon-wrap,
+            .foot-icon,
             .store,
             .store::after {
                 animation: none !important;
@@ -293,11 +226,6 @@
     <div class="grain"></div>
 
     <main class="stage">
-        <div class="icon-wrap">
-            <span class="halo" aria-hidden="true"></span>
-            <img class="icon" src="assets/images/melodico-icon.png" alt="Melódico" width="1024" height="541">
-        </div>
-
         <a class="store" href="https://design.melodico.net">
             <img class="store-logo" src="assets/images/melodigodesign_logo.png" alt="Melódico Design" width="1008"
                 height="376">
@@ -313,7 +241,7 @@
 
     <footer class="foot">
         <img class="foot-icon" src="assets/images/melodico-icon.png" alt="Melódico" width="1024" height="541">
-        <p class="foot-text">© 2026 Melódico</p>
+        <p class="foot-text">© 2026 Melódico Projects</p>
     </footer>
 </body>
 
